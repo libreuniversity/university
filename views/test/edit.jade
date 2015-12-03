@@ -1,0 +1,45 @@
+extend ../layout
+
+block content
+  - var backLink =  '/subject/' + lesson.subject.id;
+  +header(false, { add, edit }, { link: backLink, title: lesson.subject.title })
+  
+  if test
+    form.test(method="POST" action="/test/" + question.id)
+      header
+        p= question.question
+      section
+        each answer in question.answers
+          input(type="checkbox" data-good=answer.good name="answer" + answer._id id=answer._id)
+          div.answer
+            label(for=answer._id)= answer.text
+            div.info
+              if answer.good
+                p
+                  i.icon-thumbs-up
+                  |  Great job!
+              else
+                p
+                  i.icon-meh
+                  |  Try again
+      footer
+        button.icon-arrows-cw New question
+  
+  else
+    p Todavía no hay ningún test, podrías añadir uno (:
+      
+      
+
+  template.add
+    form.test(action="/test" method="POST")
+      header
+        textarea.summary(name="question" placeholder="Pregunta del test")
+      footer
+        input.correct(name="answers[]" placeholder="Respuesta correcta")
+        input(name="answers[]" placeholder="Respuesta incorrecta")
+        input(name="answers[]" placeholder="Respuesta incorrecta")
+        input(name="answers[]" placeholder="Respuesta incorrecta")
+      
+        input(type="hidden" name="lesson" value=lesson._id)
+        button.save.icon-floppy Guardar
+        a.button.cancel.dangerous Cancelar

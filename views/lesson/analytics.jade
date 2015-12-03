@@ -1,0 +1,28 @@
+extends ../layout
+
+block title
+  title= "History - " + article.title
+
+block content
+  article.lesson
+    header
+      span.actions
+        span
+          a.edit.pseudo.button(href="/lesson/" + article.id) Go back
+      h1= article.title
+    
+      table.edits
+        tr
+          th Modificado
+          th Dia
+          th Hora
+          th Editor
+        each article in old
+          tr
+            td
+              a(href="/lesson/history/" + article._id)= article.diff
+            td
+              a(href="/lesson/history/" + article._id)=article.date.day
+            td
+              a(href="/lesson/history/" + article._id)=article.date.time
+            td= 'Peter' + parseInt(10 * Math.random())

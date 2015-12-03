@@ -1,0 +1,55 @@
+
+.test {
+  @extend %card;
+
+  width: 100%;
+
+  textarea,
+  label,
+  input {
+    border-radius: .2em;
+    display: block;
+    margin: .3em 0;
+  }
+
+  input:checked + .answer {
+    label {
+      background: lighten($picnic-error, 20);
+      border-radius: .3em .3em 0 0;
+    }
+
+    .info {
+      display: block;
+    }
+  }
+
+  [data-good]:checked + .answer {
+    label {
+      background: lighten($picnic-success, 20);
+    }
+  }
+
+  .answer {
+    background: #eee;
+    border-radius: .3em;
+    transition: background-color .3s, color .3s, box-shadow .3s;
+  }
+
+  .info {
+    border-radius: 0 0 .3em .3em;
+    display: none;
+    margin-top: .3em;
+    padding: 10px 15px;
+    transition: background-color .3s, color .3s, box-shadow .3s;
+  }
+
+  label {
+    cursor: pointer;
+    padding: 10px 15px;
+
+    &:hover {
+      background: lighten($picnic-primary, 40);
+      transition: background-color .3s, color .3s, box-shadow .3s;
+    }
+  }
+}

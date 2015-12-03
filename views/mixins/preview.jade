@@ -1,0 +1,23 @@
+//- Preview mixin
+//- @type ['subject', 'lesson', '...'] the kind of preview that this is
+//- @article { id, title, summary, parent } the data that gets shown
+//- @actions { action: text, action2: text2 } the buttons to generate
+mixin preview(type, article, actions)
+  - article = article || { title: '', summary: '', id: false, parent: false }
+  - url = '/' + type + (article.id ? '/' + article.id : '');
+  form.preview(method="POST" action=url)
+    header
+      h2= article.title
+      button.edit.icon-pencil(title= text.edit)
+      input(name="title" placeholder=text[type].form.title value=article.title required)
+    section
+      p.sweet-justice= article.summary
+      textarea(name="summary" placeholder=text[type].form.summary required)= article.summary
+    footer
+      if actions
+        each text, base in actions
+          a.button(href= '/' + base + '/' + article.id)= text
+          = ' '
+      input(type="hidden" name="id" value=article.parent)
+      button.save.icon-floppy= text.save
+      button.cancel.dangerous= text.cancel

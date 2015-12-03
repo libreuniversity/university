@@ -1,0 +1,87 @@
+doctype html
+html
+  head
+    title Libre University
+    meta(charset='utf-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1')
+    meta(name="keywords" content="Libre University, Free, University, Open, Source")
+    meta(name="description" content="Open source knowledge for everyone")
+    link(rel='stylesheet', href='/style.min.css')
+    link(rel="icon", href="/images/logo.png", type="image/png")
+    style.
+      body {
+        background: url('images/library.jpg') no-repeat center center fixed; 
+        background-size: cover;
+      }
+      .dialog {
+        width: auto;
+        height: auto;
+        margin: 0;
+        padding: 1.4em 2em;
+        position: fixed;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        background: rgba(0, 0, 0, 0.5);
+        text-align: center;
+        color: #fff;
+        z-index: 1;
+      }
+      main {
+        margin: 0;
+        padding: 0;
+        width: auto;
+        max-width: none;
+        position: relative;
+        width: 100%;
+        height: 100vh;
+      }
+      main .button.pseudo,
+      main .button.pseudo:hover,
+      main .button.pseudo:active {
+        color: #fff;
+      }
+      p {
+        margin-top: .3em;
+      }
+      section {
+        background: #fff;
+        width: 100%;
+        min-height: 100vh;
+        z-index: 2;
+        position: absolute;
+      }
+      article {
+        font-family: "Lora";
+        font-size: 1.2em;
+        width: auto;
+        max-width: 800px;
+        margin: 50px auto;
+        padding: 20px;
+      }
+      @media all and (max-width: 50em){
+        article {
+          margin: 0 auto;
+        }
+      }
+  body
+    main
+      div.dialog
+        h1 Libre University
+        p Start learning anything you want 
+        
+        a.button.icon-bank(href="/") Spanish
+        |   
+        a.button.icon-github(href="https://github.com/franciscop/university") Collaborate
+      
+    section
+      article
+        h2 What is Libre University?
+        p Libre University was created to allow the students of different universities and schools to collaborate in learning. Each bit that a student or teacher writes adds up to all of the subject students.
+        
+        h2 What's the difference with Khan Academy?
+        p Khan focuses on video while we focus on text. In this way you can just print it, get it to go in your favourite ebook and on a weak 3g connection.
+
+        h2 How can I collaborate?
+        :markdown
+          If you can program please [**head to github**]() where you can help most to develop the first beta. Or go to the [Spanish version](/) and collaborate writing the first steps.

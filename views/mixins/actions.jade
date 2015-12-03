@@ -1,0 +1,8 @@
+mixin actions(actions)
+  each val, index in actions
+    if val
+      a(class="button " + index href=val)
+        i
+    else
+      button(class=index)
+        i

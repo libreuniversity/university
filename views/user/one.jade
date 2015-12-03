@@ -1,0 +1,30 @@
+extends ../layout
+
+// Give it the right title of this article
+block title
+  title= title
+
+// Set the
+block content
+  article.lesson
+    header
+      h1= 'User: ' + name
+    
+    div.row
+      div.card.favourites
+        header
+          h2 Favourites
+        section
+          ul
+            each one in ['a', 'b', 'c', 'd']
+              li
+                a(href="/lesson/" + one)= one
+      
+      div.card.exams
+        header
+          h2 Last tests
+        section
+          ul
+            each one in ['a', 'b', 'c', 'd']
+              li
+                a(href="/lesson/" + one)= one

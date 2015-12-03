@@ -1,0 +1,11 @@
+extend layout
+
+block content
+  div.articles
+    each article in list
+      article.card.lesson.preview
+        a(href= "/lesson/" + article.id)
+          header
+            h2= article.title
+          section
+            p.sweet-justice= article.summary

@@ -1,0 +1,18 @@
+extends ../layout
+
+// Give it the right title of this article
+block title
+  title= article.title
+
+// Set the actual content
+block content
+  form.lesson(method="POST")  
+    header
+      span.actions
+        a.pseudo.button(href="/lesson/" + article.id) Cancel
+        = ' '
+        button.edit.icon-floppy Save
+      h1= article.title
+    
+    section.content
+      textarea.content.edit(name="markdown" placeholder="Content of the lesson")= article.markdown

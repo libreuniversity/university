@@ -1,0 +1,58 @@
+// This file is for specific styles that match those of /lesson/...
+.lesson {
+  
+  .edit {
+    display: block;
+  }
+
+  .save {
+    display: none;
+  }
+
+  .content {
+    min-height: 400px;
+    outline: 0 solid transparent;
+  }
+  
+  img {
+    max-width: 100%;
+  }
+  
+  &.edit {
+    .content {
+      border: 1px solid #eee;
+      padding: 0 20px;
+    }
+    
+    .content:hover,
+    .content:focus {
+      border: 1px solid #ccc;
+      outline: 0 solid transparent;
+      transition: border .3s ease;
+    }
+    
+    
+    .edit {
+      display: none;
+    }
+    
+    .save {
+      display: block;
+    }
+  }
+}
+
+
+@media (max-width: $picnic-breakpoint) {
+  .lesson.edit .content {
+    padding: 0 10px;
+    
+    > *:first-child {
+      margin-top: 0;
+      padding-top: 10px;
+    }
+  }
+}
+
+
+@import 'editor';

@@ -1,0 +1,16 @@
+extend layout
+
+block content
+  h1 Entrar en Libre University
+  :markdown
+    En el siguiente formulario te puedes **registrar** o **hacer** login:
+  
+  form(action="/join" method="post")
+    div
+      label Email (te enviaremos confirmación):
+        input(type="email" name="email" placeholder="pedro@upv.es")
+    div
+      label Contraseña:
+        input(type="password" name="password" placeholder="**********")
+    div
+      input(type="submit" value="Log In")

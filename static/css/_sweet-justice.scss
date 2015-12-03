@@ -1,0 +1,19 @@
+// Justify
+.sweet-justice {
+  text-align:justify;
+  text-justify:distribute;
+}
+
+.justice-denied {
+  text-align:left;
+  text-justify:normal;
+}
+
+
+// Do not justify on small screens
+@media all and (max-width: $picnic-breakpoint) {
+  .sweet-justice {
+    text-align:left;
+    text-justify:normal;
+  }
+}

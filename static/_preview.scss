@@ -1,0 +1,62 @@
+
+.preview {
+  @extend %card;
+
+  &.add,
+  &.edit {
+    h1,
+    h2,
+    h3,
+    a,
+    p,
+    .edit {
+      display: none;
+    }
+
+    input,
+    textarea,
+    .save,
+    .cancel {
+      display: inline;
+    }
+
+    header,
+    section {
+      padding: .9em;
+    }
+  }
+
+  input,
+  textarea,
+  .save,
+  .cancel {
+    display: none;
+  }
+
+  header {
+    overflow: auto;
+
+    h1,
+    h2,
+    h3 {
+      margin: 0;
+      width: calc(100% - 2em);
+    }
+  }
+
+  .button,
+  button {
+    margin: 0;
+  }
+
+  .edit {
+    @extend %button.pseudo;
+
+    float: right;
+    margin: -.2em -.4em;
+
+    &::before {
+      margin: 0;
+    }
+  }
+}

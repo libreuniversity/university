@@ -1,0 +1,14 @@
+div.modal
+  input#permission(type="checkbox")
+  label.overlay(for="permission")
+  form.login(action="/user" method="post")
+    header
+      h3 Necesitas más puntos
+      label.close(for="permission") &times;
+    section.content
+      p Todavía no tienes los puntos suficientes para realizar esta acción. Hacen falta 
+        span.message
+        |  puntos
+    footer
+      button.icon-award Más info
+      label.button.dangerous(for="permission") Cancel

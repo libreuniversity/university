@@ -1,0 +1,15 @@
+extends ../layout
+
+block content
+  article.lesson
+    header
+      span.actions
+        a.button.icon-plus(href='/lesson/add') Add lesson
+      h1 All lessons
+    each article in list
+      article.card.lesson.preview
+        a(href= "/lesson/" + article.id)
+          header
+            h2= article.title
+          section
+            p.sweet-justice= article.summary

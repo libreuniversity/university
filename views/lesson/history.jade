@@ -1,0 +1,21 @@
+extends ../layout
+
+// Give it the right title of this article
+block title
+  title= "History - " + article.title
+
+// Set the
+block content
+  article.lesson
+    header
+      span.actions
+        span
+          a.edit.pseudo.button(href="/lesson/" + article.id) Go back
+      h1= article.title
+    
+      
+      section.edits
+        ul
+          each article in old
+            li
+              a(href="/lesson/history" + article._id)=article.timestamp

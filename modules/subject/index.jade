@@ -1,0 +1,14 @@
+extends ../../views/layout
+
+block content
+  +header(text.subjects)
+      
+  section.subjects
+    each article in list
+      +preview('subject', article, { subject: text.enter })
+  
+  section.add
+    button.add.icon-plus= text.add
+  
+  template.add
+    +preview('subject')

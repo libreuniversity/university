@@ -1,0 +1,121 @@
+doctype html
+html
+  head
+    title Libre University
+    meta(charset='utf-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1')
+    meta(name="keywords" content="Libre University, Free, University, Open, Source")
+    meta(name="description" content="Open source knowledge for everyone")
+    link(rel='stylesheet', href='/style.min.css')
+    link(rel="icon", href="/images/logo.png", type="image/png")
+    style.
+      body {
+        background: #816051 url('/images/library.jpg') no-repeat center center fixed; 
+        background-size: cover;
+      }
+      .dialog {
+        width: auto;
+        height: auto;
+        margin: 0;
+        padding: 1.4em 2em;
+        position: fixed;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        background: rgba(0, 0, 0, 0.5);
+        text-align: center;
+        color: #fff;
+        z-index: 1;
+      }
+      main {
+        margin: 0;
+        padding: 0;
+        width: auto;
+        max-width: none;
+        position: relative;
+        width: 100%;
+        height: 100vh;
+      }
+      main .button.pseudo,
+      main .button.pseudo:hover,
+      main .button.pseudo:active {
+        color: #fff;
+      }
+      p {
+        margin-top: .3em;
+      }
+      section {
+        background: #fff;
+        width: 100%;
+        min-height: 100vh;
+        z-index: 2;
+        position: absolute;
+      }
+      article {
+        font-family: "Lora";
+        font-size: 1.2em;
+        width: auto;
+        max-width: 800px;
+        margin: 50px auto;
+        padding: 20px;
+      }
+      @media all and (max-width: 50em){
+        article {
+          margin: 0 auto;
+        }
+      }
+  body
+    main
+      div.dialog
+        h1 Libre University
+        p Start learning anything you want 
+        
+        a.button.icon-bank(href="http://es.libre.university/") Spanish
+        |   
+        a.button.icon-gh(href="https://github.com/franciscop/university") Collaborate
+      
+    section
+      article
+        h2 What is Libre University?
+        p Libre University was created to allow the students of different universities and schools to collaborate in learning. Each bit that a student or teacher writes adds up to all of the subject students.
+        
+        h2 What's the difference with Khan Academy?
+        p Khan focuses on video while we focus on text. In this way you can just print it, get it to go in your favourite ebook and on a weak 3g connection.
+
+        h2 How can I collaborate?
+        p If you can program please head to github where you can help most to develop the first beta. Or go to the Spanish version and collaborate writing the first steps.
+        
+        
+        
+        
+        //- An idea? Good or bad?
+        
+        //- h2 What are the knowledge points?
+        //- p An approximated meassure of how much you've learned in Libre University. When you study, solve tests, edit or add resources you get points following this table:
+        //- pre
+        //-   |   +1: read for over 10 minutes a part of a lesson
+        //-   |   +1: add a subject to favourites
+        //-   |   +1: answer a test the first time
+        //-   |   -1: fail more than once a test question
+        //-   |   +1: edit a lesson (+1 point for every 10 char added or removed)
+        //-   |   -5: get an edit removed (-5 for every 10 char added or removed)
+        //-   |   +5: set up a username
+        //-   | +100: bonus for those who register in the alpha-beta
+        //- 
+        //- h2 Why would I want points?
+        //- p When you reach certain threshold you obtain certain permissions:
+        //- pre
+        //-   |     0: (login) Make bookmarks and get points
+        //-   |    10: Edit test
+        //-   |    20: Add test
+        //-   |    50: Edit lesson
+        //-   |   100: Add lesson
+        //-   |   200: Delete test
+        //-   |   500: Delete lesson
+        //-   |  1000: Edit subject
+        //-   |  2000: Add subject
+        //-   |  5000: Delete subject
+        //-   | 10000: Here be dragons
+        //-   
+        //- p We made this to show that we trust people who use the website and keep learning
+        

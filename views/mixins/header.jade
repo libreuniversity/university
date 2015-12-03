@@ -1,0 +1,15 @@
+//- Display the header on the top of the page
+//- @title "string" the main title to be displayed
+//- @actions [] 
+mixin header(title, actions, back)
+  header
+    div.context
+      if actions
+        span.actions
+          +actions(actions)
+      if back
+        a.sub(href= back.link)= back.title
+    
+    if title
+      h1= title
+    

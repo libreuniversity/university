@@ -1,0 +1,148 @@
+
+// Variables
+$picnic-font: Arial, Helvetica, sans-serif;
+$picnic-breakpoint: 800px;
+$picnic-card-shadow: 0;
+$picnic-transition: background-color .3s, color .3s, box-shadow .3s, border-color .3s;
+$picnic-modal-transition: all .3s ease;
+
+// Fontello icons from font awesome
+@import 'css/fontello';
+
+// Add sweet justice (alignment)
+@import 'css/sweet-justice';
+
+// Katex for rendering mathematics
+@import 'katex/dist/katex.min';
+
+// Picnic CSS for default nice styles
+@import 'picnic/src/picnic';
+@import 'picnic/plugins/nav/plugin';
+@import 'picnic/plugins/card/plugin';
+@import 'picnic/plugins/modal/plugin';
+@import 'picnic/plugins/stack/plugin';
+@import 'picnic/plugins/tooltip/plugin';
+
+
+
+// Import the fonts
+@import 'css/font';
+
+// Load the structure of the page (body)
+// With other main elements (article, header, nav)
+@import 'structure';
+
+@import 'preview';
+@import 'lesson';
+@import 'test';
+
+@import 'print';
+
+.alert {
+  @extend %label;
+
+  background: $picnic-warning;
+  width: 100%;
+  }
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  line-height: 1.1;
+  padding-bottom: 0;
+  }
+
+h1 {
+  padding-top: 0;
+  }
+
+h2 {
+  padding-top: .3em;
+}
+
+
+p {
+  max-width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+main %button {
+  font-family: $picnic-font;
+  font-size: 90%;
+  line-height: 1.5;
+  transition: background-color .3s, color .3s, box-shadow .3s;
+
+  &.pseudo {
+    color: #888;
+
+    &:hover {
+      color: #333;
+    }
+  }
+}
+
+%card {
+
+  > a {
+    color: inherit;
+  }
+
+  > a:hover {
+    color: $picnic-primary;
+  }
+
+  header {
+    margin: 0;
+  }
+
+  section {
+    padding: .6em .8em;
+  }
+
+  footer {
+    border-top: 1px solid #eee;
+  }
+}
+
+.addone {
+  float: right;
+}
+
+main .message {
+  background: rgba($picnic-warning, .3);
+  border-radius: .3em;
+  color: $black;
+  font-size: 1em;
+  margin: 0;
+  padding: .8em 1em;
+  text-align: left;
+  width: 100%;
+
+  &.error {
+    background: rgba($picnic-error, .3);
+  }
+}
+
+.login {
+  width: 600px;
+
+  .content label,
+  .content input {
+    display: block;
+  }
+}
+
+@media all and (max-width: $picnic-breakpoint) {
+  .login {
+    max-width: 600px;
+    width: calc(100% - 2em);
+  }
+
+  .enter {
+    display: none;
+  }
+}

@@ -1,0 +1,38 @@
+doctype html
+html
+  //- There won't be included unless they are called
+  include mixins/actions
+  include mixins/header
+  include mixins/preview
+  
+  head
+    block title
+      title Libre University
+    meta(charset='utf-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1')
+    meta(name="keywords" content="Libre University, Free, University, Open, Source")
+    meta(name="description" content="Open source knowledge for everyone")
+    link(rel='stylesheet', href='/style.min.css')
+    link(rel="icon", href="/images/logo.png", type="image/png")
+  body
+    include templates/nav
+    
+    if !user
+      include templates/modal
+    
+    include templates/permission
+    
+    main
+      block content
+    
+    
+    script.
+      var user = false;
+    if user
+      script.
+        var user = {
+          points: #{ user.points || 0 },
+          name: "#{ user.name }",
+          over: function(number){ return this.points > number; }
+        };
+    script(type="text/javascript", src="/javascript.js")

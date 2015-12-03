@@ -1,0 +1,19 @@
+div.modal
+  input#login(type="checkbox")
+  label.overlay(for="login")
+  form.login(action="/user" method="post")
+    header
+      h3 Regístrate o identifícate
+      label.close(for="login") &times;
+    section.content
+      div.message
+      div.row
+        div
+          label Email (te enviaremos confirmación):
+          input(type="email" name="email" placeholder="pedro@upv.es")
+        div
+          label Contraseña:
+          input(type="password" name="password" placeholder="**********")
+    footer
+      button Entrar
+      label.button.dangerous(for="login") Cancel

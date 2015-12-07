@@ -31,9 +31,10 @@ exports.get = function(req, res, next) {
 
 // Add a subject
 exports.add = function(req, res, next) {
+  
   if (!auth.add(req.user)) return next(error('hack', 400, true));
-  if (!req.body) return next(error('Intenta enviar la información', 400, true));
-  model.add(only(req.body, fields), function(err, lesson){
+  
+  model.add(req.body, function(err, lesson){
     
     if(err) {
       // The validation error is spit back to the user
@@ -41,11 +42,12 @@ exports.add = function(req, res, next) {
         return next(error(err.message, 400, 'ajax'));
       }
       
+      //console.log(req.body);
       // The internal server error has a different error
       return next(error('Error interno, no se ha podido guardar', 500, 'ajax'));
     }
     
-    res.json({ lesson: lesson });
+    res.json(lesson);
   });
 };
 

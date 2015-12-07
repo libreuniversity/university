@@ -39,7 +39,7 @@
     "serve-favicon": "^2.1.7",
     "short-mongo-id": "^0.1.1",
     "shortid": "^2.2.4",
-    "test-controller": "^2.3.0",
+    "test-controller": "^3.0.1",
     "validator": "^4.0.5"
   },
   "devDependencies": {

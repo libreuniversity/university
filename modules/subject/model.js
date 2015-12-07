@@ -30,8 +30,6 @@ module.exports.get = function(id, callback){
 module.exports.add = function(content, callback){
 
   var article = new model(content);
-  
-  // Add the article to the callback
   article.save(function(err) {
     callback(err, article);
   });
@@ -45,5 +43,19 @@ module.exports.edit = function(id, change, callback){
   model.update({ id: encode(id) }, { $set: change }, callback);
 };
 
+module.exports.addLesson = function(id, lesson, callback){
+  var push = { $push: { lessons: lesson }};
+  model.findByIdAndUpdate(id, push, function(err, subject){
+    if (err) return callback(err);
+    callback(null, subject);
+  });
+};
+
+
 // For other access
-module.exports.mongo = model;
+module.exports.mongo = function(){
+  return model;
+};
+
+
+

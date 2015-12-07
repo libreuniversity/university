@@ -27,8 +27,7 @@ lessonSchema.virtual('html').get(function(){
 
 
 // History
-
-var historyData = extend(lessonData, { id: { type: String, index: { unique: false }}});
+var historyData = extend(lessonData, { id: { type: String,  unique: false }});
 var historySchema = mongoose.Schema(historyData);
 var history = mongoose.model('LessonHistory', historySchema);
 
@@ -57,13 +56,13 @@ lessonSchema.post('update', function(){
   copyToHistory(this, this._conditions.id);
 });
 
+
+
+
 var model = mongoose.model('Lesson', lessonSchema);
 module.exports = model;
 
 module.exports.mongo = module.exports;
-
-
-
 
 
 module.exports.get = function(id, callback){
@@ -80,12 +79,11 @@ module.exports.get = function(id, callback){
 };
 
 
-// Add a new subject to the database
+// Add a new lesson to the database
 module.exports.add = function(content, callback){
   
   var subjectId = content.id;
-  
-  var article = new model(content);
+  var article = new model(only(content, ['title', 'summary']));
   
   // Add the article to the callback
   article.save(function(err) {

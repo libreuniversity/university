@@ -24,6 +24,7 @@ router.post('/subject/:id', mvc.subject.edit);
 router.post('/lesson', mvc.lesson.add);
 router.get('/lesson/:id', mvc.lesson.get);
 router.post('/lesson/:id', mvc.lesson.update);
+router.post('/lesson/save/:id', mvc.lesson.save);
 
 router.get('/test', mvc.subject.index);
 router.get('/test/:id', mvc.test.index);

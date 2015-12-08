@@ -28,7 +28,7 @@ describe('controllers/lesson.js', function(){
     });
     
     // Generate a new test with the post data already set
-    var add = test(controller.add).auth({ points: 10000 });
+    var add = test(controller.add).auth({ _id: '18241a3d5bded01100876756', points: 10000 });
     
     
     // IT WORKS
@@ -38,7 +38,7 @@ describe('controllers/lesson.js', function(){
         expect(type).to.equal('json');
         expect(res.title).to.equal('I love pasta');
         
-        model.mongo().findOne({ id: res.id }, function(err, lesson){
+        model.get(res.id, function(err, lesson){
           expect(err).to.equal(null);
           expect(lesson.title).to.equal('I love pasta');
           
@@ -120,7 +120,19 @@ describe('controllers/lesson.js', function(){
 
 
   describe('lesson.get()', function(){
-
+    
+    var id;
+    
+    before(function(next){
+      // The data to be posted
+      subjectModel.index(function(err, subjects){
+        id = subjects.shift().lessons.shift();
+        next();
+      });
+    });
+    var get = test(controller.get).auth({ _id: '18241a3d5bded01100876756', points: 10000 });
+    
+    
     it('exists', function(){
       if(!controller.hasOwnProperty('get'))
         throw 'Home controller has no method "get"';
@@ -129,6 +141,17 @@ describe('controllers/lesson.js', function(){
     function controllerRes(method, render){
       request(controller[method]).extendRes({render: render}).end();
     }
+    
+    it('find one lesson', function(done){
+      
+      get.get({ id: id }, function(err, type, path, lesson){
+        expect(err).to.equal(null);
+        expect(type).to.equal('render');
+        expect(path).to.equal('lesson/get');
+        expect(lesson.title).to.equal('I love pasta');
+        done();
+      });
+    });
   });
 
 

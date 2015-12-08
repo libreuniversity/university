@@ -7,7 +7,7 @@ var data = {
   id: { type: String, unique: true, default: shortid.generate },
   title: { type: String, required: true, validate: /.+/ },
   summary: { type: String, required: true },
-  lessons: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Lesson' }],
+  lessons: [{ type: String, ref: 'Lesson' }],
   added: { type: Date, default: Date.now }
 };
 

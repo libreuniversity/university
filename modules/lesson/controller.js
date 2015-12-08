@@ -13,7 +13,14 @@ var utils = require('auto-load')('utils');
 // Required points for authorization
 var auth = utils.auth({ add: 100, edit: 50 });
 
-var fields = ['id', 'title', 'summary'];
+
+function ajax(res, next){
+  return function(err, lesson){
+    if (err) return next(err);
+    res.json(lesson);
+  };
+}
+
 
 // Retrieve all of the lessons available and display them
 exports.index = function(req, res) { res.redirect('/'); };
@@ -24,51 +31,32 @@ exports.get = function(req, res, next) {
     if (err) return next(err);
     var link = { link: '/subject/' + lesson.subject.id };
     lesson.subject = extend(lesson.subject, link);
-    console.log("Html", typeof lesson.html);
     res.render('lesson/get', lesson);
   });
 };
 
 // Add a subject
 exports.add = function(req, res, next) {
-  
   if (!auth.add(req.user)) return next(error('hack', 400, true));
-  
-  model.add(req.body, function(err, lesson){
-    
-    if(err) {
-      // The validation error is spit back to the user
-      if (err.name == 'ValidationError') {
-        return next(error(err.message, 400, 'ajax'));
-      }
-      
-      //console.log(req.body);
-      // The internal server error has a different error
-      return next(error('Error interno, no se ha podido guardar', 500, 'ajax'));
-    }
-    
-    res.json(lesson);
-  });
+  model.add(extend(req.body, { user: req.user._id }), ajax(res, next));
 };
 
 
-// Update the information
+// Update the information from the preview
 exports.update = function(req, res, next) {
-
-  // Find specific article in db
-  var id = encode(req.params.id);
+  console.log("UPDATING");
+  if (!auth.edit(req.user)) return next(error('hack', 400, true));
+  var data = extend(req.body, { id: req.params.id, user: req.user._id });
+  if (!data.title) next(new Error('Nothing valid to update'));
   
-  var edit = (req.body.content) ?
-    { content: req.body.content } :
-    req.body.title ?
-      { title: req.body.title, summary: req.body.summary } :
-      {};
-  
-  model.update({ id: id }, edit, function(err, obj) {
-    model.get(id, function(err, data) {
-      if(err) return next(err);
-      res.json({ error: !!err, html: data.html });
-    });
-  });
+  model.update(data, ajax(res, next));
 };
 
+exports.save = function(req, res, next) {
+  
+  if (!auth.edit(req.user)) return next(error('hack', 400, true));
+  var data = extend(req.body, { id: req.params.id, user: req.user._id });
+  if (!data.content) next(new Error('Nothing valid to update'));
+  
+  model.save(data, ajax(res, next));
+};

@@ -12,7 +12,6 @@ module.exports.get = function(id, callback){
 
 // Add a new lesson to the database
 module.exports.add = function(content, callback){
-  content.subject = content.id;
   asyn.waterfall([
     asyn.apply(db.checkPreviewData, content),
     db.add,

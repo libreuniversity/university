@@ -6,18 +6,20 @@ block title
 block content
   +header(title)
   
+  // Variables for the view
+  - var actions = {'lesson': text.lessons/*, 'test': text.tests*/};
+  - var other = {'subject': _id};
+  
   section
     p= summary
   
   section.lessons
     each article in lessons
-      - var actions = {'lesson': text.lessons/*, 'test': text.tests*/};
-      - article.parent = _id;
-      +preview('lesson', article, actions)
+      +preview('lesson', article, actions, other)
   
   if user && user.over(100)
     section.add
       button.add.lesson.icon-plus= text.add
 
     template.add
-      +preview('lesson', { parent: _id })
+      +preview('lesson', false, false, other)

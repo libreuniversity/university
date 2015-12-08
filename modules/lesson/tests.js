@@ -7,6 +7,7 @@ var model = require('./model');
 var controller = require('./controller');
 var subjectModel = require('../subject/model');
 var entry;
+var user = { _id: '18241a3d5bded01100876756', points: 10000 };
 
 // Controllers
 describe('controllers/lesson.js', function(){
@@ -22,14 +23,14 @@ describe('controllers/lesson.js', function(){
         entry = {
           title: 'I love pasta',
           summary: 'Italian pasta $$f(x) = \\int_{-\\infty}^\\infty f(\\xi)d\\xi$$',
-          id: subjects.shift()._id
+          subject: subjects.shift()._id
         };
         next();
       });
     });
     
     // Generate a new test with the post data already set
-    var add = test(controller.add).auth({ _id: '18241a3d5bded01100876756', points: 10000 });
+    var add = test(controller.add).auth(user);
     
     
     // IT WORKS
@@ -104,21 +105,21 @@ describe('controllers/lesson.js', function(){
 
     // SUBJECT
     it('needs a subject', function(done){
-      add.post(entry).post({ id: false }, function(err){
+      add.post(entry).post({ subject: false }, function(err){
         expect(err).not.to.equal(null);
         done();
       });
     });
 
     it('subject is 0', function(done){
-      add.post(entry).post({ id: 0 }, function(err){
+      add.post(entry).post({ subject: 0 }, function(err){
         expect(err).not.to.equal(null);
         done();
       });
     });
 
     it('subject does not exist', function(done){
-      add.post(entry).post({ id: 547567 }, function(err){
+      add.post(entry).post({ subject: 547567 }, function(err){
         expect(err).not.to.equal(null);
         done();
       });
@@ -138,8 +139,6 @@ describe('controllers/lesson.js', function(){
         next();
       });
     });
-    var get = test(controller.get).auth({ _id: '18241a3d5bded01100876756', points: 10000 });
-    
     
     it('exists', function(){
       if(!controller.hasOwnProperty('get'))
@@ -152,7 +151,7 @@ describe('controllers/lesson.js', function(){
     
     it('find one lesson', function(done){
       
-      get.get({ id: id }, function(err, type, path, lesson){
+      test(controller.get).auth(user).get({ id: id }, function(err, type, path, lesson){
         expect(err).to.equal(null);
         expect(type).to.equal('render');
         expect(path).to.equal('lesson/get');

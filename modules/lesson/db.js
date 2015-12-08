@@ -2,9 +2,8 @@ var only = require('only');
 var extend = require('extend');
 var mongoose = require('mongoose');
 
-var sanitize = require('./sanitize');
-
 var data = require('./data');
+var sanitize = require('./sanitize');
 var subject = require('../subject/model');
 
 

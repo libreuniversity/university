@@ -27,7 +27,10 @@ var history = mongoose.model('LessonHistory', historySchema);
 var pass = (el, callback) => err => callback(err, el);
 
 // Pass it forward with some extra elements from the original
-var upgrade = (el, callback, parts) => (err, next) => callback(err, extend(next, only(el, parts)));
+var upgrade = (el, callback, parts) => function(err, next) {
+  console.log(next);
+  callback(err, extend(next, only(el, parts)));
+};
 
 
 // Database operations to use in waterfall
@@ -66,11 +69,11 @@ module.exports.addToSubject = function(lesson, callback) {
 
 module.exports.update = function(lesson, callback){
   callback = upgrade(lesson, callback, 'user subject');
-  model.findByIdAndUpdate(lesson.id, only(lesson, 'title summary'), callback);
+  model.findByIdAndUpdate(lesson.id, only(lesson, 'title summary'), { new: true }, callback);
 };
 
 module.exports.save = function(lesson, callback){
   callback = upgrade(lesson, callback, 'user subject');
-  model.findByIdAndUpdate(lesson.id, only(lesson, 'content'), callback);
+  model.findByIdAndUpdate(lesson.id, only(lesson, 'content'), { new: true }, callback);
 };
 

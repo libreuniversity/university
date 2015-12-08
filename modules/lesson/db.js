@@ -37,6 +37,12 @@ var append = (el, callback, name) => function(err, fetched) {
 
 
 // Database operations to use in waterfall
+module.exports.init = function(data, asyn){
+  return asyn.apply(function(data, callback){
+    callback(null, data);
+  }, data);
+};
+
 module.exports.findById = function(id, callback){
   if (!id) return callback(new Error('No lesson specified'));
   model.findById(id, callback);
@@ -59,7 +65,9 @@ module.exports.findHistory = function(lesson, callback){
 module.exports.checkPreviewData = function(content, callback) {
   if (!content) return callback(new Error('No data submitted'));
   if (!content.subject) return callback(new Error('No subject provided'));
-  callback(null, content);
+  subject.get(content.subject, function(err, subject){
+    callback(err, content);
+  });
 };
 
 module.exports.add = function(lesson, callback){

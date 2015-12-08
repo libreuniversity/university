@@ -4,14 +4,16 @@ var lessonSchema = require('../lesson/model');
 var encode = encodeURIComponent;
 
 var data = {
-  id: { type: String, unique: true, default: shortid.generate },
+  _id: { type: String, unique: true, default: shortid.generate },
   title: { type: String, required: true, validate: /.+/ },
   summary: { type: String, required: true },
   lessons: [{ type: String, ref: 'Lesson' }],
   added: { type: Date, default: Date.now }
 };
 
-var model = mongoose.model('Subject', mongoose.Schema(data));
+var subjectSchema = mongoose.Schema(data);
+subjectSchema.virtual('id').get(function(){ return this._id; });
+var model = mongoose.model('Subject', subjectSchema);
 
 // Retrieve all of the elements
 module.exports.index = function(callback){
@@ -20,7 +22,7 @@ module.exports.index = function(callback){
 
 // Retrieve a single element from the database
 module.exports.get = function(id, callback){
-  model.findOne({ id: encode(id) }).populate('lessons').exec(function(err, subject){
+  model.findById(id).populate('lessons').exec(function(err, subject){
     if (!subject) err = new Error("No record found");
     callback(err, subject);
   });

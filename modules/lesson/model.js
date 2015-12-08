@@ -3,7 +3,8 @@ var db = require('./db');
 
 module.exports.get = function(id, callback){
   asyn.waterfall([
-    asyn.apply(db.findById, id),
+    db.init(id, asyn),
+    db.findById,
     db.findSubject,
   ], function(err, lesson){
     callback(err, lesson);
@@ -13,7 +14,8 @@ module.exports.get = function(id, callback){
 // Add a new lesson to the database
 module.exports.add = function(content, callback){
   asyn.waterfall([
-    asyn.apply(db.checkPreviewData, content),
+    db.init(content, asyn),
+    db.checkPreviewData,
     db.add,
     db.addToHistory,
     db.addToSubject
@@ -25,7 +27,8 @@ module.exports.add = function(content, callback){
 // Updates the preview
 module.exports.update = function(content, callback){
   asyn.waterfall([
-    asyn.apply(db.update, content),
+    db.init(content, asyn),
+    db.update,
     db.addToHistory
   ], function(err, lesson){
     callback(err, lesson);
@@ -35,7 +38,8 @@ module.exports.update = function(content, callback){
 // Updates the content
 module.exports.save = function(content, callback){
   asyn.waterfall([
-    asyn.apply(db.save, content),
+    db.init(content, asyn),
+    db.save,
     db.addToHistory
   ], function(err, lesson){
     callback(err, lesson);

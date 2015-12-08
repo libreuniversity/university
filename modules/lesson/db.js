@@ -27,8 +27,12 @@ var pass = (el, callback) => err => callback(err, el);
 
 // Pass it forward with some extra elements from the original
 var upgrade = (el, callback, parts) => function(err, next) {
-  console.log(next);
   callback(err, extend(next, only(el, parts)));
+};
+
+var append = (el, callback, name) => function(err, fetched) {
+  el[name] = fetched;
+  callback(err, el);
 };
 
 
@@ -44,6 +48,12 @@ module.exports.findSubject = function (lesson, callback){
     if (!subject) return callback(new Error('No subject found'));
     callback(err, extend(lesson, { subject: subject }));
   });
+};
+
+module.exports.findHistory = function(lesson, callback){
+  if (!lesson) return callback(new Error('Lesson not found'));
+  callback = append(lesson, callback, 'history');
+  history.find({ id: lesson.id }, callback);
 };
 
 module.exports.checkPreviewData = function(content, callback) {

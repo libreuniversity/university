@@ -10,6 +10,7 @@ data.lesson = {
   title: { type: String, required: true, trim: true },
   summary: { type: String, required: true, trim: true },
   content: { type: String },
+  history: [],  // Otherwise it doesn't appear when adding it dynamically...
   timestamp: { type: Date, required: true, default: Date.now }
 };
 

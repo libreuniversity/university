@@ -2,9 +2,10 @@ var test = require('test-controller');
 var chai = require('chai');
 var should = chai.should();
 var expect = chai.expect;
+var db = require('./db');
+var model = require('./model');
 var controller = require('./controller');
 var subjectModel = require('../subject/model');
-var model = require('./model');
 var entry;
 
 // Controllers
@@ -33,16 +34,23 @@ describe('controllers/lesson.js', function(){
     
     // IT WORKS
     it('adds a new full record', function(done){
+      
+      // Positive response
       add.post(entry, function(err, type, res){
         expect(err).to.equal(null);
         expect(type).to.equal('json');
         expect(res.title).to.equal('I love pasta');
         
+        // Check that it's added to the database
         model.get(res.id, function(err, lesson){
           expect(err).to.equal(null);
           expect(lesson.title).to.equal('I love pasta');
           
-          done();
+          // Make sure it's added to history
+          db.findHistory(lesson, function(err, lesson){
+            expect(lesson.history.length).to.equal(1);
+            done();
+          });
         });
       });
     });

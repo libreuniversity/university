@@ -17,7 +17,7 @@ data.lesson = {
 
 data.history = extend(
   only(data.lesson, '_id title summary content language timestamp'),
-  { id: { type: String, unique: false, required: true }},
+  { lesson: { type: String, unique: false, required: true }},
   { user: { type: String, required: true }}
 );
 

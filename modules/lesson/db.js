@@ -60,7 +60,7 @@ module.exports.findSubject = function (lesson, callback){
 module.exports.findHistory = function(lesson, callback){
   if (!lesson) return callback(new Error('Lesson not found'));
   callback = append(lesson, callback, 'history');
-  history.find({ id: lesson.id }, callback);
+  history.find({ lesson: lesson.id }, callback);
 };
 
 module.exports.checkPreviewData = function(content, callback) {
@@ -77,7 +77,8 @@ module.exports.add = function(lesson, callback){
 };
 
 module.exports.addToHistory = function(lesson, callback){
-  var article = new history(only(lesson, 'id user title language summary content'));
+  var data = only(extend(lesson, { lesson: lesson.id }), 'lesson user title language summary content');
+  var article = new history(data);
   article.save(pass(lesson, callback));
 };
 

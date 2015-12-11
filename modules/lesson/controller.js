@@ -22,12 +22,11 @@ function ajax(res, next){
 }
 
 
-// Retrieve all of the lessons available and display them
 exports.index = function(req, res) { res.redirect('/'); };
 
 // Retrieve a single lesson
 exports.get = function(req, res, next) {
-  model.get(encode(req.params.id), function(err, lesson) {
+  model.get({ id: req.params.id, language: req.lang } , function(err, lesson) {
     if (err) return next(err);
     var link = { link: '/subject/' + lesson.subject.id };
     lesson.subject = extend(lesson.subject, link);
@@ -38,7 +37,8 @@ exports.get = function(req, res, next) {
 // Add a subject
 exports.add = function(req, res, next) {
   if (!auth.add(req.user)) return next(error('hack', 400, true));
-  model.add(extend(req.body, { user: req.user._id }), ajax(res, next));
+  var data = extend(req.body, { user: req.user._id, language: req.lang });
+  model.add(data, ajax(res, next));
 };
 
 

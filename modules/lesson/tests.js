@@ -19,7 +19,7 @@ describe('controllers/lesson.js', function(){
     before(function(next){
       
       // The data to be posted
-      subjectModel.index(function(err, subjects){
+      subjectModel.index({ language: 'es' }, function(err, subjects){
         entry = {
           title: 'I love pasta',
           summary: 'Italian pasta $$f(x) = \\int_{-\\infty}^\\infty f(\\xi)d\\xi$$',
@@ -30,7 +30,7 @@ describe('controllers/lesson.js', function(){
     });
     
     // Generate a new test with the post data already set
-    var add = test(controller.add).auth(user);
+    var add = test(controller.add).req({ lang: 'es' }).auth(user);
     
     
     // IT WORKS
@@ -43,7 +43,7 @@ describe('controllers/lesson.js', function(){
         expect(res.title).to.equal('I love pasta');
         
         // Check that it's added to the database
-        model.get(res.id, function(err, lesson){
+        model.get({ id: res.id, language: 'es' }, function(err, lesson){
           expect(err).to.equal(null);
           expect(lesson.title).to.equal('I love pasta');
           
@@ -134,7 +134,7 @@ describe('controllers/lesson.js', function(){
     
     before(function(next){
       // The data to be posted
-      subjectModel.index(function(err, subjects){
+      subjectModel.index({ language: 'es' }, function(err, subjects){
         id = subjects.shift().lessons.shift();
         next();
       });
@@ -144,14 +144,11 @@ describe('controllers/lesson.js', function(){
       if(!controller.hasOwnProperty('get'))
         throw 'Home controller has no method "get"';
     });
-
-    function controllerRes(method, render){
-      request(controller[method]).extendRes({render: render}).end();
-    }
     
     it('find one lesson', function(done){
       
-      test(controller.get).auth(user).get({ id: id }, function(err, type, path, lesson){
+      var get = test(controller.get).req({ lang: 'es' }).auth(user);
+      get.get({ id: id }, function(err, type, path, lesson){
         expect(err).to.equal(null);
         expect(type).to.equal('render');
         expect(path).to.equal('lesson/get');
@@ -169,9 +166,5 @@ describe('controllers/lesson.js', function(){
       if(!controller.hasOwnProperty('get'))
         throw 'Home controller has no method "get"';
     });
-
-    function controllerRes(method, render){
-      request(controller[method]).extendRes({render: render}).end();
-    }
   });
 });

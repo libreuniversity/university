@@ -15,6 +15,7 @@ describe('controllers/subject.js', function(){
     
     // Generate a new test with the post data already set
     var add = test(controller.add).auth({ points: 10000 });
+    add.request.lang = 'es';
     
     it('needs to be auth', function(done){
       test(controller.add).post(entry, function(err, type, res){
@@ -76,7 +77,7 @@ describe('controllers/subject.js', function(){
     
     // Retrieve a single subject
     var getSubj = function(callback){
-      test(controller.index).get({}, function(err, type, file, subjects){
+      test(controller.index).req({ lang: 'es' }).get({}, function(err, type, file, subjects){
         callback(subjects.list.shift());
       });
     };
@@ -84,7 +85,7 @@ describe('controllers/subject.js', function(){
     it("Requires auth", function(done){
       getSubj(function(subj){
         var data = { title: subj.title, summary: subj.summary };
-        test(controller.edit).post(data, function(err, type, res){
+        test(controller.edit).req({ lang: 'es' }).post(data, function(err, type, res){
           expect(type).to.equal('json');
           expect(res.error).to.be.ok;
           done();
@@ -96,7 +97,7 @@ describe('controllers/subject.js', function(){
     var edit = function(callback){
       getSubj(function(subj){
         var subject = { title: subj.title, summary: subj.summary };
-        var auth = test(controller.edit).auth({ points: 1000 });
+        var auth = test(controller.edit).auth({ points: 1000 }).req({ lang: 'es' });
         callback(auth.get({ id: subj.title }), subject);
       });
     };

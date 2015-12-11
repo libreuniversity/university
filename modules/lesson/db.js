@@ -37,15 +37,16 @@ var append = (el, callback, name) => function(err, fetched) {
 
 
 // Database operations to use in waterfall
-module.exports.init = function(data, asyn){
-  return asyn.apply(function(data, callback){
-    callback(null, data);
-  }, data);
+module.exports.init = function(lesson, asyn){
+  return asyn.apply(function(lesson, callback){
+    callback(null, lesson);
+  }, lesson);
 };
 
-module.exports.findById = function(id, callback){
-  if (!id) return callback(new Error('No lesson specified'));
-  model.findById(id, callback);
+module.exports.findById = function(lesson, callback){
+  if (!lesson.id) return callback(new Error('No lesson id specified'));
+  if (!lesson.language) return callback(new Error('No language specified'));
+  model.findOne({ _id: lesson.id, language: lesson.language }, callback);
 };
 
 module.exports.findSubject = function (lesson, callback){
@@ -65,18 +66,18 @@ module.exports.findHistory = function(lesson, callback){
 module.exports.checkPreviewData = function(content, callback) {
   if (!content) return callback(new Error('No data submitted'));
   if (!content.subject) return callback(new Error('No subject provided'));
-  subject.get(content.subject, function(err, subject){
+  subject.get({ id: content.subject, language: content.language }, function(err, subject){
     callback(err, content);
   });
 };
 
 module.exports.add = function(lesson, callback){
-  var article = new model(only(lesson, 'title summary'));
+  var article = new model(only(lesson, 'title summary language'));
   article.save(pass(extend(article, only(lesson, 'user subject')), callback));
 };
 
 module.exports.addToHistory = function(lesson, callback){
-  var article = new history(only(lesson, 'id user title summary content'));
+  var article = new history(only(lesson, 'id user title language summary content'));
   article.save(pass(lesson, callback));
 };
 

@@ -1,9 +1,9 @@
 var asyn = require('async');
 var db = require('./db');
 
-module.exports.get = function(id, callback){
+module.exports.get = function(lesson, callback){
   asyn.waterfall([
-    db.init(id, asyn),
+    db.init(lesson, asyn),
     db.findById,
     db.findSubject,
   ], function(err, lesson){

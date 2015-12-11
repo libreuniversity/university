@@ -10,12 +10,13 @@ data.lesson = {
   title: { type: String, required: true, trim: true },
   summary: { type: String, required: true, trim: true },
   content: { type: String },
+  language: { type: String, required: true, validate: /(es|en)/ },
   history: [],  // Otherwise it doesn't appear when adding it dynamically...
   timestamp: { type: Date, required: true, default: Date.now }
 };
 
 data.history = extend(
-  only(data.lesson, '_id title summary content timestamp'),
+  only(data.lesson, '_id title summary content language timestamp'),
   { id: { type: String, unique: false, required: true }},
   { user: { type: String, required: true }}
 );

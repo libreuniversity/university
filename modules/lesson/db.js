@@ -5,7 +5,6 @@ var mongoose = require('mongoose');
 // Some database operations
 var ops = require('../../utils/dbops');
 var mongo = require('./schema');
-var sanitize = require('./sanitize');
 var subject = require('../subject/model');
 
 // Database operations to use in waterfall

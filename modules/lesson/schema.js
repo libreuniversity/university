@@ -2,6 +2,7 @@ var only = require('only');
 var extend = require('extend');
 var shortid = require('shortid');
 var mongoose = require('mongoose');
+var sanitize = require('./sanitize');
 
 var lessonData = {
   _id: { type: String, unique: true, default: shortid.generate },

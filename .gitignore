@@ -5,3 +5,4 @@ key.pem
 cert.pem
 logs
 npm-debug.log
+coverate

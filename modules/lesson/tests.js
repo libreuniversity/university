@@ -12,6 +12,24 @@ var user = { _id: '18241a3d5bded01100876756', points: 10000 };
 // Controllers
 describe('controllers/lesson.js', function(){
   
+  
+  // Add a new lesson to the database
+  describe('lesson.index()', function(){
+    
+    // IT WORKS
+    it('redirects home', function(done){
+      
+      // Positive response
+      test(controller.index).get({}, function(err, type, res){
+        expect(err).to.equal(null);
+        expect(type).to.equal('redirect');
+        expect(res).to.equal('/');
+        done();
+      });
+    });
+  });
+  
+  
   // Add a new lesson to the database
   describe('lesson.add()', function(){
     
@@ -32,6 +50,14 @@ describe('controllers/lesson.js', function(){
     // Generate a new test with the post data already set
     var add = test(controller.add).req({ lang: 'es' }).auth(user);
     
+    
+    it('requires auth', function(done){
+      test(controller.add).post({}, function(err, type, res){
+        expect(err).not.to.equal(null);
+        expect(type).to.equal('next');
+        done();
+      });
+    });
     
     // IT WORKS
     it('adds a new full record', function(done){

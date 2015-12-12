@@ -1,7 +1,9 @@
 // SUBJECT page
 // action: { add, form: { save, remove, edit, cancel }}
-page(/^(subject)?/, function(action){
-
+page(/^(subject)?/, function(){
+  
+  var action = {};
+  
   // Functions for the subject
   action.add = function(e){
     e.preventDefault();

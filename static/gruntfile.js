@@ -17,18 +17,20 @@ module.exports = function (grunt) {
       // 2. Configuration for concatinating files goes here.
       dist: {
         src: [
-          // Libraries
-          'static/katex/dist/katex.min.js',
-          'static/katex-auto-render.min.js',
+          // External libraries
+          'static/lib/katex/dist/katex.min.js',
+          'static/lib/katex-auto-render.min.js',
+          
+          // Internal libraries
           'static/sweet-justice.js', // Sweet justice
-
-          // Own code
+          'static/page.js', // Page router
           'static/editor.js', // Text editor
           'static/umbrella/rainstorm.js', // Umbrella js
           'static/template.min.js',  // Template system
+          
+          // Own code
           'static/javascript.js',  // This specific file
-          'static/page.subject.js', // subject page
-          'static/page.test.js' // test page
+          'static/pages/*.js'
         ],
         dest: 'public/javascript.js',
       }

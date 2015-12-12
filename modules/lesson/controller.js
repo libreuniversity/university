@@ -3,12 +3,8 @@ var model = require('./model');
 var extend = require('extend');
 var only = require('only');
 
-//var model = require('auto-load')('models');
-//var utils = require('auto-load')('app/utils');
-var normalDate = require('../../utils/normaldate');
-var encode = require('../../utils/encode');
-var error = require('../../utils/error');
-var utils = require('auto-load')('utils');
+var utils = require('auto-load')('app/utils');
+var error = utils.error;
 
 // Required points for authorization
 var auth = utils.auth({ add: 100, edit: 50 });

@@ -3,7 +3,7 @@ var extend = require('extend');
 var mongoose = require('mongoose');
 
 // Some database operations
-var ops = require('../../utils/dbops');
+var ops = require('auto-load')('app/utils').dbops;
 var mongo = require('./schema');
 var subject = require('../subject/model');
 

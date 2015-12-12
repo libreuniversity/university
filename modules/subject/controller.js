@@ -2,7 +2,7 @@
 var model = require('./model');
 var only = require('only');
 var extend = require('extend');
-var utils = require('auto-load')('utils');
+var utils = require('auto-load')('app/utils');
 
 // Editable fields
 var fields = ['title', 'summary'];

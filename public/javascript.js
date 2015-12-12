@@ -195,6 +195,31 @@ function copy_protect(e) {
   return;
 }
 
+// Page
+// A minimal engine for loading only page-specific code
+// Matches only the first part
+var page = function(path, callback){
+  
+  // The actual function
+  var fn = function(){
+    
+    // Url without leading slash
+    var url = window.location.pathname.replace(/^\//, '');
+    
+    // Check whether we are in the correct page or not
+    if (url.match(path)) {
+      callback.apply(null, url.match(path).slice(1));
+    }
+  };
+  
+  // Add a listener and execute it on ready
+  document.addEventListener('DOMContentLoaded', fn);
+  
+  // Execute it if the DOM is already ready
+  if (["complete", "loaded"].indexOf(document.readyState) != -1) {
+     fn();
+   }
+};
 // Modern Editor
 // An event-based editor for the modern web
 var Editor = function(selector, options){
@@ -1614,20 +1639,6 @@ var template = function(selector, data, callback){
 
 // Javascript
 
-// Page
-// A minimal engine for loading only page-specific code
-// Matches only the first part
-var page = function(path, callback){
-
-  if (typeof path == "string"){
-    path = [path];
-  }
-
-  var url = "/" + window.location.pathname.match(/^\/[a-z]*/).shift().replace("/","");
-  if(path.indexOf(url) != -1){
-    callback.call(this, {});
-  }
-};
 
 
 //modal("login").show("message");
@@ -1661,7 +1672,7 @@ justify_my_love(document.querySelector(".sweet-justice"));
 // Display the mathematics on the pagee
 renderMathInElement(document.body);
 
-page("/lesson", function(){
+page(/^lesson/, function(){
   
   // Initialize the editor in the element that is contenteditable
   var editor = new Editor("article.content", { menu: "editormenu", active: false });
@@ -1765,9 +1776,10 @@ page("/lesson", function(){
 
 // SUBJECT page
 // action: { add, form: { save, remove, edit, cancel }}
-
-page(['/', '/subject'], function(action){
-
+page(/^(subject)?/, function(){
+  
+  var action = {};
+  
   // Functions for the subject
   action.add = function(e){
     e.preventDefault();
@@ -1844,7 +1856,7 @@ page(['/', '/subject'], function(action){
 // TEST page
 
 //
-page('/test', function(){
+page(/^test/, function(){
 
   // Attach actions to the new lesson template
   // These are different enough than editing to have a new function

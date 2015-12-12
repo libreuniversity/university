@@ -7,7 +7,7 @@
   },
   "scripts": {
     "start": "node app.js",
-    "test": "istanbul cover _mocha app/tests.js",
+    "test": "istanbul cover _mocha tests.js",
     "watch": "grunt watch"
   },
   "dependencies": {

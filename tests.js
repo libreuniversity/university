@@ -20,9 +20,8 @@ describe("Initialize the tests", function(){
 });
 
 // Load and include all of the tests
-//require('auto-load')('tests');
-require('../modules/subject/tests');
-require('../modules/lesson/tests');
+require('./modules/subject/tests');
+require('./modules/lesson/tests');
 
 
 // Delete the database for testing

@@ -3,9 +3,7 @@ var extend = require('extend');
 var shortid = require('shortid');
 var mongoose = require('mongoose');
 
-var data = {};
-
-data.lesson = {
+var lessonData = {
   _id: { type: String, unique: true, default: shortid.generate },
   title: { type: String, required: true, trim: true },
   summary: { type: String, required: true, trim: true },
@@ -15,10 +13,28 @@ data.lesson = {
   timestamp: { type: Date, required: true, default: Date.now }
 };
 
-data.history = extend(
-  only(data.lesson, '_id title summary content language timestamp'),
+var lessonSchema = mongoose.Schema(lessonData);
+lessonSchema.virtual('html').get(function(){
+  return sanitize(this.content);
+});
+lessonSchema.virtual('id').get(function(){ return this._id; });
+
+var model = mongoose.model('Lesson', lessonSchema);
+module.exports.lesson = model;
+
+
+
+// History lesson
+var historyData = extend(
+  only(lessonData, '_id title summary content language timestamp'),
   { lesson: { type: String, unique: false, required: true }},
   { user: { type: String, required: true }}
 );
 
-module.exports = data;
+var historySchema = mongoose.Schema(historyData);
+historySchema.virtual('html').get(function(){
+  return sanitize(this.content);
+});
+
+var history = mongoose.model('LessonHistory', historySchema);
+module.exports.history = history;

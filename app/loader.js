@@ -1,7 +1,8 @@
 // This tries to load some files from all modules
-// First from the generic module then from each of them
 var fs = require('fs');
 
+// It accepts a filename to be included and it'll build it in tree-mode
+// If a second variable is passed it will call in chain the file with the variable
 module.exports = function(filename, concat){
   var files = {};
   

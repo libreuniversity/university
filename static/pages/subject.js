@@ -1,6 +1,7 @@
 // SUBJECT page
 // action: { add, form: { save, remove, edit, cancel }}
-page(/^(subject)?/, function(){
+// Non capturing group (http://stackoverflow.com/a/3513858/938236)
+page(/^(?:subject)?/, function(bla){
   
   var action = {};
   

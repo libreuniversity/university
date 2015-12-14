@@ -1,7 +1,12 @@
 // Page
 // A minimal engine for loading only page-specific code
 // Matches only the first part
-var page = function(path, callback){
+var page = function(path, negate, callback){
+  
+  if (!callback) {
+    callback = negate;
+    negate = false;
+  }
   
   // The actual function
   var fn = function(){
@@ -10,7 +15,8 @@ var page = function(path, callback){
     var url = window.location.pathname.replace(/^\//, '');
     
     // Check whether we are in the correct page or not
-    if (url.match(path)) {
+    if (path.test(url) != negate) {
+      
       callback.apply(null, url.match(path).slice(1));
     }
   };

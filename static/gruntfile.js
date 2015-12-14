@@ -8,7 +8,7 @@ module.exports = function (grunt) {
       files: {
         cwd: 'static/katex/dist/fonts/',  // set working folder / root to copy
         src: '**/*',           // copy all files and subfolders
-        dest: 'public/fonts',    // destination folder
+        dest: 'public/fonts',  // destination folder
         expand: true           // required when using cwd
       }
     },
@@ -20,6 +20,7 @@ module.exports = function (grunt) {
           // External libraries
           'static/lib/katex/dist/katex.min.js',
           'static/lib/katex-auto-render.min.js',
+          'static/lib/umbrella/umbrella.js',
           
           // Internal libraries
           'static/sweet-justice.js', // Sweet justice

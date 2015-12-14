@@ -1,7 +1,7 @@
 // Autoload all of the models
 var model = require('./model');
-var extend = require('extend');
 var only = require('only');
+var extend = require('extend');
 
 var utils = require('auto-load')('app/utils');
 var error = utils.error;

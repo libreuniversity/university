@@ -1,16 +1,21 @@
+var asyn = require('async');
+var shortid = require('shortid');
 var mongoose = require('mongoose');
 var lessonModel = require('../lesson/model');
+var answerModel = require('./modelanswer');
 
 var testSchema = mongoose.Schema({
-  id: { type: String, index: true },
+  _id: { type: String, unique: true, default: shortid.generate },
   question: { type: String, required: true },
   answers: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'TestAnswer'
   }],
-  lesson: { type: mongoose.Schema.Types.ObjectId, ref: 'Lesson' },
+  lesson: { type: String, ref: 'Lesson' },
   added: { type: Date, default: Date.now }
 });
+
+testSchema.virtual('id').get(function(){ return this._id; });
 
 Array.prototype.shuffle = function() {
   var i = this.length;
@@ -27,20 +32,17 @@ Array.prototype.shuffle = function() {
   return this;
 };
 
-testSchema.statics.get = function(id, callback){
-  
-  id = encodeURIComponent(id);
+var model = mongoose.model('Test', testSchema);
 
+module.exports.get = function(test, callback){
+  
   // Retrieve the current lesson and its info
-  lessonModel.findOne({ id: id })
-    .populate('subject')
-    .exec(function(err, lesson){
+  lessonModel.get(test, function(err, lesson){
       
       if (err) return callback(err);
-
+      
       // Retrieve the current test and its answers
-      model.test
-        .find({ lesson: lesson._id })
+      model.find({ lesson: lesson.id })
         .populate('answers')
         .exec(function(err, tests) {
           
@@ -59,9 +61,33 @@ testSchema.statics.get = function(id, callback){
   });
 };
 
-testSchema.static.add = function(data, callback){
-  callback(false, {});
+module.exports.add = function(data, callback){
+  
+  // Create and save the test entry with the answers ids
+  function saveTest(answerIds) {
+    var test = new model({
+      lesson: data.lesson,
+      question: data.question,
+      answers: answerIds
+    });
+
+    test.save(function(err) {
+      callback(err, test);
+    });
+  }
+  
+  function saveAnswer(ans, callback){
+    
+    var answer = new answerModel(ans);
+    answer.save(function(err) {
+      
+      callback(false, answer._id);
+    });
+  }
+  
+  var answers = data['answers[]'].map((value, index) => ({ text: value, good: !index }));
+  
+  asyn.map(answers, saveAnswer, (err, ids) => saveTest(ids));
 };
 
-module.exports = mongoose.model('Test', testSchema);
-module.exports.mongo = module.exports;
+module.exports.mongo = model;

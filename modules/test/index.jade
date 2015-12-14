@@ -1,10 +1,10 @@
-extend ../layout
+extend ../../app/views/layout
 
 block content
   - var backLink =  '/subject/' + lesson.subject.id;
   +header(false, { add, edit }, { link: backLink, title: lesson.subject.title })
   
-  if test
+  if question
     form.test(method="POST" action="/test/" + question.id)
       header
         p= question.question
@@ -23,7 +23,7 @@ block content
                   i.icon-meh
                   |  Try again
       footer
-        button.refresh.icon-arrows-cw New question
+        button.refresh.icon-arrows-cw Skip question
   
   else
     p Todavía no hay ningún test, podrías añadir uno (:

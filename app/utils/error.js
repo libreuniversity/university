@@ -6,8 +6,7 @@ module.exports = function(message, status, ajax){
   if(status instanceof Object) {
     err.ajax = status.ajax || false;
     err.status = status.status || 500;
-  }
-  else {
+  } else {
     err.status = status || 500;
     err.ajax = ajax === 'ajax' || ajax === true;
   }

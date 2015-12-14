@@ -701,7 +701,7 @@ u.prototype.serialize = function() {
    return encodeURIComponent(str).replace(/!/g, '%21').replace(/'/g, '%27').replace(/\(/g, '%28').replace(/\)/g, '%29').replace(/\*/g, '%2A').replace(/%20/g, '+');
     }
   
-  for (i = form.elements.length - 1; i >= 0; i = i - 1) {
+  for (i = 0; i < form.elements.length; i++) {    
     
     // Store ELEMENT
     var el = form.elements[i];
@@ -1674,6 +1674,7 @@ page(/^(?:subject)?/, function(bla){
   action.add = function(e){
     e.preventDefault();
 
+
     if(!user) {
       return modal('login').show('Tienes que ser un usuario de Libre University para editar esto');
     }
@@ -1777,8 +1778,12 @@ page(/^test/, function(){
     u('form.test').addClass('edit');
   });
   
-  u('.refresh').click(function(){
-    console.log("Refreshed");
+  u('.answer label').on('click', function(){
+    u('.refresh').html('New question');
+  });
+  
+  u('.refresh').click(function(e){
+    e.preventDefault();
     window.location.reload();
   });
   

@@ -32,8 +32,12 @@ page(/^test/, function(){
     u('form.test').addClass('edit');
   });
   
-  u('.refresh').click(function(){
-    console.log("Refreshed");
+  u('.answer label').on('click', function(){
+    u('.refresh').html('New question');
+  });
+  
+  u('.refresh').click(function(e){
+    e.preventDefault();
     window.location.reload();
   });
   

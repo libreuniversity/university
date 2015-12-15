@@ -30,6 +30,6 @@ var page = function(path, negate, callback){
   
   // The DOM was lodaded already
   if (["interactive", "complete", "loaded"].indexOf(document.readyState) != -1) {
-     fn();
-   }
+    fn();
+  }
 };

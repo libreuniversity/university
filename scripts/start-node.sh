@@ -5,7 +5,8 @@ then
   warn "node is already running"
   nodewasstarted=true
 else
-  nohup nodemon </dev/null &>./logs/node.log &
+  nodemon
+  #nohup nodemon </dev/null &>./logs/node.log &
   if [ $? -eq 0 ]; then
     success "node started"
     nodewasstarted=false

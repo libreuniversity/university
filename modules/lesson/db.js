@@ -20,6 +20,10 @@ module.exports.findById = function(lesson, callback){
   mongo.lesson.findOne({ _id: lesson.id, language: lesson.language }, callback);
 };
 
+module.exports.plain = function(model, callback){
+  callback(null, (model && model.toObject) ? model.toObject({ getters: true }) : model);
+};
+
 module.exports.findSubject = function (lesson, callback){
   if (!lesson) return callback(new Error('Lesson not found'));
   callback = ops.append(lesson, callback, 'subject', true);

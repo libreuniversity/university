@@ -1,10 +1,11 @@
 var asyn = require('async');
 var db = require('./db');
 
-module.exports.get = function(lesson, callback){
+module.exports.get = function(lesson, nothing, callback){
   asyn.waterfall([
     db.init(lesson, asyn),
     db.findById,
+    db.plain,
     db.findSubject,
   ], callback);
 };
@@ -34,6 +35,6 @@ module.exports.save = function(content, callback){
   asyn.waterfall([
     db.init(content, asyn),
     db.save,
-    db.addToHistory
+    //db.addToHistory
   ], callback);
 };

@@ -1,4 +1,4 @@
-var translations = require('auto-load')('static/localization');
+var translations = require('auto-load')('app/localization');
 
 // Detect the current language
 module.exports = function(req, res, next) {

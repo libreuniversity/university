@@ -22,6 +22,7 @@ describe("Initialize the tests", function(){
 // Load and include all of the tests
 require('./modules/subject/tests');
 require('./modules/lesson/tests');
+require('./modules/test/tests');
 
 
 // Delete the database for testing

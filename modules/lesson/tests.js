@@ -21,7 +21,7 @@ describe('controllers/lesson.js', function(){
       
       // Positive response
       test(controller.index).get({}, function(err, type, res){
-        expect(err).to.equal(null);
+        should.not.exist(err);
         expect(type).to.equal('redirect');
         expect(res).to.equal('/');
         done();
@@ -53,7 +53,7 @@ describe('controllers/lesson.js', function(){
     
     it('requires auth', function(done){
       test(controller.add).post({}, function(err, type, res){
-        expect(err).not.to.equal(null);
+        should.exist(err);
         expect(type).to.equal('next');
         done();
       });
@@ -64,7 +64,7 @@ describe('controllers/lesson.js', function(){
       
       // Positive response
       add.post(entry, function(err, type, res){
-        expect(err).to.equal(null);
+        should.not.exist(err);
         expect(type).to.equal('json');
         expect(res.title).to.equal('I love pasta');
         

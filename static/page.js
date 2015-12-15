@@ -1,8 +1,9 @@
-// Page
-// A minimal engine for loading only page-specific code
-// Matches only the first part
+// Pagex
+// A minimal engine for loading only page-specific code with regex
 var page = function(path, negate, callback){
   
+  
+  // Allow it to have different signatures
   if (!callback) {
     callback = negate;
     negate = false;
@@ -14,18 +15,21 @@ var page = function(path, negate, callback){
     // Url without leading slash
     var url = window.location.pathname.replace(/^\//, '');
     
+    
     // Check whether we are in the correct page or not
     if (path.test(url) != negate) {
       
-      callback.apply(null, url.match(path).slice(1));
+      callback.apply(null, url.match(path) ? url.match(path).slice(1) : []);
     }
   };
   
-  // Add a listener and execute it on ready
+  
+  // We want to execute it when the DOM is ready, but not before. So we need to
+  // add the listener, but we also need to check if it was already triggered
   document.addEventListener('DOMContentLoaded', fn);
   
-  // Execute it if the DOM is already ready
-  if (["complete", "loaded"].indexOf(document.readyState) != -1) {
+  // The DOM was lodaded already
+  if (["interactive", "complete", "loaded"].indexOf(document.readyState) != -1) {
      fn();
    }
 };

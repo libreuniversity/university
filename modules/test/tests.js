@@ -2,7 +2,7 @@ var test = require('test-controller');
 var chai = require('chai');
 var should = chai.should();
 var expect = chai.expect;
-var controller = require('../modules/test/controller');
+var controller = require('./controller');
 
 // Controllers
 describe('controllers/test.js', function(){
@@ -14,7 +14,7 @@ describe('controllers/test.js', function(){
     var entry = {
       question: 'Do you like ice cream?',
       'answers[]': ['Yes!', 'Maybe', 'No ):', 'F*** off'],
-      lesson: '000000000000000000000000'
+      lesson: ''
     };
     
     // Generate a new test with the post data already set
@@ -25,7 +25,7 @@ describe('controllers/test.js', function(){
     it('adds a new full record', function(done){
       add.post({}, function(err, type, res){
         expect(type).to.equal('json');
-        expect(res.error).to.equal(null);
+        expect(!res.error).to.equal(true);
         done();
       });
     });

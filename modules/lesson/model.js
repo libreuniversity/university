@@ -6,9 +6,7 @@ module.exports.get = function(lesson, callback){
     db.init(lesson, asyn),
     db.findById,
     db.findSubject,
-  ], function(err, lesson){
-    callback(err, lesson);
-  });
+  ], callback);
 };
 
 // Add a new lesson to the database
@@ -19,9 +17,7 @@ module.exports.add = function(content, callback){
     db.add,
     db.addToHistory,
     db.addToSubject
-  ], function(err, lesson){
-    callback(err, lesson);
-  });
+  ], callback);
 };
 
 // Updates the preview
@@ -30,9 +26,7 @@ module.exports.update = function(content, callback){
     db.init(content, asyn),
     db.update,
     db.addToHistory
-  ], function(err, lesson){
-    callback(err, lesson);
-  });
+  ], callback);
 };
 
 // Updates the content
@@ -41,7 +35,5 @@ module.exports.save = function(content, callback){
     db.init(content, asyn),
     db.save,
     db.addToHistory
-  ], function(err, lesson){
-    callback(err, lesson);
-  });
+  ], callback);
 };

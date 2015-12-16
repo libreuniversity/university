@@ -17,6 +17,8 @@ var auth = utils.auth({ add: 100, edit: 50 });
 
 exports.index = function(req, res) { res.redirect('/'); };
 
+
+
 exports.get = function(req, res, next){
   pipe( model.byId, req.params.id )
     .pipe( api.subject.byLesson || false, req.params.id )
@@ -29,12 +31,10 @@ exports.get = function(req, res, next){
 exports.add = function(req, res, next) {
   if (!auth.add(req.user)) return next(error('hack', 400, true));
   
-  var data = extend(req.body, { user: req.user._id, language: req.lang });
-  
-  pipe(model.add, data).end(utils.answer.ajax(res, next));
-  
-  // var data = extend(req.body, { user: req.user._id, language: req.lang });
-  // model.add(data, utils.answer.ajax(res, next));
+  // We can pipe about anything
+  //pipe( auth.add, { user: req.user } )
+  pipe(model.add, extend(req.body, { user: req.user._id, language: req.lang }))
+    .end(utils.answer.ajax(res, next));
 };
 
 

@@ -28,8 +28,13 @@ exports.get = function(req, res, next){
 // Add a subject
 exports.add = function(req, res, next) {
   if (!auth.add(req.user)) return next(error('hack', 400, true));
+  
   var data = extend(req.body, { user: req.user._id, language: req.lang });
-  model.add(data, utils.answer.ajax(res, next));
+  
+  pipe(model.add, data).end(utils.answer.ajax(res, next));
+  
+  // var data = extend(req.body, { user: req.user._id, language: req.lang });
+  // model.add(data, utils.answer.ajax(res, next));
 };
 
 

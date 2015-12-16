@@ -1,7 +1,10 @@
 var asyn = require('async');
 var db = require('./db');
 
-var ops = require('auto-load')('app/utils').dbops;
+var app = require('auto-load')('app');
+var ops = app.utils.dbops;
+var pipe = app.utils.pipe;
+
 var mongo = require('./schema');
 
 
@@ -13,7 +16,12 @@ module.exports.byId = function(id, data, callback){
 };
 
 // Add a new lesson to the database
-module.exports.add = function(content, callback){
+module.exports.add = function(content, nothing, callback){
+  
+  // pipe( db.checkPreviewData, content )
+  //   .pipe( db.add )
+  //   .end(callback);
+  
   asyn.waterfall([
     db.init(content, asyn),
     db.checkPreviewData,

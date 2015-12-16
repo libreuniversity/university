@@ -34,8 +34,8 @@ app.npm.mongoose.connect(process.env.MONGOLAB_URI || 'mongodb://localhost', func
   // Use the routes in /routes.js
   var home = app.npm.express.Router();
   home.get('*', function(req, res){ res.render('home/info'); });
-  server.use(app.npm.expressSubdomain('es', app.router));
-  server.use(app.npm.expressSubdomain('en', app.router));
+  server.use(app.npm.expressSubdomain('es', app.router()));
+  server.use(app.npm.expressSubdomain('en', app.router()));
   server.use(app.npm.expressSubdomain('www', home));
   server.use(home);
   

@@ -1,4 +1,7 @@
 // Import some variables
 var router = require('express').Router();
 
-module.exports = require('./loader')('routes.js', router);
+module.exports = function(){
+  require('./loader')('routes.js', router);
+  return router;
+};

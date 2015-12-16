@@ -3,6 +3,7 @@ var shortid = require('shortid');
 var only = require('only');
 var extend = require('extend');
 var lessonSchema = require('../lesson/model');
+var ops = require('auto-load')('app/utils').dbops;
 var encode = encodeURIComponent;
 
 var data = {
@@ -16,6 +17,7 @@ var data = {
 
 var subjectSchema = mongoose.Schema(data);
 subjectSchema.virtual('id').get(function(){ return this._id; });
+subjectSchema.virtual('link').get(function(){ return '/subject/' + this._id; });
 var model = mongoose.model('Subject', subjectSchema);
 
 // Retrieve all of the elements
@@ -54,6 +56,14 @@ module.exports.addLesson = function(id, lesson, callback){
     if (err) return callback(err);
     callback(null, subject);
   });
+};
+
+
+// Retrieve a subject by lesson
+module.exports.byLesson = function(lessonId, data, callback){
+  if (!lessonId) return callback(new Error('Lesson not found'));
+  callback = ops.append(data, callback, 'subject', true);
+  model.findOne({ lessons: lessonId }, callback);
 };
 
 

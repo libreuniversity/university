@@ -17,21 +17,6 @@ var testSchema = mongoose.Schema({
 
 testSchema.virtual('id').get(function(){ return this._id; });
 
-Array.prototype.shuffle = function() {
-  var i = this.length;
-
-  if (!i) {
-    return this;
-  }
-  while (--i) {
-    var j = Math.floor(Math.random() * (i + 1));
-    var temp = this[i];
-    this[i] = this[j];
-    this[j] = temp;
-  }
-  return this;
-};
-
 var model = mongoose.model('Test', testSchema);
 
 module.exports.get = function(test, callback){

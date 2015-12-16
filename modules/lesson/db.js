@@ -17,17 +17,8 @@ module.exports.init = function(lesson, asyn){
 module.exports.findById = function(lesson, callback){
   if (!lesson.id) return callback(new Error('No lesson id specified'));
   if (!lesson.language) return callback(new Error('No language specified'));
-  mongo.lesson.findOne({ _id: lesson.id, language: lesson.language }, callback);
-};
-
-module.exports.plain = function(model, callback){
-  callback(null, (model && model.toObject) ? model.toObject({ getters: true }) : model);
-};
-
-module.exports.findSubject = function (lesson, callback){
-  if (!lesson) return callback(new Error('Lesson not found'));
-  callback = ops.append(lesson, callback, 'subject', true);
-  subject.mongo().findOne({ lessons: lesson.id }, callback);
+  var query = { _id: lesson.id, language: lesson.language };
+  mongo.lesson.findOne(query, ops.lean(callback));
 };
 
 module.exports.findHistory = function(lesson, callback){

@@ -15,3 +15,9 @@ module.exports.append = (el, callback, name, required) => function(err, fetched)
   el[name] = fetched;
   callback(err, el);
 };
+
+module.exports.lean = function(callback){
+  return function(err, data){
+    callback(err, data && data.toObject ? data.toObject({ getters: true }) : data);
+  };
+};

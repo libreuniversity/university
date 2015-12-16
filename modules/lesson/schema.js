@@ -18,7 +18,9 @@ var lessonSchema = mongoose.Schema(lessonData);
 lessonSchema.virtual('html').get(function(){
   return sanitize(this.content);
 });
-lessonSchema.virtual('id').get(function(){ return this._id; });
+lessonSchema.virtual('id')
+  .get(function(){ return this._id; })
+  .set(function(id){ this._id = id; });
 
 var model = mongoose.model('Lesson', lessonSchema);
 module.exports.lesson = model;

@@ -1,13 +1,15 @@
 var asyn = require('async');
 var db = require('./db');
 
-module.exports.get = function(lesson, nothing, callback){
-  asyn.waterfall([
-    db.init(lesson, asyn),
-    db.findById,
-    db.plain,
-    db.findSubject,
-  ], callback);
+var ops = require('auto-load')('app/utils').dbops;
+var mongo = require('./schema');
+
+
+// Retrieve a single element by its id
+module.exports.byId = function(id, data, callback){
+  
+  // Lean makes it behave as a normal object and not a collection
+  mongo.lesson.findOne({ _id: id }, ops.lean(callback));
 };
 
 // Add a new lesson to the database

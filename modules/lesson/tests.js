@@ -69,7 +69,7 @@ describe('controllers/lesson.js', function(){
         expect(res.title).to.equal('I love pasta');
         
         // Check that it's added to the database
-        model.get({ id: res.id, language: 'es' }, function(err, lesson){
+        model.byId(res.id, {}, function(err, lesson){
           expect(err).to.equal(null);
           expect(lesson.title).to.equal('I love pasta');
           

@@ -6,6 +6,7 @@ module.exports = {
   enter: "Entrar",
   save: "Guardar",
   edit: "Editar",
+  about: "Info",
   cancel: "Cancelar",
 
   subject: {

@@ -44,7 +44,8 @@ module.exports.choose = function(arg, data, callback){
   
   data.test = shuffle(data.test);
   data.test = data.test[0];
-  data.test.answer = shuffle(data.test.answer);
+  console.log(data.test.answer);
+  data.test.answers = shuffle(data.test.answers);
   
   callback(false, data);
 };

@@ -1,2 +1,2 @@
 // Load each of the modules API
-module.exports = require('./loader')('api.js');
+var api = require('./loader')('api.js');

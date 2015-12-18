@@ -36,12 +36,9 @@ module.exports.edit = function(id, data, callback){
 };
 
 // Add a lesson to a subject
-module.exports.addLesson = function(subjectId, lesson, callback){
-  var push = { $push: { lessons: lesson }};
-  model.findByIdAndUpdate(subjectId, push, { new: true }, function(err, subject){
-    if (err) return callback(err);
-    callback(null, subject);
-  });
+module.exports.addLesson = function(subjectId, data, callback){
+  var push = { $push: { lessons: data.lesson._id }};
+  model.findByIdAndUpdate(subjectId, push, { new: true }, ops.append(data, callback, 'subject'));
 };
 
 // Retrieve a subject by lesson
@@ -51,5 +48,11 @@ module.exports.byLesson = function(lessonId, data, callback){
   model.findOne({ lessons: lessonId }, callback);
 };
 
-
-
+module.exports.needed = function(id, data, callback){
+  console.log("Blalbla");
+  model.find({ _id: id }, function(err, subject){
+    console.log(subject);
+    if (!subject) return callback(new Error("No subject available"));
+    callback(err, content);
+  });
+};

@@ -2,43 +2,29 @@ var app = require('auto-load')('app');
 var only = require('only');
 var extend = require('extend');
 var pipe = require('water-pipe');
+var config = app.config.lesson;
+var api = app.api;
 var utils = app.utils;
 var error = utils.error;
-
-// Autoload all of the models
 var model = require('./model');
-
-
-// Dependencies... sort of
-var api = extend({ subject: true }, app.loader('api.js'));
-
-// Required points for authorization
-var auth = utils.auth({ add: 100, edit: 50 });
+var answer = app.utils.answer;
 
 
 exports.index = function(req, res) { res.redirect('/'); };
 
-
-
 exports.get = function(req, res, next){
-  pipe(model.byId, req.params.id)
-    .pipe(api.subject.byLesson, req.params.id)
+  pipe({ language: req.lang })
+    .pipe(model.get, req.params.id)
+    .pipe(api.subject.addLesson, req.params.subject)
     .end(utils.answer.view(res, next, 'lesson/get'));
 };
 
-
-
 // Add a subject
 exports.add = function(req, res, next) {
-  
-  if (!auth.add(req.user)) return next(error('hack', 400, true));
-  
-  var param = extend(req.body, { user: req.user._id, language: req.lang });
-  
-  // We can pipe about anything
-  pipe(auth.add, req.user)
-    .pipe(model.add, param)
-    .end(utils.answer.ajax(res, next));
+  pipe({ lesson: req.body, user: req.user, language: req.lang, subject: req.body.subject })
+    .pipe(api.user.auth, config.auth.add)
+    .pipe(model.add)
+    .end(answer.ajax(res, next));
 };
 
 

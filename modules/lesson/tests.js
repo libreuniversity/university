@@ -6,6 +6,7 @@ var db = require('./db');
 var model = require('./model');
 var controller = require('./controller');
 var subjectModel = require('../subject/model');
+var pipe = require('water-pipe');
 var entry;
 var user = { _id: '18241a3d5bded01100876756', points: 10000 };
 
@@ -34,17 +35,21 @@ describe('controllers/lesson.js', function(){
   describe('lesson.add()', function(){
     
     
-    before(function(next){
+    before(function(done){
+      
+      pipe({ language: 'es' })
+        .pipe(subjectModel.index)
+        .end(function(err, data){
+          entry = {
+            title: 'I love pasta',
+            summary: 'Italian pasta $$f(x) = \\int_{-\\infty}^\\infty f(\\xi)d\\xi$$',
+            subject: data.subject.shift()._id
+          };
+          done();
+        });
       
       // The data to be posted
-      subjectModel.index({ language: 'es' }, function(err, subjects){
-        entry = {
-          title: 'I love pasta',
-          summary: 'Italian pasta $$f(x) = \\int_{-\\infty}^\\infty f(\\xi)d\\xi$$',
-          subject: subjects.shift()._id
-        };
-        next();
-      });
+      //subjectModel.index({ language: 'es' }, function(err, data){
     });
     
     // Generate a new test with the post data already set
@@ -69,7 +74,7 @@ describe('controllers/lesson.js', function(){
         expect(res.title).to.equal('I love pasta');
         
         // Check that it's added to the database
-        model.byId(res.id, {}, function(err, lesson){
+        model.get(res.id, {}, function(err, lesson){
           expect(err).to.equal(null);
           expect(lesson.title).to.equal('I love pasta');
           

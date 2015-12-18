@@ -2,16 +2,16 @@ extends ../../app/views/layout
 
 // Give it the right title of this article
 block title
-  title= title
+  title= lesson.title
 
 // Set the
 block content
-  form.lesson(method="POST" action="/lesson/save/" + id)
-    +header(title, { edit: null, save: null }, subject)
+  form.lesson(method="POST" action="/lesson/save/" + lesson.id)
+    +header(lesson.title, { edit: null, save: null }, subject)
     
     article.content.sweet-justice
-      if html
-        != html
+      if lesson.html
+        != lesson.html
       else
         p Empieza a escribir la lección...
     

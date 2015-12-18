@@ -1,7 +1,11 @@
 var asyn = require('async');
+var extend = require('extend');
 var shortid = require('shortid');
 var mongoose = require('mongoose');
 var lessonModel = require('../lesson/model');
+var app = require('auto-load')('app');
+var api = app.api();
+var ops = app.utils.dbops;
 var answerModel = require('./modelanswer');
 
 var testSchema = mongoose.Schema({
@@ -19,31 +23,30 @@ testSchema.virtual('id').get(function(){ return this._id; });
 
 var model = mongoose.model('Test', testSchema);
 
-module.exports.get = function(test, callback){
+function shuffle(o){
+  if (!o) return false;
+  if (o.length === 1) return o;
+  for(var j, x, i = o.length; i; j = Math.floor(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x);
+  return o;
+}
+
+// Retrieve the current test and its answers
+module.exports.get = function(id, data, callback){
+  callback = ops.append(data, callback, 'test');
+  model.find({ lesson: id }).populate('answers').exec(callback);
+};
+
+module.exports.choose = function(arg, data, callback){
   
-  // Retrieve the current lesson and its info
-  lessonModel.get(test, function(err, lesson){
-      
-      if (err) return callback(err);
-      
-      // Retrieve the current test and its answers
-      model.find({ lesson: lesson.id })
-        .populate('answers')
-        .exec(function(err, tests) {
-          
-          if (err) return callback(err);
-
-          // Shuffle the test
-          tests.shuffle();
-          tests.forEach(function(value, i) {
-            tests[i].answers.shuffle();
-          });
-
-          test = tests.length === 0 ? false : tests[0];
-          
-          callback(false, { lesson: lesson, question: test });
-        });
-  });
+  if (data.test && data.test.length) {
+    data.test = shuffle(data.test);
+    data.test = data.test[0];
+    data.test.answer = shuffle(data.test.answer);
+  } else {
+    data.test = false;
+  }
+  
+  callback(false, data);
 };
 
 module.exports.add = function(data, callback){

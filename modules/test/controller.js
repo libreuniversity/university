@@ -4,25 +4,20 @@ var crypto = require('crypto');
 
 // Autoload all of the models
 var model = require('./model');
-
-
-
-
-function ajax(res, next){
-  return function(err, lesson){
-    if (err) return next(err);
-    res.json(lesson);
-  };
-}
-
+var app = require('auto-load')('app');
+var api = app.api();
+var answer = app.utils.answer;
+var pipe = require('water-pipe');
 
 // Display all of the questions of a lesson
 exports.index = function(req, res, next) {
   
-  model.get({ id: req.params.id, language: req.lang }, function(err, data){
-    if (err) return next(err);
-    res.render('test/index', data);
-  });
+  pipe({})
+    .pipe(api.lesson.get, req.params.id)
+    .pipe(api.subject.byLesson, req.params.id)
+    .pipe(model.get, req.params.id)
+    .pipe(model.choose, req.params.id)
+    .end(answer.view(res, next, 'test/index'));
 };
 
 
@@ -30,7 +25,7 @@ exports.index = function(req, res, next) {
 exports.add = function(req, res, next) {
   //if (!auth.add(req.user)) return next(error('hack', 400, true));
   var data = extend(req.body, { user: req.user._id, language: req.lang });
-  model.add(data, ajax(res, next));
+  model.add(data, answer.ajax(res, next));
 };
 
 

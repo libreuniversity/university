@@ -2,7 +2,7 @@ var model = require('./model');
 var app = require('auto-load')('app');
 var pipe = require('water-pipe');
 var config = app.config.subject;
-var api = app.api;
+var api = app.api();
 var answer = app.utils.answer;
 
 // Retrieve all of the subjects available and display them

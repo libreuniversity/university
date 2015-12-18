@@ -2,7 +2,6 @@ var test = require('test-controller');
 var chai = require('chai');
 var should = chai.should();
 var expect = chai.expect;
-var db = require('./db');
 var model = require('./model');
 var controller = require('./controller');
 var subjectModel = require('../subject/model');
@@ -74,12 +73,12 @@ describe('controllers/lesson.js', function(){
         expect(res.title).to.equal('I love pasta');
         
         // Check that it's added to the database
-        model.get(res.id, {}, function(err, lesson){
+        model.get(res.id, {}, function(err, data){
           expect(err).to.equal(null);
-          expect(lesson.title).to.equal('I love pasta');
+          expect(data.lesson.title).to.equal('I love pasta');
           
           // Make sure it's added to history
-          db.findHistory(lesson, function(err, lesson){
+          model.findHistory(data.lesson, function(err, lesson){
             expect(lesson.history.length).to.equal(1);
             done();
           });
@@ -187,11 +186,11 @@ describe('controllers/lesson.js', function(){
     it('find one lesson', function(done){
       
       var get = test(controller.get).req({ lang: 'es' }).auth(user);
-      get.get({ id: id }, function(err, type, path, lesson){
+      get.get({ id: id }, function(err, type, path, data){
         expect(err).to.equal(null);
         expect(type).to.equal('render');
         expect(path).to.equal('lesson/get');
-        expect(lesson.title).to.equal('I love pasta');
+        expect(data.lesson.title).to.equal('I love pasta');
         done();
       });
     });

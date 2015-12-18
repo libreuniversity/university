@@ -1,15 +1,16 @@
 extend ../../app/views/layout
 
 block content
-  - var backLink =  '/subject/' + lesson.subject.id;
-  +header(false, { add, edit }, { link: backLink, title: lesson.subject.title })
+  - var backLink =  '/subject/' + subject.id;
+  +header(lesson.title, { add }, { link: backLink, title: subject.title })
+  //+header(lesson.title, { add, edit }, { link: backLink, title: subject.title })
   
-  if question
-    form.test(method="POST" action="/test/" + question.id)
+  if test
+    form.test(method="POST" action="/test/" + test.id)
       header
-        p= question.question
+        p= test.question
       section
-        each answer in question.answers
+        each answer in test.answers
           input(type="checkbox" data-good=answer.good name="answer" + answer._id id=answer._id)
           div.answer
             label(for=answer._id)= answer.text

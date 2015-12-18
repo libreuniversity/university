@@ -38,7 +38,7 @@ module.exports.get = function(id, data, callback){
 
 module.exports.choose = function(arg, data, callback){
   
-  if (!data.test) {
+  if (!data.test || !data.test.length) {
     return callback(null, extend(data, { test: false }));
   }
   

@@ -38,13 +38,13 @@ module.exports.get = function(id, data, callback){
 
 module.exports.choose = function(arg, data, callback){
   
-  if (data.test && data.test.length) {
-    data.test = shuffle(data.test);
-    data.test = data.test[0];
-    data.test.answer = shuffle(data.test.answer);
-  } else {
-    data.test = false;
+  if (!data.test) {
+    return callback(null, extend(data, { test: false }));
   }
+  
+  data.test = shuffle(data.test);
+  data.test = data.test[0];
+  data.test.answer = shuffle(data.test.answer);
   
   callback(false, data);
 };

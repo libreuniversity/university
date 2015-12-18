@@ -19,16 +19,14 @@ describe('controllers/subject.js', function(){
     
     it('needs to be auth', function(done){
       test(controller.add).post(entry, function(err, type, res){
-        expect(type).to.equal('json');
-        expect(res.error).to.be.ok;
+        expect(type).to.equal('next');
         done();
       });
     });
     
     it('needs to have enough points', function(done){
       test(controller.add).auth({ points: 100 }).post(entry, function(err, type, res){
-        expect(type).to.equal('json');
-        expect(res.error).to.be.ok;
+        expect(type).to.equal('next');
         done();
       });
     });
@@ -43,16 +41,14 @@ describe('controllers/subject.js', function(){
     
     it('expects a title', function(done){
       add.post(entry).post({ title: "" }, function(err, type, res){
-        expect(type).to.equal('json');
-        expect(res.error).to.be.ok;
+        expect(type).to.equal('next');
         done();
       });
     });
     
     it('expects a summary', function(done){
       add.post(entry).post({ summary: "" }, function(err, type, res){
-        expect(type).to.equal('json');
-        expect(res.error).to.be.ok;
+        expect(type).to.equal('next');
         done();
       });
     });
@@ -65,7 +61,7 @@ describe('controllers/subject.js', function(){
       test(controller.index).get({}, function(err, type, file, data){
         expect(type).to.equal('render');
         expect(file).to.equal('subject/index');
-        expect(data.list).to.be.instanceOf(Array);
+        expect(data.subject).to.be.instanceOf(Array);
         done();
       });
     });
@@ -78,18 +74,20 @@ describe('controllers/subject.js', function(){
     // Retrieve a single subject
     var getSubj = function(callback){
       test(controller.index).req({ lang: 'es' }).get({}, function(err, type, file, subjects){
-        callback(subjects.list.shift());
+        callback(subjects.subject.shift());
       });
     };
     
     it("Requires auth", function(done){
       getSubj(function(subj){
         var data = { title: subj.title, summary: subj.summary };
-        test(controller.edit).req({ lang: 'es' }).post(data, function(err, type, res){
-          expect(type).to.equal('json');
-          expect(res.error).to.be.ok;
-          done();
-        });
+        test(controller.edit)
+          .req({ lang: 'es' })
+          .get({ id: subj._id })
+          .post(data, function(err, type, res){
+            expect(type).to.equal('next');
+            done();
+          });
       });
     });
     
@@ -98,7 +96,7 @@ describe('controllers/subject.js', function(){
       getSubj(function(subj){
         var subject = { title: subj.title, summary: subj.summary };
         var auth = test(controller.edit).auth({ points: 1000 }).req({ lang: 'es' });
-        callback(auth.get({ id: subj.title }), subject);
+        callback(auth.get({ id: subj._id }), subject);
       });
     };
     
@@ -142,7 +140,7 @@ describe('controllers/subject.js', function(){
       test(controller.index).get({}, function(err, type, file, data){
         expect(type).to.equal('render');
         expect(file).to.equal('subject/index');
-        expect(data.list).to.be.instanceOf(Array);
+        expect(data.subject).to.be.instanceOf(Array);
         done();
       });
     });

@@ -1,0 +1,25 @@
+extends ../../app/views/layout
+
+block title
+  title= subject.title
+
+block content
+  +header(subject.title)
+  
+  // Variables for the view
+  - var actions = {'lesson': text.lessons/*, 'test': text.tests*/};
+  - var other = {'subject': subject._id};
+  
+  section
+    p= subject.summary
+  
+  section.lessons
+    each article in subject.lessons
+      +preview('lesson', article, actions, other)
+  
+  if user && user.over(100)
+    section.add
+      button.add.lesson.icon-plus= text.add
+
+    template.add
+      +preview('lesson', false, false, other)

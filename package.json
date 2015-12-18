@@ -40,7 +40,8 @@
     "short-mongo-id": "^0.1.1",
     "shortid": "^2.2.4",
     "test-controller": "^3.1.0",
-    "validator": "^4.0.5"
+    "validator": "^4.0.5",
+    "water-pipe": "^0.6.0"
   },
   "devDependencies": {
     "chai": "^2.3.0",

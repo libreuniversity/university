@@ -1,7 +1,7 @@
 
 var asyn = require('async');
 
-module.exports = function(callback, arg){
+module.exports = function(callback, arg, autopipe){
   
   var callbacks = [];
   
@@ -17,7 +17,7 @@ module.exports = function(callback, arg){
   };
   
   // The first one behaves differently so we re-define it
-  function repipe(callbacks, callback, arg){
+  function repipe(callbacks, callback, arg, autopipe){
     if (callback && typeof callback === 'function'){
       callbacks.push(asyn.apply(callback, arg));
     }

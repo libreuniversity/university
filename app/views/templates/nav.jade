@@ -10,6 +10,6 @@ nav
     a.pseudo.button.icon-info(href="http://www.libre.university/") About
     a.pseudo.button.icon-gh(href="http://github.com/libre/university") Github
     if user
-      a.button.icon-user(href="/user/" + user._id)= user.email
+      a.button.icon-user(href="/user/" + user._id)= user.email.split('@').shift()
     else
       label.button.icon-users(for="login") Entrar

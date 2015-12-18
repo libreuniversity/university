@@ -1,8 +1,7 @@
-
 module.exports.ajax = function (res, next){
-  return function(err, lesson){
+  return function(err, data){
     if (err) return next(err);
-    res.json(lesson);
+    res.json(data);
   };
 };
 

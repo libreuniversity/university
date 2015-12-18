@@ -49,10 +49,8 @@ module.exports.byLesson = function(lessonId, data, callback){
 };
 
 module.exports.needed = function(id, data, callback){
-  console.log("Blalbla");
-  model.find({ _id: id }, function(err, subject){
-    console.log(subject);
+  model.findOne({ _id: id }, function(err, subject){
     if (!subject) return callback(new Error("No subject available"));
-    callback(err, content);
+    callback(err, data);
   });
 };

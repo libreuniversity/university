@@ -161,14 +161,22 @@ describe('controllers/lesson.js', function(){
 
   describe('lesson.get()', function(){
     
+    
+    
+    
     var id;
     
-    before(function(next){
+    before(function(done){
+      
+      pipe({ language: 'es' })
+        .pipe(subjectModel.index)
+        .end(function(err, data){
+          id = data.subject.shift().lessons.shift();
+          done();
+        });
+      
       // The data to be posted
-      subjectModel.index({ language: 'es' }, function(err, subjects){
-        id = subjects.shift().lessons.shift();
-        next();
-      });
+      //subjectModel.index({ language: 'es' }, function(err, data){
     });
     
     it('exists', function(){

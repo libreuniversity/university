@@ -5,7 +5,7 @@ var extend = require('extend');
 var app = require('auto-load')('app');
 var ops = app.utils.dbops;
 var pipe = require('water-pipe');
-var api = app.api;
+var subject = app.api.subject();
 
 var mongo = require('./schema');
 
@@ -21,13 +21,13 @@ module.exports.get = function(id, data, callback){
 module.exports.add = function(param, data, callback){
   pipe(data)
     .pipe(module.exports.checkPreviewData)
-    .pipe(api.subject.needed, data.subject)
+    .pipe(subject.needed, data.subject)
     .pipe(function(arg, data, callback){
       data.lesson.language = data.language;
       var article = new mongo.lesson(only(data.lesson, 'title summary language'));
       article.save(ops.pass(extend(data, { lesson: article }), callback));
     })
-    .pipe(api.subject.addLesson, data.subject)
+    .pipe(subject.addLesson, data.subject)
     .pipe(module.exports.addToHistory)
     .end(callback);
 };

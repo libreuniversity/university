@@ -6,7 +6,7 @@ module.exports = function (grunt) {
 
     copy: {
       files: {
-        cwd: 'static/katex/dist/fonts/',  // set working folder / root to copy
+        cwd: 'static/lib/katex/dist/fonts/',  // set working folder / root to copy
         src: '**/*',           // copy all files and subfolders
         dest: 'public/fonts',  // destination folder
         expand: true           // required when using cwd

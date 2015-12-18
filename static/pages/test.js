@@ -32,6 +32,20 @@ page(/^test/, function(){
     u('form.test').addClass('edit');
   });
   
+  u('[data-good]').on('change', function(){
+    var number = 3;
+    var countDown = function(){
+      if (number > 0) {
+        u('.refresh').html('Next in ' + number);
+        setTimeout(countDown, 1000);
+        number--;
+      } else {
+        window.location.reload();
+      }
+    };
+    countDown();
+  });
+  
   u('.answer label').on('click', function(){
     u('.refresh').html('New question');
   });

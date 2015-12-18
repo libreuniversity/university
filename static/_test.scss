@@ -12,6 +12,10 @@
     margin: .3em 0;
   }
 
+  header {
+    font-size: normal;
+  }
+
   input:checked + .answer {
     label {
       background: lighten($picnic-error, 20);

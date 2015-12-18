@@ -2,8 +2,8 @@ extend ../../app/views/layout
 
 block content
   - var backLink =  '/subject/' + subject.id;
-  +header(lesson.title, { add }, { link: backLink, title: subject.title })
-  //+header(lesson.title, { add, edit }, { link: backLink, title: subject.title })
+  +header(false, { add }, { link: backLink, title: subject.title })
+  //+header(false, { add, edit }, { link: backLink, title: subject.title })
   
   if test
     form.test(method="POST" action="/test/" + test.id)

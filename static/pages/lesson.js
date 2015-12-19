@@ -67,6 +67,7 @@ page(/^lesson/, function(id){
     shortcut: "ctrl+e",
     action: function(editor){
       auth(100, function(){
+        console.log(u("form.lesson"));
         u("form.lesson").addClass("edit").find('article').attr('contenteditable', true);
         editor.options.active = true;
       });

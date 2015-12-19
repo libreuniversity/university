@@ -21,6 +21,7 @@ page(/^test/, function(){
   var actions = {};
   actions.add = function(){
     template('template.add', {}, testactions).replace('form.test');
+    u('form.test textarea').first().focus();
   };
 
   // Reset forms on load (or refresh page)
@@ -30,6 +31,7 @@ page(/^test/, function(){
   
   u('.edit').click(function(){
     u('form.test').addClass('edit');
+    u(this).closest('form').find('input').first().focus();
   });
   
   u('[data-good]').on('change', function(){
@@ -57,5 +59,6 @@ page(/^test/, function(){
   
   if (u('form.test').nodes.length === 0) {
     template('template.add', {}, testactions).before('template.add');
+    u('form.test textarea').first().focus();
   }
 });

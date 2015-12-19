@@ -9,6 +9,7 @@ var modal = function(type){
         u("#" + type + " + * + * .message").html(message);
       }
       u("#" + type).first().checked = true;
+      u("#" + type + " ~ * input").first().focus();
     },
     hide: function(){
       u("#" + type).first().checked = true;

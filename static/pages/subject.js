@@ -18,6 +18,7 @@ page(/^(?:subject)?/, function(bla){
     }
 
     template('template.add', {}, action.form).before('section.add');
+    u(u('.preview.add').nodes.pop()).closest('form').find('input').first().focus();
   };
 
   // Add the handlers for the subject form (add or edit)
@@ -57,6 +58,7 @@ page(/^(?:subject)?/, function(bla){
     }
 
     u(this).closest('form').addClass('edit');
+    u(this).closest('form').find('input').first().focus();
   };
 
   action.form.cancel = function(){

@@ -8,6 +8,7 @@ exports.get = function(req, res){
 };
 
 exports.login = function(req, res, next){
+  
   passport.authenticate('getin', function(err, user, info) {
 
     // Error situations

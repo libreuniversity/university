@@ -1,7 +1,7 @@
 // TEST page
 
 //
-page(/^test/, function(){
+pagex(/^test/, function(){
 
   // Attach actions to the new lesson template
   // These are different enough than editing to have a new function

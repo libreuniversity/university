@@ -20,7 +20,7 @@ module.exports = function (grunt) {
           // External libraries
           'static/lib/katex/dist/katex.min.js',
           'static/lib/katex-auto-render.min.js',
-          'static/lib/umbrella/umbrella.js',
+          'static/lib/umbrella/umbrella.min.js',
           
           // Internal libraries
           'static/sweet-justice.js', // Sweet justice
@@ -61,6 +61,8 @@ module.exports = function (grunt) {
           'static/gruntfile.js',
           'static/*.js',
           'static/*/*.js',
+          'static/*/*/*.js',
+          'static/*/*/*/*.js',
           'static/*.scss',
           'static/*/*.scss'],
         tasks: ['concat', 'uglify', 'sass', 'copy'],

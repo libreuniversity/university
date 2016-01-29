@@ -1,5 +1,5 @@
 
-page(/^lesson/, function(id){
+pagex(/^lesson/, function(id){
   
   // Initialize the editor in the element that is contenteditable
   var editor = new Editor("article.content", { menu: "editormenu", active: false });
@@ -67,7 +67,6 @@ page(/^lesson/, function(id){
     shortcut: "ctrl+e",
     action: function(editor){
       auth(100, function(){
-        console.log(u("form.lesson"));
         u("form.lesson").addClass("edit").find('article').attr('contenteditable', true);
         editor.options.active = true;
       });
@@ -80,9 +79,12 @@ page(/^lesson/, function(id){
       var form = u("form.edit");
       var html = encodeURIComponent(form.find("article.content").html());
       ajax(form.attr("action"), "content=" + html, function(data){
+        
         u("form.lesson").removeClass("edit").find('article').attr('contenteditable', false);
+        
         // Overwrite the current data in case anything has changed/cleaning
         u("article.content").html(data.html);
+        
         // Deactivate the editor
         editor.options.active = false;
       });
@@ -96,7 +98,10 @@ page(/^lesson/, function(id){
     editor.trigger('action:save');
   });
   
-  u("button.edit").click(editor.trigger.bind(false, 'action:edit'));
+  u("button.edit").click(function(e){
+    e.preventDefault();
+    editor.trigger('action:edit');
+  });
 
   if (u("form.lesson").hasClass("edit") && user && user.over(100)) {
     editor.trigger('action:edit');

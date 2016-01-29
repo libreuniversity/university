@@ -1,6 +1,6 @@
 // Pagex
 // A minimal engine for loading only page-specific code with regex
-var page = function(path, negate, callback){
+var pagex = function(path, negate, callback){
   
   
   // Allow it to have different signatures

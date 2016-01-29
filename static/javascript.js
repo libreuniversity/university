@@ -31,3 +31,15 @@ justify_my_love(document.querySelector(".sweet-justice"));
 
 // Display the mathematics on the pagee
 renderMathInElement(document.body);
+
+// / internal
+// "http://www.libre.university/" internal
+// "http://github.com/libre/university" external
+// /subject/V1LlrTSlmVl internal
+// "http://atom.io/" external
+// "https://pages.github.com/" external
+u('a').each(function(link){
+  if (!/(^\/.*|^https?\:\/\/[a-z]+\.libre\.university)/g.test(u(link).attr('href'))) {
+    u(link).attr('target', '_blank');
+  }
+});

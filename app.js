@@ -1,4 +1,4 @@
-// Middleware
+// Load everything, including dependencies
 var app = require('auto-load')('app');
 
 app.npm.mongoose.connect(process.env.MONGOLAB_URI || 'mongodb://localhost', function(err){
@@ -17,7 +17,7 @@ app.npm.mongoose.connect(process.env.MONGOLAB_URI || 'mongodb://localhost', func
   server.use(app.npm.express.static('public', { maxAge: 86400000 }));
   
   // Avoid urls that finish with '/'
-  server.use(app.middle.cleanurl({ trustheader: true, https: false }));
+  server.use(app.middle.cleanurl({ trustheader: true, https: process.env.ENV }));
   server.use(app.npm.notrailing);
   
   // Localization

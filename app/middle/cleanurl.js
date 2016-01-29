@@ -27,7 +27,7 @@ module.exports = function(options){
     // Force https
     // Heroku sets the x-forwarded-proto header and it's secure
     if(options.trustheader && options.https && !req.secure && req.get('x-forwarded-proto') !== 'https') {
-      console.log("B", newDomain);
+      console.log("Secure", options.trustheader, options.https, !req.secure, req.get('x-forwarded-proto'));
       return res.redirect(301, 'https://' + req.get('Host') + req.url);
     }
 

@@ -1,6 +1,6 @@
 {
   "name": "picnic",
-  "version": "4.0.1",
+  "version": "5.0.1",
   "homepage": "https://github.com/picnicss/picnic",
   "authors": [
     "Francisco Presencia <developerfrancisco@hotmail.com>"
@@ -25,14 +25,14 @@
     "package.json",
     "Procfile"
   ],
-  "_release": "4.0.1",
+  "_release": "5.0.1",
   "_resolution": {
     "type": "version",
-    "tag": "4.0.1",
-    "commit": "fd282d009dfa2cbbce0de6b33d55de721ab510f0"
+    "tag": "5.0.1",
+    "commit": "8b842080f18e9de8cbe03dc8c2d68aa47376c63a"
   },
   "_source": "git://github.com/picnicss/picnic.git",
-  "_target": "~4.0.1",
+  "_target": "~5.0.1",
   "_originalSource": "picnic",
   "_direct": true
 }

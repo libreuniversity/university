@@ -8,24 +8,20 @@ block title
 block content
   article.lesson
     header
-      h1= 'User: ' + name
-    p Work in progress | Todavía no está hecho
+      h1= 'User: ' + email.split('@').shift()
+    p= text.wip
     
     div.row
-      div.card.favourites
+      div.card
         header
           h2 Favourites
         section
-          ul
-            each one in ['a', 'b', 'c', 'd']
-              li
-                a(href="/lesson/" + one)= one
-      
-      div.card.exams
+          div
+            each one in favourites
+              a.pseudo.button.stack(href=one.link)= one.title
+      div.card
         header
-          h2 Last tests
+          h2 Recent
         section
-          ul
-            each one in ['a', 'b', 'c', 'd']
-              li
-                a(href="/lesson/" + one)= one
+          each one in recent
+            a.pseudo.button.stack(href=one.link)= one.title

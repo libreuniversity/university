@@ -8,6 +8,12 @@ module.exports = {
   edit: "Editar",
   about: "Info",
   cancel: "Cancelar",
+  
+  wip: "En construcción",
+  
+  greeta: 'Hello World',
+  greetb: name => `Hello ${ name }`,
+  greetc: 'Hello $name',
 
   subject: {
     form: {

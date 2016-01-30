@@ -4,7 +4,7 @@
 
 html,
 body {
-  font-family: $picnic-font;
+  font-family: Arial, Helvetica, sans-serif;
   box-sizing: border-box;
   height: 100%;
 }
@@ -32,14 +32,9 @@ li {
 
 a {
   color: $picnic-primary;
-  box-shadow: none;
   text-decoration: none;
+  box-shadow: none;
   transition: $picnic-transition;
-  }
-
-p a:hover,
-p a:focus {
-  text-decoration: underline;
   }
 
 

@@ -8,6 +8,8 @@ module.exports = {
   edit: "Edit",
   about: "About",
   cancel: "Cancel",
+  
+  wip: "Work in progress",
 
   subject: {
     form: {

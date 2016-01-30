@@ -3,6 +3,20 @@ var passport = require('passport');
 
 exports.get = function(req, res){
   model.findById(req.params.id, function(err, user){
+    
+    user.favourites = [
+      { title: "Fav A", link: "#" },
+      { title: "Fav B", link: "#" },
+      { title: "Fav C", link: "#" },
+    ];
+    
+    user.recent = [
+      { title: "Recent A", link: "#" },
+      { title: "Recent B", link: "#" },
+      { title: "Recent C", link: "#" },
+      { title: "Recent D", link: "#" },
+    ];
+    
     res.render('user/one', user);
   });
 };

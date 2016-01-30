@@ -17,11 +17,12 @@ app.npm.mongoose.connect(process.env.MONGOLAB_URI || 'mongodb://localhost', func
   server.use(app.npm.express.static('public', { maxAge: 86400000 }));
   
   // Avoid urls that finish with '/'
-  server.use(app.middle.cleanurl({ trustheader: true, https: false }));
+  // The "https: false" is because we're using cloudfare for https
+  server.use(app.middle.cleanurl({ https: false }));
   server.use(app.npm.notrailing);
   
   // Localization
-  server.use("/", app.middle.detectLanguage);
+  server.use("/", app.middle.local('app/localization', { allow: ['en', 'es'] }));
   
   
   server.use(app.middle.createSession(app.npm.mongoose));

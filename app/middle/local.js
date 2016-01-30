@@ -72,7 +72,6 @@ module.exports = function(where, opt){
       default: throw "Unknown from: " + opts.from;
     }
     
-    console.log("Data: ", opts.data);
     res.locals.text = local(opts.data[req.lang]);
     next();
   }

@@ -1,5 +1,6 @@
 // Load everything, including dependencies
-require('dotenv').load();
+var fs = require('fs');
+if (fs.existsSync('.env')) { require('dotenv').load(); }
 var app = require('auto-load')('app');
 
 app.npm.mongoose.connect(process.env.MONGOLAB_URI || 'mongodb://localhost', function(err){

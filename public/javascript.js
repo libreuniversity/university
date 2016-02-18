@@ -6,8 +6,8 @@ skew:0},101:{depth:0,height:.44444,italic:0,skew:0},102:{depth:0,height:.69444,i
 
 (function(e){if("function"==typeof bootstrap)bootstrap("rendermathinelement",e);else if("object"==typeof exports)module.exports=e();else if("function"==typeof define&&define.amd)define(e);else if("undefined"!=typeof ses){if(!ses.ok())return;ses.makeRenderMathInElement=e}else"undefined"!=typeof window?window.renderMathInElement=e():global.renderMathInElement=e()})(function(){var e,t,r,n,a;return function i(e,t,r){function n(o,l){if(!t[o]){if(!e[o]){var f=typeof require=="function"&&require;if(!l&&f)return f(o,!0);if(a)return a(o,!0);throw new Error("Cannot find module '"+o+"'")}var s=t[o]={exports:{}};e[o][0].call(s.exports,function(t){var r=e[o][1][t];return n(r?r:t)},s,s.exports,i,e,t,r)}return t[o].exports}var a=typeof require=="function"&&require;for(var o=0;o<r.length;o++)n(r[o]);return n}({1:[function(e,t,r){var n=e("./splitAtDelimiters");var a=function(e,t){var r=[{type:"text",data:e}];for(var a=0;a<t.length;a++){var i=t[a];r=n(r,i.left,i.right,i.display||false)}return r};var i=function(e,t){var r=a(e,t);var n=document.createDocumentFragment();for(var i=0;i<r.length;i++){if(r[i].type==="text"){n.appendChild(document.createTextNode(r[i].data))}else{var o=document.createElement("span");var l=r[i].data;katex.render(l,o,{displayMode:r[i].display});n.appendChild(o)}}return n};var o=function(e,t,r){for(var n=0;n<e.childNodes.length;n++){var a=e.childNodes[n];if(a.nodeType===3){var l=i(a.textContent,t);n+=l.childNodes.length-1;e.replaceChild(l,a)}else if(a.nodeType===1){var f=r.indexOf(a.nodeName.toLowerCase())===-1;if(f){o(a,t,r)}}else{}}};var l={delimiters:[{left:"$$",right:"$$",display:true},{left:"\\[",right:"\\]",display:true},{left:"\\(",right:"\\)",display:false}],ignoredTags:["script","noscript","style","textarea","pre","code"]};var f=function(e){var t,r;for(var n=1,a=arguments.length;n<a;n++){t=arguments[n];for(r in t){if(Object.prototype.hasOwnProperty.call(t,r)){e[r]=t[r]}}}return e};var s=function(e,t){if(!e){throw new Error("No element provided to render")}t=f({},l,t);o(e,t.delimiters,t.ignoredTags)};t.exports=s},{"./splitAtDelimiters":2}],2:[function(e,t,r){var n=function(e,t,r){var n=r;var a=0;var i=e.length;while(n<t.length){var o=t[n];if(a<=0&&t.slice(n,n+i)===e){return n}else if(o==="\\"){n++}else if(o==="{"){a++}else if(o==="}"){a--}n++}return-1};var a=function(e,t,r,a){var i=[];for(var o=0;o<e.length;o++){if(e[o].type==="text"){var l=e[o].data;var f=true;var s=0;var d;d=l.indexOf(t);if(d!==-1){s=d;i.push({type:"text",data:l.slice(0,s)});f=false}while(true){if(f){d=l.indexOf(t,s);if(d===-1){break}i.push({type:"text",data:l.slice(s,d)});s=d}else{d=n(r,l,s+t.length);if(d===-1){break}i.push({type:"math",data:l.slice(s+t.length,d),display:a});s=d+r.length}f=!f}i.push({type:"text",data:l.slice(s)})}else{i.push(e[o])}}return i};t.exports=a},{}]},{},[1])(1)});
 
-/* Umbrella JS 1.0.3 umbrellajs.com */
-function ajax(a,b,c,d,e){var f=function(){};c=c||f,d=d||f,(e=e||f)();var g=new XMLHttpRequest;return g.open("POST",a,!0),g.setRequestHeader("Content-Type","application/x-www-form-urlencoded; charset=UTF-8"),g.onload=function(){return this.status<200||this.status>=400?d(this.status):c(parseJson(this.response)||this.response)},g.send(b),g}function parseJson(a){try{var b=JSON.parse(a);if(b&&"object"==typeof b)return b}catch(c){}return!1}var u=function(a,b){return this instanceof u?("string"==typeof a&&(a=this.select(a,b)),a&&a.nodeName&&(a=[a]),Array.isArray(a)||(a=this.slice(a)),this.nodes=a,this):new u(a,b)};u.prototype.slice=function(a){return a?Array.prototype.slice.call(a,0):[]},u.prototype.args=function(a){return this.slice("string"==typeof a?[a]:a).toString().split(/[\s,]+/)},u.prototype.unique=function(){return u(this.nodes.reduce(function(a,b){return b&&-1===a.indexOf(b)?a.concat(b):a},[]))},u.prototype.nodes=[],u.options={},u.prototype.addClass=function(){var a=this.args(arguments);return this.each(function(b){a.forEach(function(a){a&&b.classList.add(a)})})},u.prototype.adjacent=function(a,b){return this.each(function(c){c.insertAdjacentHTML(a,b)})},u.prototype.after=function(a){return this.adjacent("afterend",a)},u.prototype.ajax=function(a,b,c){return this.on("submit",function(d){d.preventDefault(),ajax(u(this).attr("action"),u(this).serialize(),a,b,c)}),this},u.prototype.append=function(a){return this.adjacent("beforeend",a)},u.prototype.attr=function(a,b){if(void 0!==b){var c=a;a={},a[c]=b}return"object"==typeof a?this.each(function(b){for(var c in a)null!==a[c]?b.setAttribute(c,a[c]):b.removeAttribute(c)}):this.nodes.length?this.first().getAttribute(a):""},u.prototype.before=function(a){return this.adjacent("beforebegin",a),this},u.prototype.children=function(a){var b=this;return this.join(function(a){return b.slice(a.children)}).filter(a)},u.prototype.click=function(a){return this.on("click",a),this},u.prototype.closest=function(a){return this.join(function(b){do if(u(b).is(a))return b;while(b=b.parentNode)}).unique()},u.prototype.each=function(a){return this.nodes.forEach(function(b,c){a.call(this,b,c)},this),this},u.prototype.filter=function(a){return u(this.nodes.filter(function(b){return"function"==typeof a?a(b):(b.matches=b.matches||b.msMatchesSelector||b.webkitMatchesSelector,b.matches(a||"*"))}))},u.prototype.find=function(a){return this.join(function(b){return u(a||"*",b).nodes})},u.prototype.first=function(){return this.nodes.length>0?this.nodes[0]:void 0},u.prototype.hasClass=function(a){return a=this.args(arguments),this.nodes.some(function(b){return a.every(function(a){return b.classList.contains(a)})})},u.prototype.html=function(a){return void 0===a?this.first().innerHTML||"":this.each(function(b){b.innerHTML=a})},u.prototype.is=function(a){return this.filter(a).nodes.length>0},u.prototype.join=function(a){return u(this.nodes.reduce(function(b,c,d){return b.concat(a(c,d))},[])).unique()},u.prototype.on=function(a,b){return this.each(function(c){this.args(a).forEach(function(a){c.addEventListener(a,b)})})},u.prototype.parent=function(){return this.join(function(a){return a.parentNode})},u.prototype.prepend=function(a){return this.adjacent("afterbegin",a),this},u.prototype.remove=function(){this.each(function(a){a.parentNode.removeChild(a)})},u.prototype.removeClass=function(a){return a=this.args(arguments),this.each(function(b){a.forEach(function(a){b.classList.remove(a)})})},u.prototype.select=function(a,b){return b?this.select.byCss(a,b):/^\.[\w\-]+$/.test(a)?this.select.byClass(a.substring(1)):/^\w+$/.test(a)?this.select.byTag(a):/^\#[\w\-]+$/.test(a)?this.select.byId(a.substring(1)):this.select.byCss(a)},u.prototype.select.byTag=document.getElementsByTagName.bind(document),u.prototype.select.byId=document.getElementById.bind(document),u.prototype.select.byClass=document.getElementsByClassName.bind(document),u.prototype.select.byCss=function(a,b){return(b||document).querySelectorAll(a)},u.prototype.serialize=function(a){function b(a){return encodeURIComponent(a).replace(/!/g,"%21").replace(/'/g,"%27").replace(/\(/g,"%28").replace(/\)/g,"%29").replace(/\*/g,"%2A").replace(/%20/g,"+")}return this.slice(this.first().elements).reduce(function(a,c){return!c.name||"file"===c.type||/(checkbox|radio)/.test(c.type)&&!c.checked||(a+="&"+b(c.name)+"="+b(c.value)),a},a?{}:"").slice(1)},u.setOptions=function(a,b){u.options[a]=u.options[a]||{};for(var c in b)u.options[a][c]=b[c]};
+/* Umbrella JS 1.10.0 umbrellajs.com */
+function ajax(a,b,c,d,e){d=d||Function;var f=new XMLHttpRequest;return u([f]).on("error timeout abort",function(){d(new Error,null,f)}).on("load",function(){var a=/^(2|3)/.test(f.status)?null:new Error(f.status),b=parseJson(f.response)||f.response;return d(a,b,f)}),f.open(a||"GET",b),f.setRequestHeader("X-Requested-With","XMLHttpRequest"),f.setRequestHeader("Content-Type","application/x-www-form-urlencoded"),e&&e(f),f.send("string"==typeof c?c:u().param(c)),f}function parseJson(a){try{var b=JSON.parse(a);if(b&&"object"==typeof b)return b}catch(c){}return!1}var u=function(a,b){return this instanceof u?a instanceof u?a:("string"==typeof a&&(a=this.select(a,b)),a&&a.nodeName&&(a=[a]),void(this.nodes=this.slice(a))):new u(a,b)};u.prototype={get length(){return this.nodes.length}},u.prototype.nodes=[],u.prototype.addClass=function(){return this.eacharg(arguments,function(a,b){a.classList.add(b)})},u.prototype.adjacent=function(a,b,c){return this.each(function(d){u(c||[""]).each(function(c){var e="function"==typeof b?b.call(this,d,c):b;d.insertAdjacentHTML(a,e)})})},u.prototype.after=function(a,b){return this.adjacent("afterend",a,b)},u.prototype.ajax=function(a,b){return this.on("submit",function(c){c.preventDefault();var d=u(this);ajax(d.attr("method"),d.attr("action"),d.serialize(),a,b)})},u.prototype.append=function(a,b){return this.adjacent("beforeend",a,b)},u.prototype.args=function(a,b,c){return"function"==typeof a&&(a=a(b,c)),"string"!=typeof a&&(a=this.slice(a).map(this.str(b,c))),a.toString().split(/[\s,]+/).filter(function(a){return a.length})},u.prototype.attr=function(a,b,c){if(c=c?"data-":"",void 0!==b){var d=a;a={},a[d]=b}return"object"==typeof a?this.each(function(b){for(var d in a)b.setAttribute(c+d,a[d])}):this.length?this.first().getAttribute(c+a):""},u.prototype.before=function(a,b){return this.adjacent("beforebegin",a,b)},u.prototype.children=function(a){return this.join(function(a){return this.slice(a.children)}).filter(a)},u.prototype.closest=function(a){return this.join(function(b){do if(u(b).is(a))return b;while(b=b.parentNode)})},u.prototype.data=function(a,b){return this.attr(a,b,!0)},u.prototype.each=function(a){return this.nodes.forEach(a.bind(this)),this},u.prototype.eacharg=function(a,b){return this.each(function(c,d){this.args(a,c,d).forEach(function(a){b.call(this,c,a)},this)})},u.prototype.filter=function(a){var b=function(b){return b.matches=b.matches||b.msMatchesSelector||b.webkitMatchesSelector,b.matches(a||"*")};return"function"==typeof a&&(b=a),a instanceof u&&(b=function(b){return-1!==a.nodes.indexOf(b)}),u(this.nodes.filter(b))},u.prototype.find=function(a){return this.join(function(b){return u(a||"*",b).nodes})},u.prototype.first=function(){return this.nodes[0]||!1},u.prototype.hasClass=function(a){return this.is("."+this.args(arguments).join("."))},u.prototype.html=function(a){return void 0===a?this.first().innerHTML||"":this.each(function(b){b.innerHTML=a})},u.prototype.is=function(a){return this.filter(a).length>0},u.prototype.join=function(a){var b=this;return u(this.nodes.reduce(function(c,d,e){return c.concat(a.call(b,d,e))},[])).unique()},u.prototype.last=function(){return this.nodes[this.length-1]||!1},u.prototype.not=function(a){return this.filter(function(b){return!u(b).is(a||!0)})},u.prototype.off=function(a){return this.eacharg(a,function(a,b){u(a._e?a._e[b]:[]).each(function(c){a.removeEventListener(b,c)})})},u.prototype.on=function(a,b){return this.eacharg(a,function(a,c){a.addEventListener(c,b),a._e=a._e||{},a._e[c]=(a._e[c]||[]).concat(b)})},u.prototype.param=function(a){var b="";for(var c in a)b+="&"+this.uri(c)+"="+this.uri(a[c]);return b.slice(1)},u.prototype.parent=function(a){return this.join(function(a){return a.parentNode}).filter(a)},u.prototype.prepend=function(a,b){return this.adjacent("afterbegin",a,b)},u.prototype.remove=function(){return this.each(function(a){a.parentNode.removeChild(a)})},u.prototype.removeClass=function(){return this.eacharg(arguments,function(a,b){a.classList.remove(b)})},u.prototype.select=function(a,b){if(b)return this.select.byCss(a,b);for(var c in this.selectors)if(b=c.split("/"),new RegExp(b[1],b[2]).test(a))return this.selectors[c](a);return this.select.byCss(a)},u.prototype.select.byCss=function(a,b){return(b||document).querySelectorAll(a)},u.prototype.selectors={},u.prototype.selectors[/^\.[\w\-]+$/]=function(a){return document.getElementsByClassName(a.substring(1))},u.prototype.selectors[/^\w+$/]=document.getElementsByTagName.bind(document),u.prototype.selectors[/^\#[\w\-]+$/]=function(a){return document.getElementById(a.substring(1))},u.prototype.selectors[/^\</]=function(a){return u(document.createElement("div")).html(a).children().nodes},u.prototype.serialize=function(){return this.param(this.slice(this.first().elements).reduce(function(a,b){return!b.name||"file"===b.type||/(checkbox|radio)/.test(b.type)&&!b.checked||(a[b.name]=b.value),a},{}))},u.prototype.siblings=function(a){return this.parent().children(a).not(this)},u.prototype.slice=function(a){return a?[].slice.call(a.nodes||a):[]},u.prototype.str=function(a,b){return function(c){return"function"==typeof c?c.call(this,a,b):c.toString()}},u.prototype.text=function(a){return void 0===a?this.first().textContent||"":this.each(function(b){b.textContent=a})},u.prototype.toggleClass=function(a,b){return!!b===b?this[b?"addClass":"removeClass"](a):this.eacharg(a,function(a,b){a.classList.toggle(b)})},u.prototype.trigger=function(a,b){this.eacharg(a,function(a,c){var d,e={bubbles:!0,cancelable:!0,detail:b};try{d=new CustomEvent(c,e)}catch(f){d=document.createEvent("CustomEvent"),d.initCustomEvent(c,!0,!0,b)}a.dispatchEvent(d)})},u.prototype.unique=function(){return u(this.nodes.reduce(function(a,b){return b&&-1===a.indexOf(b)?a.concat(b):a},[]))},u.prototype.uri=function(a){return encodeURIComponent(a).replace(/!/g,"%21").replace(/'/g,"%27").replace(/\(/g,"%28").replace(/\)/g,"%29").replace(/\*/g,"%2A").replace(/%20/g,"+")};
 /*
  * Sweet Justice: beautiful justified text.
  *
@@ -232,365 +232,475 @@ var pagex = function(path, negate, callback){
     fn();
   }
 };
+/* mousetrap v1.5.3 craig.is/killing/mice */
+(function(C,r,g){function t(a,b,h){a.addEventListener?a.addEventListener(b,h,!1):a.attachEvent("on"+b,h)}function x(a){if("keypress"==a.type){var b=String.fromCharCode(a.which);a.shiftKey||(b=b.toLowerCase());return b}return l[a.which]?l[a.which]:p[a.which]?p[a.which]:String.fromCharCode(a.which).toLowerCase()}function D(a){var b=[];a.shiftKey&&b.push("shift");a.altKey&&b.push("alt");a.ctrlKey&&b.push("ctrl");a.metaKey&&b.push("meta");return b}function u(a){return"shift"==a||"ctrl"==a||"alt"==a||
+"meta"==a}function y(a,b){var h,c,e,g=[];h=a;"+"===h?h=["+"]:(h=h.replace(/\+{2}/g,"+plus"),h=h.split("+"));for(e=0;e<h.length;++e)c=h[e],z[c]&&(c=z[c]),b&&"keypress"!=b&&A[c]&&(c=A[c],g.push("shift")),u(c)&&g.push(c);h=c;e=b;if(!e){if(!k){k={};for(var m in l)95<m&&112>m||l.hasOwnProperty(m)&&(k[l[m]]=m)}e=k[h]?"keydown":"keypress"}"keypress"==e&&g.length&&(e="keydown");return{key:c,modifiers:g,action:e}}function B(a,b){return null===a||a===r?!1:a===b?!0:B(a.parentNode,b)}function c(a){function b(a){a=
+a||{};var b=!1,n;for(n in q)a[n]?b=!0:q[n]=0;b||(v=!1)}function h(a,b,n,f,c,h){var g,e,l=[],m=n.type;if(!d._callbacks[a])return[];"keyup"==m&&u(a)&&(b=[a]);for(g=0;g<d._callbacks[a].length;++g)if(e=d._callbacks[a][g],(f||!e.seq||q[e.seq]==e.level)&&m==e.action){var k;(k="keypress"==m&&!n.metaKey&&!n.ctrlKey)||(k=e.modifiers,k=b.sort().join(",")===k.sort().join(","));k&&(k=f&&e.seq==f&&e.level==h,(!f&&e.combo==c||k)&&d._callbacks[a].splice(g,1),l.push(e))}return l}function g(a,b,n,f){d.stopCallback(b,
+b.target||b.srcElement,n,f)||!1!==a(b,n)||(b.preventDefault?b.preventDefault():b.returnValue=!1,b.stopPropagation?b.stopPropagation():b.cancelBubble=!0)}function e(a){"number"!==typeof a.which&&(a.which=a.keyCode);var b=x(a);b&&("keyup"==a.type&&w===b?w=!1:d.handleKey(b,D(a),a))}function l(a,c,n,f){function e(c){return function(){v=c;++q[a];clearTimeout(k);k=setTimeout(b,1E3)}}function h(c){g(n,c,a);"keyup"!==f&&(w=x(c));setTimeout(b,10)}for(var d=q[a]=0;d<c.length;++d){var p=d+1===c.length?h:e(f||
+y(c[d+1]).action);m(c[d],p,f,a,d)}}function m(a,b,c,f,e){d._directMap[a+":"+c]=b;a=a.replace(/\s+/g," ");var g=a.split(" ");1<g.length?l(a,g,b,c):(c=y(a,c),d._callbacks[c.key]=d._callbacks[c.key]||[],h(c.key,c.modifiers,{type:c.action},f,a,e),d._callbacks[c.key][f?"unshift":"push"]({callback:b,modifiers:c.modifiers,action:c.action,seq:f,level:e,combo:a}))}var d=this;a=a||r;if(!(d instanceof c))return new c(a);d.target=a;d._callbacks={};d._directMap={};var q={},k,w=!1,p=!1,v=!1;d._handleKey=function(a,
+c,e){var f=h(a,c,e),d;c={};var k=0,l=!1;for(d=0;d<f.length;++d)f[d].seq&&(k=Math.max(k,f[d].level));for(d=0;d<f.length;++d)f[d].seq?f[d].level==k&&(l=!0,c[f[d].seq]=1,g(f[d].callback,e,f[d].combo,f[d].seq)):l||g(f[d].callback,e,f[d].combo);f="keypress"==e.type&&p;e.type!=v||u(a)||f||b(c);p=l&&"keydown"==e.type};d._bindMultiple=function(a,b,c){for(var d=0;d<a.length;++d)m(a[d],b,c)};t(a,"keypress",e);t(a,"keydown",e);t(a,"keyup",e)}var l={8:"backspace",9:"tab",13:"enter",16:"shift",17:"ctrl",18:"alt",
+20:"capslock",27:"esc",32:"space",33:"pageup",34:"pagedown",35:"end",36:"home",37:"left",38:"up",39:"right",40:"down",45:"ins",46:"del",91:"meta",93:"meta",224:"meta"},p={106:"*",107:"+",109:"-",110:".",111:"/",186:";",187:"=",188:",",189:"-",190:".",191:"/",192:"`",219:"[",220:"\\",221:"]",222:"'"},A={"~":"`","!":"1","@":"2","#":"3",$:"4","%":"5","^":"6","&":"7","*":"8","(":"9",")":"0",_:"-","+":"=",":":";",'"':"'","<":",",">":".","?":"/","|":"\\"},z={option:"alt",command:"meta","return":"enter",
+escape:"esc",plus:"+",mod:/Mac|iPod|iPhone|iPad/.test(navigator.platform)?"meta":"ctrl"},k;for(g=1;20>g;++g)l[111+g]="f"+g;for(g=0;9>=g;++g)l[g+96]=g;c.prototype.bind=function(a,b,c){a=a instanceof Array?a:[a];this._bindMultiple.call(this,a,b,c);return this};c.prototype.unbind=function(a,b){return this.bind.call(this,a,function(){},b)};c.prototype.trigger=function(a,b){if(this._directMap[a+":"+b])this._directMap[a+":"+b]({},a);return this};c.prototype.reset=function(){this._callbacks={};this._directMap=
+{};return this};c.prototype.stopCallback=function(a,b){return-1<(" "+b.className+" ").indexOf(" mousetrap ")||B(b,this.target)?!1:"INPUT"==b.tagName||"SELECT"==b.tagName||"TEXTAREA"==b.tagName||b.isContentEditable};c.prototype.handleKey=function(){return this._handleKey.apply(this,arguments)};c.init=function(){var a=c(r),b;for(b in a)"_"!==b.charAt(0)&&(c[b]=function(b){return function(){return a[b].apply(a,arguments)}}(b))};c.init();C.Mousetrap=c;"undefined"!==typeof module&&module.exports&&(module.exports=
+c);"function"===typeof define&&define.amd&&define(function(){return c})})(window,document);
+
 // Modern Editor
 // An event-based editor for the modern web
 var Editor = function(selector, options){
   
-  
-  // Based on defaults ( https://github.com/tmpvar/defaults )
-  function defaults(options, def, wrap) {
-    options = typeof options === 'object' ? options : {};
-    
-    Object.keys(def).forEach(function(key) {
-      if (typeof options[key] === 'undefined') {
-        options[key] = def[key];
-      }
-    });
-
-    return options;
-  }
-  
-  
-  
-  // INIT
-  // Store a local instance
-  var editor = this;
-  
   // The instance's editor element (it is required)
-  this.element = this.s(selector);
-  if (!this.element) return false;
+  this.element = u(selector).first();
   
-  // Options
-  this.options = defaults(options, {
-    
-    // Class that will be added to the menu
-    menu: 'menu',
+  // Editor options
+  this.options = this.defaults(options, {
     
     // Delay for each of the text selections checks (there's no event onselect)
     delay: 200,
     
     // Default active status
-    active: true
+    active: true,
+    
+    // The valid blocks
+    blocks: []
   });
   
   
+  // Start each of the parts of the library
+  this.menu(this.options.menu);
   
-  // EVENTS
-  this.events = {};
+  this.selection();
   
-  // Add one of the events
-  this.on = function(name, callback){
-    if (!editor.events[name]) editor.events[name] = [];
-    editor.events[name].push(callback);
-  };
+  this.shortcuts();
   
-  // Trigger one of the events
-  this.trigger = function(name, event){
-    if (editor.events[name]) {
-      editor.trigger(name + ':before', event);
-      
-      editor.events[name].forEach(function(callback){
-        editor.trigger(name + ':pre', event);
-        callback.call(editor, event);
-        editor.trigger(name + ':post', event);
-      });
-      
-      editor.trigger(name + ':after', event);
+  this.clean();
+  
+  this.default();
+  
+  var editor = this;
+  window.setInterval(this.trigger.bind(this, 'refresh'), this.options.delay);
+  this.element.addEventListener("blur", function(e){ editor.trigger('refresh', e); });
+  
+  // These are just good moments to refresh
+  document.addEventListener("keydown", function(e){ editor.trigger('refresh', e); });
+  document.addEventListener("mousedown", function(e){ editor.trigger('refresh', e); });
+  document.addEventListener("touchstart", function(e){ editor.trigger('refresh', e); });
+  document.addEventListener("click", function(e){ editor.trigger('refresh', e); });
+  
+  this.trigger('init');
+};
+
+
+Editor.prototype.defaults = function(options, def, wrap){
+  
+  // Based on defaults ( https://github.com/tmpvar/defaults )
+  options = typeof options === 'object' ? options : {};
+  
+  Object.keys(def).forEach(function(key) {
+    if (typeof options[key] === 'undefined') {
+      options[key] = def[key];
     }
-    else if (editor.events[name + ':none']) {
-      editor.trigger(name + ':none', event);
-    }
-  };
-  
-  
-  
-  
-  
-  
-  
-  // ACTIONS
-  // Register a new action
-  this.add = function(name, options){
-    
-    // Default options (empty functions)
-    var fn = function(){};
-    options = defaults(options, { init: fn, action: fn, destroy: fn });
-    
-    // Call the init action inmediately
-    options.init.call(editor);
-    
-    // Add the action to the action event list like action:save
-    editor.on('action:' + name, options.action.bind(editor, editor));
-    
-    // Add the action to the action event list like action:save
-    editor.on('destroy', options.destroy.bind(editor));
-    
-    
-    // Add the shortcut only if there is one
-    editor.trigger('shortcut:add', { shortcut: options.shortcut, action: name });
-    
-    // Add the menu item only if there's one
-    if (options.menu) {
-      
-      // Default options for the menu
-      options.menu = defaults(options.menu, {
-        html: options.menu,
-        title: (options.shortcut ? '[' + options.shortcut + '] ' : '') + name,
-        action: name
-      });
-      
-      editor.trigger('menu:add', options.menu);
-    }
-  };
-  
-  
-  
-  
-  
-  
-  // MENU
-  this.menu = {
-    list: [],
-    element: false,
-    visible: false,
-    class: this.options.menu
-  };
-  
-  this.on('init', function(){
-    var menuhtml = '<ul class="' + editor.menu.class + '"></ul>';
-    editor.s('body').insertAdjacentHTML('beforeend', menuhtml);
-    this.menu.element = editor.s('.' + editor.menu.class);
   });
+
+  return options;
+};
+
+
+Editor.prototype.command = function(command, text){
+  document.execCommand(command, false, text);
+  this.trigger('refresh');
+};
+
+// Initialization
+u.prototype.editor = function(options){
+  return new Editor(this.first(), options);
+};
+
+
+// Register a new full action
+Editor.prototype.add = function(name, options){
   
-  // Add an element to the menu
-  this.on("menu:add", function(element){
+  // Default options (empty functions)
+  var fn = function(){};
+  options = this.defaults(options, { init: fn, action: fn, destroy: fn });
+  
+  // Call the init action inmediately
+  options.init.call(this);
+  
+  // Add the action to the action event list like action:save
+  this.on('action:' + name, options.action.bind(this, this));
+  
+  this.on('destroy', options.destroy.bind(this, this));
+  
+  
+  // Add the shortcut only if there is one
+  this.trigger('shortcut:add', { shortcut: options.shortcut, action: name });
+  
+  // Add the menu item only if there's one
+  if (options.menu) {
     
-    var li = document.createElement('li');
-    
-    li.classList.add('action');
-    li.setAttribute('data-action', element.action);
-    li.setAttribute('title', element.title);
-    li.addEventListener("click", function(e) {
-      e.preventDefault();
-      editor.trigger('action');
-      editor.trigger('action:' + element.action);
+    // Default options for the menu
+    options.menu = this.defaults(options.menu, {
+      html: options.menu,
+      title: (options.shortcut ? '[' + options.shortcut + '] ' : '') + name,
+      action: name
     });
-    li.innerHTML = element.html;
-    this.menu.element.appendChild(li);
-  });
-  
-  
-  this.on("menu:separator", function(){
-    var li = document.createElement('li');
-    li.classList.add('separator');
-    this.menu.element.appendChild(li);
-  });
-  
-  
-  // Show the menu
-  this.on('menu:show', function(){
     
-    if (this.options.active) {
-      this.menu.element.style.display = 'block';
-      this.menu.element.visible = true;
-      this.menu.element.classList.add('visible');
+    this.trigger('menu:add', options.menu);
+  }
+};
+
+
+Editor.prototype.clean = function(){
+  var editor = this;
+  this.clean.editor = this;
+  
+  this.on('refresh', function(){
+    editor.trigger('clean');
+  });
+  
+  // Clean up the html
+  this.on('clean', function(){
+    // Call the single elements
+    u(this).children().singles(function(node){
+      editor.trigger('clean:single', node);
+    });
+    
+    u(this).children().empty(function(node){
+      editor.trigger('clean:empty', node);
+    });
+  });
+  
+  // Last defense for cleanup
+  // Make sure all top-level elements are valid blocks or wrap them in <p>
+  this.on('clean:after', function(){
+    
+    var ed = u(editor.element);
+    
+    // Wrap any of the invalid blocks
+    if (editor.clean.blocks) {
+      ed.children().filter(editor.clean.filter).each(editor.clean.wrap);
     }
+    
+    if (!ed.children().nodes.length && ed.html() !== "") {
+      ed.html('<p>' + ed.html() + '</p>');
+    }
+  });
+}
+
+Editor.prototype.clean.blocks = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'pre', 'img', 'ul', 'ol'];
+
+Editor.prototype.clean.filter = function(node){
+  return Editor.prototype.clean.blocks.indexOf(node.nodeName.toLowerCase()) === -1;
+};
+
+Editor.prototype.clean.wrap = function(node){
+  var p = document.createElement('p');
+  p.innerHTML = node.outerHTML;
+  node.parentNode.replaceChild(p, node);
+};
+
+
+
+// Retrieve all the nodes with only one child, whatever the type
+u.prototype.singles = function(callback){
+  return this.filter(function(block){
+    return u(block).content().nodes.length == 1;
+  }).each(callback);
+};
+
+// Retrieve all the nodes with no content
+u.prototype.empty = function(callback){
+  return this.filter(function(block){
+    return !block.textContent.replace(/\s/, '').length;
+  }).each(callback);
+};
+
+u.prototype.replace = function(el){
+  this.each(function(node){
+    node.parentNode.replaceChild(u('<p>').html(u(node).html()).first(), node);
+  });
+};
+
+u.prototype.wrap = function(el){
+  this.each(function(node){
+    node.parentNode.replaceChild(u('<p>').html(node.outerHTML).first(), node);
+  });
+};
+
+u.prototype.content = function(){
+  return this.join(function(node){
+    return this.slice(node.childNodes);
+  });
+};
+
+
+
+
+
+
+Editor.prototype.default = function(){
+  var self = this;
+  
+  this.on('action:default:italic', function(){
+    self.command("italic");
+  });
+  
+  this.on('action:default:bold', function(){
+    self.command("bold");
+  });
+  
+  this.on('action:default:link', function(){
+    var link = u(self.selection.element).attr('href');
+    var address = prompt("Link address", link || "");
+    self.command(address ? 'createLink' : 'unlink', address);
+  });
+  
+  this.on('action:default:code', function(){
+    self.tag("code");
+  });
+  
+  this.on('action:default:info', function(){
+    window.open("https://github.com/franciscop/modern-editor", "_blank");
+  });
+  
+};
+
+// Events
+// All of the current events
+Editor.prototype.events = {};
+
+// Transparently redirect events to Umbrella
+Editor.prototype.on = function(name, callback){
+  u(this.element).on('editor:' + name, function(e) {
+    return callback.call(this, e, e.detail);
+  });
+};
+
+// Handle event triggering with :before and :after
+Editor.prototype.trigger = function(name, data){
+  u(this.element).trigger('editor:' + name + ':before', data);
+  u(this.element).trigger('editor:' + name, data);
+  u(this.element).trigger('editor:' + name + ':after', data);
+};
+
+
+
+Editor.prototype.menu = function(name){
+  this.menu.editor = this;
+  this.menu.visible = false;
+  
+  // Class that will be added to the menu
+  name = name || 'menu';
+
+  // Add the menu to the DOM
+  u('body').append('<ul class="' + name + '"></ul>');
+  this.menu.element = u('.' + name).first();
+  
+  this.menu.events();
+};
+
+
+
+// Add an element to the menu
+Editor.prototype.menu.add = function(element){
+  var editor = this.editor;
+  var li = u(document.createElement('li')).attr({
+    'title': element.title,
+    'data-action': element.action
+  }).addClass('action').on('click', function(e){
+    e.preventDefault();
+    editor.trigger('action');
+    editor.trigger('action:' + element.action);
+  }).html(element.html).first();
+  this.element.appendChild(li);
+}
+
+// Add a separator between two elements from the menu
+Editor.prototype.menu.separator = function(){
+  u(this.element).append('<li class="separator">');
+};
+
+
+// Show the menu
+Editor.prototype.menu.show = function(){
+  
+  if (this.editor.options.active) {
+    this.element.style.display = 'block';
+    this.element.visible = true;
+    this.element.classList.add('visible');
+  }
+};
+  
+// Hide the menu
+Editor.prototype.menu.hide = function(){
+  this.element.style.display = "none";
+  this.element.visible = false;
+  this.element.classList.remove('visible');
+};
+
+
+// Calculate the position for the selection and move the menu to it
+Editor.prototype.menu.move = function() {
+  
+  var selection = this.editor.selection.position;
+  var doc = u('html').first().getBoundingClientRect();
+  var menu = this.element.getBoundingClientRect();
+  
+  var top = selection.top - doc.top;
+  if (top < 0 ) top = 0;
+  var left = selection.left + selection.width / 2 - menu.width / 2;
+  if (left < 0) left = 0;
+  this.position = {
+    top: top + "px",
+    left: left + "px"
+  };
+  this.element.style.left = this.position.left;
+  this.element.style.top = this.position.top;
+};
+
+
+Editor.prototype.menu.events = function(){
+  
+  var editor = this.editor;
+  var menu = this;
+  
+  // Add a separator between two elements from the menu
+  editor.on("menu:add", function(e, data){
+    menu.add(e.detail);
+  });
+
+  // Add a separator between two elements from the menu
+  editor.on("menu:separator", function(){
+    menu.separator();
+  });
+
+  // Show the menu
+  editor.on('menu:show', function(){
+    menu.show();
   });
     
   // Hide the menu
-  this.on('menu:hide', function(){
-    this.menu.element.style.display = "none";
-    this.menu.element.visible = false;
-    this.menu.element.classList.remove('visible');
+  editor.on('menu:hide', function(){
+    menu.hide();
+  });
+
+  // Position the menu correctly
+  editor.on('menu:move', function(){
+    menu.move();
   });
   
-  // Position the menu correctly
-  this.on('menu:move', function(){
-    var selection = this.selection.position;
-    var doc = editor.s("html").getBoundingClientRect();
-    var menu = editor.menu.element.getBoundingClientRect();
-    
-    // Delete the '60' to show it on the bottom
-    var top = selection.top - doc.top;
-    if (top < 0 ) top = 0;
-    var left = selection.left + selection.width / 2 - menu.width / 2;
-    if (left < 0) left = 0;
-    editor.menu.position = {
-        top: top + "px",
-        left: left + "px"
-    };
-    this.menu.element.style.left = this.menu.position.left;
-    this.menu.element.style.top = this.menu.position.top;
+  // Avoid deselecting text when clicking on the menu
+  u(menu.element).on('mousedown', function(e){
+    e.preventDefault();
   });
   
   // On mousedown check whether or not we click on the menu
-  this.on("click", function (e) {
-      
+  u('body').on("click", function (e) {
+    
     // Don't unselect text when clicking on the menu
-    if (this.menu.element && this.menu.element.contains(e.target)) {
+    if (menu.element && menu.element.contains(e.currentTarget)) {
       e.preventDefault();
     }
   });
+}
+
+
+
+
+// SELECTION
+Editor.prototype.selection = function(){
+  var editor = this;
+  this.selection.element = false;
+  this.selection.text = "";
   
-  this.on("click", function(e){
-    this.trigger('refresh', e);
-  });
-  
-  
-  
-  
-  
-  // SELECTION
-  this.selection = { element: false, text: "" };
   
   // Format nicely the code (if needed)
   this.on('refresh', function(){
       
-    var html = editor.element.innerHTML;
-    if (!html || html.match(/^\s+$/) || html.match(/^<br\/?>$/)) {
+    u('br', this).remove();
+    if (u(this).html().match(/^\s*$/)) {
       editor.command("insertParagraph");
-      var br = editor.element.querySelector("br");
-      if (br && br.parentNode) {
-        br.parentNode.removeChild(br);
-      }
     }
   });
-  
+
   // Display/hide the menu
   this.on('refresh', function(){
     
-    var prev = this.selection.text;
-    this.trigger('select:check');
-    var post = this.selection.text;
+    var prev = editor.selection.text;
+    editor.trigger('select:check');
+    var post = editor.selection.text;
     
     // If the selections has changed
     if (prev != post) {
-      this.trigger('select');
+      editor.trigger('select');
     }
   });
-  
+
   this.on('select', function(){
-    this.selection.position = editor.selection.range.getBoundingClientRect();
+    editor.selection.position = editor.selection.range.getBoundingClientRect();
   });
-  
+
   // When the selection changes, check its value
   this.on('select', function(){
     
-    var selected = this.selection.text;
-    var hidden = this.menu.element.style.display !== 'block';
+    var selected = editor.selection.text;
+    var hidden = editor.menu.element.style.display !== 'block';
     
     if (selected && hidden) {
-      this.trigger('menu:show');
+      editor.trigger('menu:show');
     }
     
     if (selected) {
-      this.trigger('menu:move');
+      editor.trigger('menu:move');
     }
     
     if (!selected && !hidden) {
-      this.trigger('menu:hide');
+      editor.trigger('menu:hide');
     }
   });
-  
+
   this.on('select:check', function(){
     
     // The selection from the current window
     var selection = window.getSelection();
     
     // Selected text
-    this.selection.text = selection.toString();
+    editor.selection.text = selection.toString();
     
     
     // Store the *right* element
     var node = selection.anchorNode;
-    if (!this.selection.text || !node) {
+    if (!editor.selection.text || !node) {
       return false;
     }
     
-    this.selection.element = node.nodeType == 1 ? node : node.parentElement;
-    this.selection.range = selection.getRangeAt(0);
+    editor.selection.element = node.nodeType == 1 ? node : node.parentElement;
+    editor.selection.range = selection.getRangeAt(0);
   });
-  
-  
-  
-  
-  // SHORTCUTS
-  this.shortcuts = [];
-  
-  this.on('shortcut:add', function(short){
-    
-    if (!short.shortcut) return false;
-    
-    short.keys = short.shortcut.split('+');
-    
-    //new Shortcut(short);
-    this.shortcuts.push(short);
-  });
-  
-  this.on("key", function(e){
-    
-    // Store the pressed key
-    e[e.key.toLowerCase()] = true;
-    
-    // Normalize Mac's weird key
-    e.ctrl = e.ctrlKey || e.metaKey;
-    e.shift = e.shiftKey;
-    e.alt = e.altKey;
-    e.esc = e.keyCode == 27;
-    
-    function keyCode(short){
-      return !short.keys.filter(function(key){ return !e[key]; }).length;
-    }
-    
-    var shortcut = editor.shortcuts.filter(keyCode);
-    shortcut.forEach(function(short){
-      if (!shortcut.default) {
-        e.preventDefault();
-      }
-      editor.trigger('shortcut', short);
+};
+// SHORTCUTS
+Editor.prototype.shortcuts = function(){
+  var editor = this;
+
+  // Make it local and overwrite defaults
+  var mousetrap = new Mousetrap();
+  mousetrap.stopCallback = function(){ return false; };
+
+  this.on('shortcut:add', function(e, data){
+    if (!data) return false;
+    mousetrap.bind(data.shortcut, function(e){
+      e.preventDefault();
+      editor.trigger('shortcut', data.action);
     });
   });
-  
-  this.on("shortcut", function(short){
-    editor.trigger('action');
-    editor.trigger('action:' + short.action);
+
+  this.on("shortcut", function(e){
+    editor.trigger('action:' + e.detail);
   });
-  
-  this.on("key", function(e){
-    this.trigger('refresh', e);
+
+  u(this.element).on("key", function(e){
+    editor.trigger('refresh');
   });
-  
-  
-  
-  
-  
-  window.setInterval(editor.trigger.bind(this, 'refresh'), this.options.delay);
-  this.element.addEventListener("blur", function(e){ editor.trigger('refresh', e); });
-  document.addEventListener("keydown", function(e){ editor.trigger('key', e); });
-  document.addEventListener("mousedown", function(e){ editor.trigger('click', e); });
-  document.addEventListener("touchstart", function(e){ editor.trigger('click', e); });
-  document.addEventListener("click", function(e){ editor.trigger('click', e); });
-  
-  this.trigger('init');
-};
-
-
-
-
-
-
-
-
-
-// Select elements in a similar fashion to jQuery without requiring it
-Editor.prototype.s = function(selector, context){
-  context = context || document;
-  return (selector.nodeType) ? selector : context.querySelector(selector);
-};
-
-Editor.prototype.command = function(command, text){
-  document.execCommand(command, false, text);
-  this.trigger('refresh');
 };
 
 Editor.prototype.tag = function(name, attr){
@@ -621,7 +731,7 @@ Editor.prototype.tag = function(name, attr){
     tag += ">" + this.selection.text + "</" + name + ">";
     this.command("insertHtml", tag);
     
-    var el = this.s('.' + className);
+    var el = u('.' + className).first();
     el.classList.remove(className);
     if (el.classList.length === 0)
       el.removeAttribute('class');
@@ -794,10 +904,10 @@ u('a').each(function(link){
 
 
 pagex(/^lesson/, function(id){
-  
+
   // Initialize the editor in the element that is contenteditable
   var editor = new Editor("article.content", { menu: "editormenu", active: false });
-  
+
   // Register a new action called "bold"
   editor.add("bold", {
     menu: "<strong>B</strong>", shortcut: "ctrl+b",
@@ -814,7 +924,7 @@ pagex(/^lesson/, function(id){
     }
   });
 
-  // Register a new action called "link" 
+  // Register a new action called "link"
   editor.add("link", {
     menu: "<i class='icon-link'></i>", shortcut: "ctrl+k",
     action: function(editor) {
@@ -823,7 +933,7 @@ pagex(/^lesson/, function(id){
       editor.tag('a', (address ? { href: address } : false));
     }
   });
-  
+
   // Add an option to add code
   editor.add("code", {
     menu: "<i class='icon-terminal'></i>", shortcut: "ctrl+`",
@@ -831,9 +941,9 @@ pagex(/^lesson/, function(id){
       editor.tag("code");
     }
   });
-  
+
   editor.trigger('menu:separator');
-  
+
   // Register a new action called "italic"
   editor.add('info', {
     menu: "<i class='icon-help'></i>",
@@ -842,8 +952,8 @@ pagex(/^lesson/, function(id){
       window.open("https://github.com/franciscop/modern-editor", "_blank");
     }
   });
-  
-  
+
+
   // Require authorization to execute callback
   function auth(number, callback){
     if (!user) {
@@ -852,11 +962,11 @@ pagex(/^lesson/, function(id){
     if (!user.over(100)) {
       return modal("permission").show(100);
     }
-    
+
     callback.call();
   }
-  
-  
+
+
   editor.add("edit", {
     shortcut: "ctrl+e",
     action: function(editor){
@@ -866,33 +976,73 @@ pagex(/^lesson/, function(id){
       });
     }
   });
-  
+
   editor.add("save", {
     shortcut: "ctrl+s",
     action: function(editor){
       var form = u("form.edit");
       var html = encodeURIComponent(form.find("article.content").html());
-      ajax(form.attr("action"), "content=" + html, function(data){
-        
+      ajax("POST", form.attr("action"), "content=" + html, function(err, data){
+
         u("form.lesson").removeClass("edit").find('article').attr('contenteditable', false);
-        
+
         // Overwrite the current data in case anything has changed/cleaning
         u("article.content").html(data.html);
-        
+
         // Deactivate the editor
         editor.options.active = false;
       });
     }
   });
-  
-  
-  
+
+
+
+  // Setup the drop listeners.
+  u('body').on('drop', function(e) {
+    console.log(e);
+    var data = new FormData();
+    data.append("image", e.dataTransfer.files[0]);
+
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', '/lesson/upload', true);
+
+    xhr.upload.onprogress = function(e) {
+      if (e.lengthComputable) {
+        var percentComplete = (e.loaded / e.total) * 100;
+        console.log(percentComplete + '% uploaded');
+      }
+    };
+    xhr.onload = function() {
+      if (this.status == 200) {
+        console.log("Success");
+        var res = JSON.parse(this.responseText);
+        u('img').each(function(node){
+          if (/^data\:/.test(u(node).attr('src'))) {
+            u(node).attr({ src: res.image });
+          }
+        });
+      };
+    };
+    xhr.send(data);
+
+    // var files = e.dataTransfer.files; // FileList object.
+    //
+    // //files is a FileList of File objects. List some properties.
+    // for (var i = 0, f; f = files[i]; i++) {
+    //   console.log('"' + f.name + '" (' + (f.type || 'n/a') + ')');
+    //   console.log(f.size + ' bytes');
+    //   console.log('last modified: ' + (f.lastModifiedDate ? f.lastModifiedDate.toLocaleDateString() : 'n/a'));
+    // }
+  });
+
+
+
   u("form.lesson").on("submit", function(e){
     e.preventDefault();
     editor.trigger('action:save');
   });
-  
-  u("button.edit").click(function(e){
+
+  u("button.edit").on('click', function(e){
     e.preventDefault();
     editor.trigger('action:edit');
   });
@@ -935,7 +1085,7 @@ pagex(/^(?:subject)?/, function(bla){
     u('form', this).addClass('add');
 
     // Give handle for canceling adding a new subject
-    u('.cancel', this).click(action.form.remove);
+    u('.cancel', this).on('click', action.form.remove);
   };
 
   // Action to perform once the subject is saved
@@ -972,16 +1122,16 @@ pagex(/^(?:subject)?/, function(bla){
 
   // IMPLEMENTATION
   // Add a new subject or lesson
-  u('button.add').click(action.add);
+  u('button.add').on('click', action.add);
 
   // When we save a lesson that we were editing
   u('form.preview').ajax(action.form.save);
 
   // Edit a particular lesson
-  u('form.preview .edit').click(action.form.edit);
+  u('form.preview .edit').on('click', action.form.edit);
 
   // Cancel the edition of a particular lesson
-  u('form.preview .cancel').click(action.form.cancel);
+  u('form.preview .cancel').on('click', action.form.cancel);
 });
 
 // TEST page
@@ -999,7 +1149,7 @@ pagex(/^test/, function(){
     });
 
     // Cancel the new lesson
-    u('.cancel', this).click(function(e){
+    u('.cancel', this).on('click', function(e){
       window.location.reload();
     });
   }
@@ -1013,9 +1163,9 @@ pagex(/^test/, function(){
   // Reset forms on load (or refresh page)
   u('form.test').each(function(){ this.reset(); });
   
-  u('.add').click(actions.add);
+  u('.add').on('click', actions.add);
   
-  u('.edit').click(function(){
+  u('.edit').on('click', function(){
     u('form.test').addClass('edit');
     u(this).closest('form').find('input').first().focus();
   });
@@ -1038,7 +1188,7 @@ pagex(/^test/, function(){
     u('.refresh').html('New question');
   });
   
-  u('.refresh').click(function(e){
+  u('.refresh').on('click', function(e){
     e.preventDefault();
     window.location.reload();
   });

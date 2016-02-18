@@ -8,19 +8,9 @@
  */
 u.prototype.on = function(events, callback) {
   
-  // Separate the events
-  var evts = events.split(' ');
-  
-  // Loop through each event
-  for (var i=0; i < evts.length; i++) {
-  
-    // Loop through all the nodes
-    this.each(function() {
-      
-      // Add each event listener to each node
-      this.addEventListener(evts[i], callback);
-      });
-    }
-  
-  return this;
-  };
+  return this.eacharg(events, function(node, event){
+    node.addEventListener(event, callback);
+    node._e = node._e || {};
+    node._e[event] = (node._e[event] || []).concat(callback);
+  });
+};

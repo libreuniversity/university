@@ -31,7 +31,7 @@ pagex(/^(?:subject)?/, function(bla){
     u('form', this).addClass('add');
 
     // Give handle for canceling adding a new subject
-    u('.cancel', this).click(action.form.remove);
+    u('.cancel', this).on('click', action.form.remove);
   };
 
   // Action to perform once the subject is saved
@@ -68,14 +68,14 @@ pagex(/^(?:subject)?/, function(bla){
 
   // IMPLEMENTATION
   // Add a new subject or lesson
-  u('button.add').click(action.add);
+  u('button.add').on('click', action.add);
 
   // When we save a lesson that we were editing
   u('form.preview').ajax(action.form.save);
 
   // Edit a particular lesson
-  u('form.preview .edit').click(action.form.edit);
+  u('form.preview .edit').on('click', action.form.edit);
 
   // Cancel the edition of a particular lesson
-  u('form.preview .cancel').click(action.form.cancel);
+  u('form.preview .cancel').on('click', action.form.cancel);
 });

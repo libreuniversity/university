@@ -5,14 +5,12 @@
  * @param String name the class name we want to remove
  * @return this Umbrella object
  */
-u.prototype.removeClass = function(name) {
+u.prototype.removeClass = function() {
   
-  // Loop through all the nodes
-  this.each(function() {
+  // Loop the combination of each node with each argument
+  return this.eacharg(arguments, function(el, name){
     
-    // Remove the class from the node
-    this.classList.remove(name.split(" "));
-    });
-  
-  return this;
-  };
+    // Remove the class using the native method
+    el.classList.remove(name);
+  });
+};

@@ -13,7 +13,7 @@ pagex(/^test/, function(){
     });
 
     // Cancel the new lesson
-    u('.cancel', this).click(function(e){
+    u('.cancel', this).on('click', function(e){
       window.location.reload();
     });
   }
@@ -27,9 +27,9 @@ pagex(/^test/, function(){
   // Reset forms on load (or refresh page)
   u('form.test').each(function(){ this.reset(); });
   
-  u('.add').click(actions.add);
+  u('.add').on('click', actions.add);
   
-  u('.edit').click(function(){
+  u('.edit').on('click', function(){
     u('form.test').addClass('edit');
     u(this).closest('form').find('input').first().focus();
   });
@@ -52,7 +52,7 @@ pagex(/^test/, function(){
     u('.refresh').html('New question');
   });
   
-  u('.refresh').click(function(e){
+  u('.refresh').on('click', function(e){
     e.preventDefault();
     window.location.reload();
   });

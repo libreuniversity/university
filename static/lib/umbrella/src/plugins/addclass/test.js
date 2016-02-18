@@ -1,4 +1,11 @@
 // Testing the main file
+function addTest(node, i){
+  return 'test' + i;
+}
+function addDemo(node, i){
+  return 'demo' + i;
+}
+
 describe(".addClass(name1, name2, ...)", function() {
   
   beforeEach(function(){
@@ -7,8 +14,7 @@ describe(".addClass(name1, name2, ...)", function() {
   });
   
   afterEach(function(){
-    base.removeClass('bla');
-    base.removeClass('blu');
+    base.removeClass('bla blu');
   });
   
   it("should be defined", function() {
@@ -52,8 +58,40 @@ describe(".addClass(name1, name2, ...)", function() {
     expect(base.hasClass('blu')).to.equal(true);
   });
 
+  it("can be concatenated", function() {
+    base.addClass('bla').addClass('blu');
+    expect(base.hasClass('bla')).to.equal(true);
+    expect(base.hasClass('blu')).to.equal(true);
+  });
+
   it("adds several classes separated by comma", function() {
-    len = base.addClass('bla,blu').nodes.length;
+    len = base.addClass('bla,blu').length;
     expect(len).to.equal(1);
+  });
+  
+  it("adds classes with callback", function(){
+    base.addClass(addTest);
+    expect(base.hasClass('test0')).to.equal(true);
+    
+    // Clean up
+    base.removeClass('test0');
+    expect(base.hasClass('test0')).to.equal(false);
+  });
+  
+  it("adds many classes with callback", function(){
+    base.find('li').addClass(addTest).each(function(node, i){
+      expect(u(node).hasClass('test' + i)).to.equal(true);
+      u(node).removeClass('test' + i);
+    });
+  });
+  
+  it("accepts two callbacks or more", function(){
+    
+    base.find('li').addClass(addTest, addDemo).each(function(node, i){
+      expect(u(node).hasClass('test' + i)).to.equal(true);
+      expect(u(node).hasClass('demo' + i)).to.equal(true);
+      u(node).removeClass('test' + i);
+      u(node).removeClass('demo' + i);
+    });
   });
 });

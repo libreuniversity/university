@@ -2,60 +2,49 @@
 * ajax(url, data, success, error, before);
 * 
 * Perform a POST request to the given url
+* @param String method the method to send the data, defaults to GET
 * @param String url the place to send the request
 * @param String data the ready to send string of data
 * @param function success optional callback if everything goes right
 * @param function error optional callback if anything goes south
 * @param function before optional previous callback
 */
-function ajax(url, data, success, error, before) {
+function ajax(method, url, data, done, before) {
   
-  // Make them truly optional
-  var nf = function(){};
-  success = success || nf;
-  error = error || nf;
-  before = before || nf;
-  
-  // Load the callback before anything happens
-  before();
-  
-  // Add the umbrella parameter
-  data = data + "&umbrella=true";
+  // To avoid repeating it
+  done = done || Function;
   
   // Create and send the actual request
-  var request = new XMLHttpRequest();
+  var request = new XMLHttpRequest;
+  
+  // An error is just an error
+  // This uses a little hack of passing an array to u() so it handles it as
+  // an array of nodes, hence we can use 'on'. However a single element wouldn't
+  // work since it a) doesn't have nodeName and b) it will be sliced, failing
+  u([request]).on('error timeout abort', function(){
+    done(new Error, null, request);
+  }).on('load', function() {
+    
+    // Also an error if it doesn't start by 2 or 3...
+    // This is valid as there's no code 2x nor 2, nor 3x nor 3, only 2xx and 3xx
+    var err = !/^(2|3)/.test(request.status) ? new Error(request.status) : null;
+    
+    // Attempt to parse the body into JSON
+    var body = parseJson(request.response) || request.response;
+    
+    return done(err, body, request);
+  });
   
   // Create a request of type POST to the URL and ASYNC
-  request.open('POST', url, true);
+  request.open(method || 'GET', url);
   
-  request.setRequestHeader("Content-Type","application/x-www-form-urlencoded; charset=UTF-8");
+  request.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+  request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
   
-  request.send(data);
+  // Load the callback before sending the data
+  if (before) before(request);
   
-  // When the request is sent
-  request.onload = function() {
-    
-    var status = this.status;
-    
-    // Error
-    if (status < 200 || status >= 400) {
-      error(status);
-      
-      return false;
-    }
-    
-    var rawresponse = this.response;
-    
-    // Check if valid json
-    if (!isJson(rawresponse)) {
-      console.log("Response isn't json");
-      success(rawresponse);
-      return false;
-    }
-    
-    // The response is right
-    success(JSON.parse(rawresponse));
-  };
+  request.send(typeof data == 'string' ? data : u().param(data));
   
   return request;
 }

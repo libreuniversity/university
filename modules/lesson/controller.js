@@ -41,3 +41,33 @@ exports.save = function(req, res, next) {
     .pipe(model.save, req.params.id)
     .end(answer.ajax(res, next));
 };
+
+exports.upload = function(req, res, next){
+  var form = new app.npm.formidable.IncomingForm();
+  form.parse(req, function (err, fields, files) {
+
+    var cloudinary = require('cloudinary');
+    cloudinary.config({
+      cloud_name: process.env.cloud,
+      api_key: process.env.key,
+      api_secret: process.env.secret
+    });
+
+    cloudinary.uploader.upload(files.image.path, function(result) {
+      res.json({ error: false, image: result.url.replace('http://', 'https://') });
+    });
+
+
+    //Store the data from the fields in your data store.
+    //The data store could be a file or database or any other store based
+    //on your application.
+    // res.writeHead(200, {
+    //   'content-type': 'text/plain'
+    // });
+    // res.write('received the data:\n\n');
+    // res.end(util.inspect({
+    //   fields: fields,
+    //   files: files
+    // }));
+  });
+}

@@ -7,17 +7,10 @@
  */
 u.prototype.addClass = function(){
   
-  // Normalize the arguments to a string of comma separated elements
-  // Allow for several class names like "a b c" and several parameters
-  // toString() is to flatten the array: http://stackoverflow.com/q/22920305
-  var args = this.slice(arguments).toString().split(/[\s,]+/);
-  
-  // Loop through all the nodes
-  return this.each(function(el){
+  // Loop the combination of each node with each argument
+  return this.eacharg(arguments, function(el, name){
     
-    // Loop and add each of the classes
-    args.forEach(function(name){
-      if (name) el.classList.add(name);
-    });
+    // Add the class using the native method
+    el.classList.add(name);
   });
 };

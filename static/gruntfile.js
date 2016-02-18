@@ -20,15 +20,15 @@ module.exports = function (grunt) {
           // External libraries
           'static/lib/katex/dist/katex.min.js',
           'static/lib/katex-auto-render.min.js',
-          'static/lib/umbrella/umbrella.min.js',
-          
+          'static/umbrella.min.js',
+
           // Internal libraries
           'static/sweet-justice.js', // Sweet justice
           'static/page.js', // Page router
           'static/editor.js', // Text editor
           'static/umbrella/rainstorm.js', // Umbrella js
           'static/template.min.js',  // Template system
-          
+
           // Own code
           'static/javascript.js',  // This specific file
           'static/pages/*.js'

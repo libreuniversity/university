@@ -6,3 +6,4 @@ cert.pem
 logs
 npm-debug.log
 coverage
+.env

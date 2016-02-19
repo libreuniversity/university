@@ -13,54 +13,54 @@ c);"function"===typeof define&&define.amd&&define(function(){return c})})(window
 // Modern Editor
 // An event-based editor for the modern web
 var Editor = function(selector, options){
-  
+
   // The instance's editor element (it is required)
   this.element = u(selector).first();
-  
+
   // Editor options
   this.options = this.defaults(options, {
-    
+
     // Delay for each of the text selections checks (there's no event onselect)
     delay: 200,
-    
+
     // Default active status
     active: true,
-    
+
     // The valid blocks
     blocks: []
   });
-  
-  
+
+
   // Start each of the parts of the library
   this.menu(this.options.menu);
-  
+
   this.selection();
-  
+
   this.shortcuts();
-  
+
   this.clean();
-  
+
   this.default();
-  
+
   var editor = this;
   window.setInterval(this.trigger.bind(this, 'refresh'), this.options.delay);
   this.element.addEventListener("blur", function(e){ editor.trigger('refresh', e); });
-  
+
   // These are just good moments to refresh
   document.addEventListener("keydown", function(e){ editor.trigger('refresh', e); });
   document.addEventListener("mousedown", function(e){ editor.trigger('refresh', e); });
   document.addEventListener("touchstart", function(e){ editor.trigger('refresh', e); });
   document.addEventListener("click", function(e){ editor.trigger('refresh', e); });
-  
+
   this.trigger('init');
 };
 
 
 Editor.prototype.defaults = function(options, def, wrap){
-  
+
   // Based on defaults ( https://github.com/tmpvar/defaults )
   options = typeof options === 'object' ? options : {};
-  
+
   Object.keys(def).forEach(function(key) {
     if (typeof options[key] === 'undefined') {
       options[key] = def[key];
@@ -84,33 +84,33 @@ u.prototype.editor = function(options){
 
 // Register a new full action
 Editor.prototype.add = function(name, options){
-  
+
   // Default options (empty functions)
   var fn = function(){};
   options = this.defaults(options, { init: fn, action: fn, destroy: fn });
-  
+
   // Call the init action inmediately
   options.init.call(this);
-  
+
   // Add the action to the action event list like action:save
   this.on('action:' + name, options.action.bind(this, this));
-  
+
   this.on('destroy', options.destroy.bind(this, this));
-  
-  
+
+
   // Add the shortcut only if there is one
   this.trigger('shortcut:add', { shortcut: options.shortcut, action: name });
-  
+
   // Add the menu item only if there's one
   if (options.menu) {
-    
+
     // Default options for the menu
     options.menu = this.defaults(options.menu, {
       html: options.menu,
       title: (options.shortcut ? '[' + options.shortcut + '] ' : '') + name,
       action: name
     });
-    
+
     this.trigger('menu:add', options.menu);
   }
 };
@@ -119,34 +119,34 @@ Editor.prototype.add = function(name, options){
 Editor.prototype.clean = function(){
   var editor = this;
   this.clean.editor = this;
-  
+
   this.on('refresh', function(){
     editor.trigger('clean');
   });
-  
+
   // Clean up the html
   this.on('clean', function(){
     // Call the single elements
     u(this).children().singles(function(node){
       editor.trigger('clean:single', node);
     });
-    
+
     u(this).children().empty(function(node){
       editor.trigger('clean:empty', node);
     });
   });
-  
+
   // Last defense for cleanup
   // Make sure all top-level elements are valid blocks or wrap them in <p>
   this.on('clean:after', function(){
-    
+
     var ed = u(editor.element);
-    
+
     // Wrap any of the invalid blocks
     if (editor.clean.blocks) {
       ed.children().filter(editor.clean.filter).each(editor.clean.wrap);
     }
-    
+
     if (!ed.children().nodes.length && ed.html() !== "") {
       ed.html('<p>' + ed.html() + '</p>');
     }
@@ -206,29 +206,29 @@ u.prototype.content = function(){
 
 Editor.prototype.default = function(){
   var self = this;
-  
+
   this.on('action:default:italic', function(){
     self.command("italic");
   });
-  
+
   this.on('action:default:bold', function(){
     self.command("bold");
   });
-  
+
   this.on('action:default:link', function(){
     var link = u(self.selection.element).attr('href');
     var address = prompt("Link address", link || "");
     self.command(address ? 'createLink' : 'unlink', address);
   });
-  
+
   this.on('action:default:code', function(){
     self.tag("code");
   });
-  
+
   this.on('action:default:info', function(){
     window.open("https://github.com/franciscop/modern-editor", "_blank");
   });
-  
+
 };
 
 // Events
@@ -254,14 +254,14 @@ Editor.prototype.trigger = function(name, data){
 Editor.prototype.menu = function(name){
   this.menu.editor = this;
   this.menu.visible = false;
-  
+
   // Class that will be added to the menu
   name = name || 'menu';
 
   // Add the menu to the DOM
   u('body').append('<ul class="' + name + '"></ul>');
   this.menu.element = u('.' + name).first();
-  
+
   this.menu.events();
 };
 
@@ -289,14 +289,14 @@ Editor.prototype.menu.separator = function(){
 
 // Show the menu
 Editor.prototype.menu.show = function(){
-  
+
   if (this.editor.options.active) {
     this.element.style.display = 'block';
     this.element.visible = true;
     this.element.classList.add('visible');
   }
 };
-  
+
 // Hide the menu
 Editor.prototype.menu.hide = function(){
   this.element.style.display = "none";
@@ -307,11 +307,11 @@ Editor.prototype.menu.hide = function(){
 
 // Calculate the position for the selection and move the menu to it
 Editor.prototype.menu.move = function() {
-  
+
   var selection = this.editor.selection.position;
   var doc = u('html').first().getBoundingClientRect();
   var menu = this.element.getBoundingClientRect();
-  
+
   var top = selection.top - doc.top;
   if (top < 0 ) top = 0;
   var left = selection.left + selection.width / 2 - menu.width / 2;
@@ -326,10 +326,10 @@ Editor.prototype.menu.move = function() {
 
 
 Editor.prototype.menu.events = function(){
-  
+
   var editor = this.editor;
   var menu = this;
-  
+
   // Add a separator between two elements from the menu
   editor.on("menu:add", function(e, data){
     menu.add(e.detail);
@@ -344,7 +344,7 @@ Editor.prototype.menu.events = function(){
   editor.on('menu:show', function(){
     menu.show();
   });
-    
+
   // Hide the menu
   editor.on('menu:hide', function(){
     menu.hide();
@@ -354,15 +354,15 @@ Editor.prototype.menu.events = function(){
   editor.on('menu:move', function(){
     menu.move();
   });
-  
+
   // Avoid deselecting text when clicking on the menu
   u(menu.element).on('mousedown', function(e){
     e.preventDefault();
   });
-  
+
   // On mousedown check whether or not we click on the menu
   u('body').on("click", function (e) {
-    
+
     // Don't unselect text when clicking on the menu
     if (menu.element && menu.element.contains(e.currentTarget)) {
       e.preventDefault();
@@ -378,12 +378,12 @@ Editor.prototype.selection = function(){
   var editor = this;
   this.selection.element = false;
   this.selection.text = "";
-  
-  
+
+
   // Format nicely the code (if needed)
   this.on('refresh', function(){
-      
-    u('br', this).remove();
+
+    u(this).children('br').remove();
     if (u(this).html().match(/^\s*$/)) {
       editor.command("insertParagraph");
     }
@@ -391,11 +391,11 @@ Editor.prototype.selection = function(){
 
   // Display/hide the menu
   this.on('refresh', function(){
-    
+
     var prev = editor.selection.text;
     editor.trigger('select:check');
     var post = editor.selection.text;
-    
+
     // If the selections has changed
     if (prev != post) {
       editor.trigger('select');
@@ -408,42 +408,43 @@ Editor.prototype.selection = function(){
 
   // When the selection changes, check its value
   this.on('select', function(){
-    
+
     var selected = editor.selection.text;
     var hidden = editor.menu.element.style.display !== 'block';
-    
+
     if (selected && hidden) {
       editor.trigger('menu:show');
     }
-    
+
     if (selected) {
       editor.trigger('menu:move');
     }
-    
+
     if (!selected && !hidden) {
       editor.trigger('menu:hide');
     }
   });
 
   this.on('select:check', function(){
-    
+
     // The selection from the current window
     var selection = window.getSelection();
-    
+
     // Selected text
     editor.selection.text = selection.toString();
-    
-    
+
+
     // Store the *right* element
     var node = selection.anchorNode;
     if (!editor.selection.text || !node) {
       return false;
     }
-    
+
     editor.selection.element = node.nodeType == 1 ? node : node.parentElement;
     editor.selection.range = selection.getRangeAt(0);
   });
 };
+
 // SHORTCUTS
 Editor.prototype.shortcuts = function(){
   var editor = this;
@@ -470,16 +471,16 @@ Editor.prototype.shortcuts = function(){
 };
 
 Editor.prototype.tag = function(name, attr){
-  
+
   name = name.toLowerCase();
-  
+
   var sel = this.selection.element;
   var selTag = sel.tagName.toLowerCase();
-  
+
   // If the one we want to add is already added AND there're no attributes
   // if there's attributes we can assume that we want to change it, not delete it
   if (selTag === name && !attr) {
-    
+
     // Don't allow including one tag into itself
     if (sel.textContent === this.selection.text) {
       this.selection.element.outerHTML = this.selection.text;
@@ -496,20 +497,19 @@ Editor.prototype.tag = function(name, attr){
     }
     tag += ">" + this.selection.text + "</" + name + ">";
     this.command("insertHtml", tag);
-    
+
     var el = u('.' + className).first();
     el.classList.remove(className);
     if (el.classList.length === 0)
       el.removeAttribute('class');
-    
+
     range = document.createRange();
     range.selectNodeContents(el);
-    
+
     var selection = window.getSelection();
     selection.removeAllRanges();
     selection.addRange(range);
   }
-  
+
   this.trigger('refresh');
 };
-

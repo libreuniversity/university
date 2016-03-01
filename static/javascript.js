@@ -17,7 +17,7 @@ var modal = function(type){
   };
 };
 
-u("form.login").ajax(function(data){
+u("form.login").ajax(function(err, data){
   if (data.error === false) {
     window.location.reload();
   }

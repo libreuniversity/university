@@ -37,21 +37,20 @@ module.exports.get = function(id, data, callback){
 };
 
 module.exports.choose = function(arg, data, callback){
-  
+
   if (!data.test || !data.test.length) {
     return callback(null, extend(data, { test: false }));
   }
-  
+
   data.test = shuffle(data.test);
   data.test = data.test[0];
-  console.log(data.test.answer);
   data.test.answers = shuffle(data.test.answers);
-  
+
   callback(false, data);
 };
 
-module.exports.add = function(data, callback){
-  
+module.exports.add = function(arg, data, callback){
+
   // Create and save the test entry with the answers ids
   function saveTest(answerIds) {
     var test = new model({
@@ -64,18 +63,18 @@ module.exports.add = function(data, callback){
       callback(err, test);
     });
   }
-  
+
   function saveAnswer(ans, callback){
-    
+
     var answer = new answerModel(ans);
     answer.save(function(err) {
-      
+
       callback(false, answer._id);
     });
   }
-  
+
   var answers = data['answers[]'].map((value, index) => ({ text: value, good: !index }));
-  
+
   asyn.map(answers, saveAnswer, (err, ids) => saveTest(ids));
 };
 

@@ -3,4 +3,8 @@
 success "watching"
 
 # Watch with grunt
-grunt --base ./ --gruntfile ./static/gruntfile.js watch &>./logs/watch.log &
+if [[ $* == *--show* ]]; then
+  grunt --base ./ --gruntfile ./static/gruntfile.js watch
+else
+  grunt --base ./ --gruntfile ./static/gruntfile.js watch &>./logs/watch.log &
+fi

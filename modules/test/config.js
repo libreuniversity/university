@@ -1,6 +1,6 @@
 module.exports = {
   auth: {
-    add: 50,
-    edit: 10
+    add: 0,
+    edit: 0
   }
 };

@@ -27,12 +27,12 @@ block content
         button.refresh.icon-arrows-cw Skip question
   
   else
-    p Todavía no hay ningún test, podrías añadir uno (:
+    p Todavía no hay ningún test, podrías añadir uno ☺
       
       
 
   template.add
-    form.test(action="/test" method="POST")
+    form.test(method="POST" action="/test")
       header
         textarea.summary(name="question" placeholder="Pregunta del test")
       footer

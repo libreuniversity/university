@@ -1,7 +1,7 @@
 module.exports = {
   auth: {
-    add: 100,
-    update: 50,
+    add: 50,
+    update: 20,
     save: 10
   }
 };

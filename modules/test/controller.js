@@ -25,8 +25,6 @@ exports.index = function(req, res, next) {
 // Add a test
 exports.add = function(req, res, next) {
 
-  console.log(req);
-
   pipe(req.body, { user: req.user, language: req.lang })
     .pipe(api.user.auth, config.auth.add)
     .pipe(model.add)

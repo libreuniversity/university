@@ -3,9 +3,11 @@
 //
 pagex(/^test/, function(){
 
+  var actions = {};
+
   // Attach actions to the new lesson template
   // These are different enough than editing to have a new function
-  function testactions(){
+  actions.template = function(){
 
     // Submit (save) the new lesson through ajax
     u('form.test', this).ajax(function(err, data){
@@ -18,23 +20,18 @@ pagex(/^test/, function(){
     });
   }
 
-  var actions = {};
   actions.add = function(){
-    template('template.add', {}, testactions).replace('form.test');
+    template('template.add', {}, actions.template).replace('form.test');
     u('form.test textarea').first().focus();
   };
 
-  // Reset forms on load (or refresh page)
-  u('form.test').each(function(node){ node.reset(); });
+  actions.edit = function(){
+    u('form.test').addClass('edit').ajax(function(){
+      window.location.reload();
+    }).first().focus();
+  };
 
-  u('.add').on('click', actions.add);
-
-  u('.edit').on('click', function(){
-    u('form.test').addClass('edit');
-    u(this).closest('form').find('input').first().focus();
-  });
-
-  u('[data-good]').on('change', function(){
+  actions.correctAnswer = function(){
     var number = 3;
     var countDown = function(){
       if (u('[data-good]:checked').length == 0) return false;
@@ -47,7 +44,23 @@ pagex(/^test/, function(){
       }
     };
     countDown();
+  };
+
+
+
+
+  // Reset forms on load (or refresh page)
+  u('form.test').each(function(node){ node.reset(); });
+
+  u('.add').on('click', actions.add);
+
+  u('.edit').on('click', actions.edit);
+
+  u('.cancel').on('click', function(){
+    window.location.reload();
   });
+
+  u('[data-good]').on('change', actions.correctAnswer);
 
   u('.answer label').on('click', function(){
     u('.refresh').html('New question');
@@ -59,7 +72,7 @@ pagex(/^test/, function(){
   });
 
   if (u('form.test').nodes.length === 0) {
-    template('template.add', {}, testactions).before('template.add');
+    template('template.add', {}, actions.template).before('template.add');
     u('form.test textarea').first().focus();
   }
 });

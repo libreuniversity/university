@@ -2,16 +2,18 @@ extend ../../app/views/layout
 
 block content
   - var backLink =  '/subject/' + subject.id;
-  +header(false, { add }, { link: backLink, title: subject.title })
-  //+header(false, { add, edit }, { link: backLink, title: subject.title })
+  //+header(false, { add }, { link: backLink, title: subject.title })
+  +header(false, { add, edit }, { link: backLink, title: subject.title })
   
   if test
     form.test(method="POST" action="/test/" + test.id)
       header
-        p= test.question
+        p.question= test.question
+        textarea.question(name="question" placeholder="Pregunta del test")= test.question
       section
         each answer in test.answers
-          input(type="checkbox" data-good=answer.good name="answer" + answer._id id=answer._id)
+          input.answer(name=(answer.good ? "correct" : "wrong") placeholder="Respuesta " + (answer.good ? "correcta" : "incorrecta") value=answer.text)
+          input(type="checkbox" data-good=answer.good name="answer" + answer._id id=answer._id tabindex="-1")
           div.answer
             label(for=answer._id)= answer.text
             div.info
@@ -25,6 +27,11 @@ block content
                   |  Try again
       footer
         button.refresh.icon-arrows-cw Skip question
+        
+        input(type="hidden" name="id" value=test.id)
+        
+        a.button.cancel.dangerous Cancelar
+        button.save.icon-floppy Guardar
   
   else
     p Todavía no hay ningún test, podrías añadir uno ☺
@@ -32,14 +39,14 @@ block content
       
 
   template.add
-    form.test(method="POST" action="/test")
+    form.test.add(method="POST" action="/test")
       header
-        textarea.summary(name="question" placeholder="Pregunta del test")
+        textarea.summary.question(name="question" placeholder="Pregunta del test")
       footer
-        input.correct(name="answers[]" placeholder="Respuesta correcta")
-        input(name="answers[]" placeholder="Respuesta incorrecta")
-        input(name="answers[]" placeholder="Respuesta incorrecta")
-        input(name="answers[]" placeholder="Respuesta incorrecta")
+        input.answer.correct(name="answers[]" placeholder="Respuesta correcta")
+        input.answer.wrong(name="answers[]" placeholder="Respuesta incorrecta")
+        input.answer.wrong(name="answers[]" placeholder="Respuesta incorrecta")
+        input.answer.wrong(name="answers[]" placeholder="Respuesta incorrecta")
       
         input(type="hidden" name="lesson" value=lesson._id)
         button.save.icon-floppy Guardar

@@ -31,9 +31,10 @@ exports.add = function(req, res, next) {
 };
 
 
-// Save the test question/answer in the database
-
-
-
-
-exports.update = function(req, res) {};
+// Update a specific question
+exports.update = function(req, res, next) {
+  pipe(req.body, { user: req.user, language: req.lang })
+    .pipe(api.user.auth, config.auth.add)
+    .pipe(model.update)
+    .end(answer.ajax(res, next));
+};

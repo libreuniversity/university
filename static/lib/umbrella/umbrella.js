@@ -15,23 +15,23 @@ var u = function(parameter, context) {
   if (!(this instanceof u)) {
     return new u(parameter, context);
   }
-
+  
   // No need to further processing it if it's already an instance
   if (parameter instanceof u) {
     return parameter;
   }
-
+  
   // Parse it as a CSS selector if it's a string
   if (typeof parameter == "string") {
     parameter = this.select(parameter, context);
   }
-
+  
   // If we're referring a specific node as in on('click', function(){ u(this) })
   // or the select() function returned a single node such as in '#id'
   if (parameter && parameter.nodeName) {
     parameter = [parameter];
   }
-
+  
   // Convert to an array, since there are many 'array-like' stuff in js-land
   this.nodes = this.slice(parameter);
 };
@@ -51,7 +51,7 @@ u.prototype.nodes = [];
 
 // Add class(es) to the matched nodes
 u.prototype.addClass = function(){
-
+  
   // Loop the combination of each node with each argument
   return this.eacharg(arguments, function(el, name){
     el.classList.add(name);
@@ -60,28 +60,57 @@ u.prototype.addClass = function(){
 
 // [INTERNAL USE ONLY]
 // Add text in the specified position. It is used by other functions
-u.prototype.adjacent = function(position, text, data) {
+u.prototype.adjacent = function(html, data, callback) {
 
   // Loop through all the nodes. It cannot reuse the eacharg() since the data
   // we want to do it once even if there's no "data" and we accept a selector
-  return this.each(function(node) {
+  return this.each(function(node, j) {
+
+    var fragment = document.createDocumentFragment();
 
     // Allow for data to be falsy and still loop once
-    u(data || [""]).each(function(el){
+    u(data || [""]).join(function(el, i){
 
       // Allow for callbacks that accept some data
-      var tx = (typeof text === 'function') ? text.call(this, node, el) : text;
+      var part = (typeof html === 'function') ? html.call(this, el, i, node, j) : html;
 
-      // http://stackoverflow.com/a/23589438
-      // Ref: https://developer.mozilla.org/en-US/docs/Web/API/Element.insertAdjacentHTML
-      node.insertAdjacentHTML(position, tx);
+      if (typeof part === 'string') {
+        return this.generate(part);
+      }
+
+      return u(part).nodes;
+    }).each(function(n){
+      fragment.appendChild(n);
     });
+
+    callback.call(this, node, fragment);
   });
+
+
+
+
+  // // Loop through all the nodes. It cannot reuse the eacharg() since the data
+  // // we want to do it once even if there's no "data" and we accept a selector
+  // return this.each(function(node) {
+  //
+  //   // Allow for data to be falsy and still loop once
+  //   u(data || [""]).each(function(el){
+  //
+  //     // Allow for callbacks that accept some data
+  //     var tx = (typeof text === 'function') ? text.call(this, node, el) : text;
+  //
+  //     // http://stackoverflow.com/a/23589438
+  //     // Ref: https://developer.mozilla.org/en-US/docs/Web/API/Element.insertAdjacentHTML
+  //     node.insertAdjacentHTML(position, tx);
+  //   });
+  // });
 };
 
 // Add some html as a sibling after each of the matched elements.
-u.prototype.after = function(text, data) {
-  return this.adjacent('afterend', text, data);
+u.prototype.after = function(html, data) {
+  return this.adjacent(html, data, function(node, fragment){
+    node.parentNode.insertBefore(fragment, node.nextSibling);
+  });
 };
 
 
@@ -90,14 +119,22 @@ u.prototype.ajax = function(done, before) {
   return this.on("submit", function(e) {
     e.preventDefault();   // Stop native request
     var f = u(this);
-    ajax(f.attr("method"), f.attr("action"), f.serialize(), done, before);
+    var opt = {
+      body: f.serialize(),
+      method: f.attr("method")
+    };
+    if (done) done = done.bind(this);
+    if (before) before = before.bind(this);
+    ajax(f.attr("action"), opt, done, before);
   });
 };
 
 
 // Add some html as a child at the end of each of the matched elements.
 u.prototype.append = function(html, data) {
-  return this.adjacent('beforeend', html, data);
+  return this.adjacent(html, data, function(node, fragment){
+    node.appendChild(fragment);
+  });
 };
 
 
@@ -122,32 +159,45 @@ u.prototype.args = function(args, node, i){
 };
 
 
+// Merge all of the nodes that the callback return into a simple array
+u.prototype.array = function(callback){
+  callback = callback || function(node) { return node.innerHTML; };
+  var self = this;
+  return this.nodes.reduce(function(list, node, i){
+    var val = callback.call(self, node, i);
+    return list.concat(val !== undefined && val !== null ? val : []);
+  }, []);
+};
+
+
 // Handle attributes for the matched elements
 u.prototype.attr = function(name, value, data) {
-
+  
   data = data ? 'data-' : '';
-
+  
   if (value !== undefined){
     var nm = name;
     name = {};
     name[nm] = value;
   }
-
+  
   if (typeof name === 'object') {
     return this.each(function(node){
       for(var key in name) {
         node.setAttribute(data + key, name[key]);
-      }
+      } 
     });
   }
-
+  
   return this.length ? this.first().getAttribute(data + name) : "";
 };
 
 
 // Add some html before each of the matched elements.
 u.prototype.before = function(html, data) {
-  return this.adjacent('beforebegin', html, data);
+  return this.adjacent(html, data, function(node, fragment){
+    node.parentNode.insertBefore(fragment, node);
+  });
 };
 
 
@@ -187,21 +237,17 @@ u.prototype.data = function(name, value) {
  * The callback has two parameters, the node and the index
  */
 u.prototype.each = function(callback) {
-
+  
   // By doing callback.call we allow "this" to be the context for
   // the callback (see http://stackoverflow.com/q/4065353 precisely)
   this.nodes.forEach(callback.bind(this));
-
+  
   return this;
 };
 
 
-/**
- * .eacharg()
- * Loops through the combination of every node and every argument
- * it accepts a callback that will be executed on each combination
- * The callback has two parameters, the node and the index
- */
+// [INTERNAL USE ONLY]
+// Loop through the combination of every node and every argument passed
 u.prototype.eacharg = function(args, callback) {
 
   return this.each(function(node, i){
@@ -251,7 +297,7 @@ u.prototype.filter = function(selector){
  * Find all the nodes children of the current ones matched by a selector
  */
 u.prototype.find = function(selector) {
-
+  
   return this.join(function(node){
     return u(selector || "*", node).nodes;
   });
@@ -263,36 +309,37 @@ u.prototype.find = function(selector) {
  * @return htmlnode the first html node in the matched nodes
  */
 u.prototype.first = function() {
-
+  
   return this.nodes[0] || false;
 };
 
 
-/**
-* ajax(url, data, success, error, before);
-*
-* Perform a POST request to the given url
-* @param String method the method to send the data, defaults to GET
-* @param String url the place to send the request
-* @param String data the ready to send string of data
-* @param function success optional callback if everything goes right
-* @param function error optional callback if anything goes south
-* @param function before optional previous callback
-*/
-function ajax(method, url, data, done, before) {
+// Perform ajax calls
+function ajax(action, opt, done, before) {
 
   // To avoid repeating it
-  done = done || Function;
+  done = done || function(){};
+
+  opt = opt || {};
+  opt.body = opt.body || "";
+  opt.method = (opt.method || 'GET').toUpperCase();
+  opt.headers = opt.headers || {};
+  opt.headers['X-Requested-With'] = opt.headers['X-Requested-With'] || 'XMLHttpRequest';
+  if (!FormData || !(opt.body instanceof FormData)) {
+    opt.headers['Content-Type'] = opt.headers['Content-Type'] || 'application/x-www-form-urlencoded';
+  }
+  opt.body = typeof opt.body === 'object' ? u().param(opt.body) : opt.body;
+
 
   // Create and send the actual request
-  var request = new XMLHttpRequest;
+  var request = new XMLHttpRequest();
 
   // An error is just an error
   // This uses a little hack of passing an array to u() so it handles it as
   // an array of nodes, hence we can use 'on'. However a single element wouldn't
   // work since it a) doesn't have nodeName and b) it will be sliced, failing
   u([request]).on('error timeout abort', function(){
-    done(new Error, null, request);
+    done(new Error(), null, request);
   }).on('load', function() {
 
     // Also an error if it doesn't start by 2 or 3...
@@ -305,26 +352,24 @@ function ajax(method, url, data, done, before) {
     return done(err, body, request);
   });
 
-  // Create a request of type POST to the URL and ASYNC
-  request.open(method || 'GET', url);
+  // Create a request of the specified type to the URL and ASYNC
+  request.open(opt.method, action);
 
-  request.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
-  request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+  // Set the corresponding headers
+  for (var name in opt.headers) {
+    request.setRequestHeader(name, opt.headers[name]);
+  }
 
   // Load the callback before sending the data
   if (before) before(request);
 
-  request.send(typeof data == 'string' ? data : u().param(data));
+  request.send(opt.body);
 
   return request;
 }
-/**
- * parseJson(json)
- *
- * Parse JSON without throwing an error
- * @param String json the string to check
- * @return object from the json or false
- */
+
+// [INTERNAL USE ONLY]
+// Parse JSON without throwing an error
 function parseJson(jsonString){
   try {
     var o = JSON.parse(jsonString);
@@ -340,15 +385,38 @@ function parseJson(jsonString){
 }
 
 
+// [INTERNAL USE ONLY]
+// Generate a fragment of HTML. This irons out the inconsistences
+u.prototype.generate = function(html){
+
+  // Table elements need to be child of <table> for some f***ed up reason
+  if (/^\s*<t(h|r|d)/.test(html)) {
+    return u(document.createElement('table')).html(html).children().nodes;
+  } else if (/^\s*</.test(html)) {
+    return u(document.createElement('div')).html(html).children().nodes;
+  } else {
+    return document.createTextNode(html);
+  }
+};
+
+// Change the default event for the callback. Simple decorator to preventDefault
+u.prototype.handle = function(events, callback) {
+
+  return this.on(events, function(e){
+    e.preventDefault();
+    callback.apply(this, arguments);
+  });
+};
+
 /**
  * .hasClass(name)
- *
+ * 
  * Find out whether the matched elements have a class or not
  * @param String name the class name we want to find
  * @return boolean wether the nodes have the class or not
  */
 u.prototype.hasClass = function(names) {
-
+  
   // Check if any of them has all of the classes
   return this.is('.' + this.args(arguments).join('.'));
 };
@@ -388,10 +456,7 @@ u.prototype.is = function(selector){
 // [INTERNAL USE ONLY]
 // Merge all of the nodes that the callback returns
 u.prototype.join = function(callback) {
-  var self = this;
-  return u(this.nodes.reduce(function(newNodes, node, i){
-    return newNodes.concat(callback.call(self, node, i));
-  }, [])).unique();
+  return callback ? u(this.array(callback)).unique() : this;
 };
 
 
@@ -400,7 +465,7 @@ u.prototype.join = function(callback) {
  * @return htmlnode the last html node in the matched nodes
  */
 u.prototype.last = function() {
-
+  
   return this.nodes[this.length-1] || false;
 };
 
@@ -431,10 +496,10 @@ u.prototype.off = function(events) {
 
 // Attach a callback to the specified events
 u.prototype.on = function(events, callback) {
-
+  
   return this.eacharg(events, function(node, event){
     node.addEventListener(event, callback);
-
+    
     // Store it so we can dereference it with `.off()` later on
     node._e = node._e || {};
     node._e[event] = (node._e[event] || []).concat(callback);
@@ -463,41 +528,36 @@ u.prototype.param = function(obj){
 
 /**
  * .parent()
- *
+ * 
  * Travel the matched elements one node up
  * @return this Umbrella object
  */
 u.prototype.parent = function(selector) {
-
+  
   return this.join(function(node){
     return node.parentNode;
   }).filter(selector);
 };
 
 
-/**
- * .prepend(html)
- *
- * Add child the first thing inside each node
- * @param String html to be inserted
- * @return this Umbrella object
- */
+// Add nodes at the beginning of each node
 u.prototype.prepend = function(html, data) {
-
-  return this.adjacent('afterbegin', html, data);
+  return this.adjacent(html, data, function(node, fragment){
+    node.insertBefore(fragment, node.firstChild);
+  });
 };
 
 
 /**
  * .remove()
- *
+ * 
  * Delete the matched nodes from the html tree
  */
 u.prototype.remove = function() {
-
+  
   // Loop through all the nodes
   return this.each(function(node) {
-
+    
     // Perform the removal
     node.parentNode.removeChild(node);
   });
@@ -512,10 +572,10 @@ u.prototype.remove = function() {
  * @return this Umbrella object
  */
 u.prototype.removeClass = function() {
-
+  
   // Loop the combination of each node with each argument
   return this.eacharg(arguments, function(el, name){
-
+    
     // Remove the class using the native method
     el.classList.remove(name);
   });
@@ -538,10 +598,12 @@ u.prototype.scroll = function() {
 };
 
 
-
-
+// [INTERNAL USE ONLY]
 // Select the adecuate part from the context
 u.prototype.select = function(parameter, context) {
+
+  // Allow for spaces before or after
+  parameter = parameter.replace(/^\s*/, '').replace(/\s*$/, '');
 
   if (context) {
     return this.select.byCss(parameter, context);
@@ -575,7 +637,9 @@ u.prototype.selectors[/^\.[\w\-]+$/] = function(param) {
 };
 
 //The tag nodes
-u.prototype.selectors[/^\w+$/] = document.getElementsByTagName.bind(document);
+u.prototype.selectors[/^\w+$/] = function(param){
+  return document.getElementsByTagName(param);
+};
 
 // Find some html nodes using an Id
 u.prototype.selectors[/^\#[\w\-]+$/] = function(param){
@@ -584,7 +648,7 @@ u.prototype.selectors[/^\#[\w\-]+$/] = function(param){
 
 // Create a new element for the DOM
 u.prototype.selectors[/^</] = function(param){
-  return u(document.createElement('div')).html(param).children().nodes;
+  return u().generate(param);
 };
 
 
@@ -622,7 +686,7 @@ u.prototype.serialize = function() {
 
 /**
  * .siblings()
- *
+ * 
  * Travel the matched elements at the same level
  * @return this Umbrella object
  */
@@ -665,23 +729,23 @@ u.prototype.str = function(node, i){
 
 /**
  * .text(text)
- *
+ * 
  * Set or retrieve the text content from the matched node(s)
  * @param text optional some text to set as the node's content
  * @return this|String
  */
 u.prototype.text = function(text) {
-
+  
   // Needs to check undefined as it might be ""
   if (text === undefined) {
     return this.first().textContent || "";
   }
-
-
-  // If we're attempting to set some text
+  
+  
+  // If we're attempting to set some text  
   // Loop through all the nodes
   return this.each(function(node) {
-
+    
     // Set the text content to the node
     node.textContent = text;
   });
@@ -715,12 +779,12 @@ u.prototype.toggleClass = function(classes, addOrRemove){
 
 // Call an event manually on all the nodes
 u.prototype.trigger = function(events, data) {
-
+  
   this.eacharg(events, function(node, event){
-
+    
     // Allow the event to bubble up and to be cancelable (default)
     var ev, opts = { bubbles: true, cancelable: true, detail: data };
-
+    
     try {
       // Accept different types of event names or an event itself
       ev = new CustomEvent(event, opts);
@@ -728,20 +792,21 @@ u.prototype.trigger = function(events, data) {
       ev = document.createEvent('CustomEvent');
       ev.initCustomEvent(event, true, true, data);
     }
-
+    
     node.dispatchEvent(ev);
   });
 };
 
 // [INTERNAL USE ONLY]
 
-// Make the nodes unique. This is needed for some specific methods
+// Removed duplicated nodes, used for some specific methods
 u.prototype.unique = function(){
 
   return u(this.nodes.reduce(function(clean, node){
     return (node && clean.indexOf(node) === -1) ? clean.concat(node) : clean;
   }, []));
 };
+
 // [INTERNAL USE ONLY]
 
 // Encode the different strings https://gist.github.com/brettz9/7147458

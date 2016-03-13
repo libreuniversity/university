@@ -12,6 +12,33 @@
     margin: .3em 0;
   }
 
+  textarea,
+  input.answer,
+  .save,
+  .cancel {
+    display: none;
+  }
+
+  &.add,
+  &.edit {
+    p.question,
+    div.answer,
+    .refresh {
+      display: none;
+    }
+
+    textarea.question,
+    input.answer,
+    .save,
+    .cancel {
+      display: block;
+    }
+
+    input.answer {
+      background: #fff;
+    }
+  }
+
   header {
     font-weight: normal;
   }

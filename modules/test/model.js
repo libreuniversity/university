@@ -78,4 +78,35 @@ module.exports.add = function(arg, data, callback){
   asyn.map(answers, saveAnswer, (err, ids) => saveTest(ids));
 };
 
+module.exports.update = function(arg, data, callback){
+  model.findOne({ _id: data.id }).populate('answers').exec(function(err, question){
+
+    question.answers = question.answers.map(function(answer, i){
+      console.log("Answer: ", answer);
+      if (answer.good) {
+        answer.text = data.correct;
+      } else {
+        answer.text = data.wrong[i-1];
+      }
+      return answer;
+    });
+
+    function saveAnswer(ans, callback){
+      answerModel.update({ _id: ans._id }, { text: ans.text }, callback);
+    }
+
+    function saveTest(){
+
+      model.findOneAndUpdate({ _id: data.id }, { question: data.question }, { new: true }, function(err, question){
+        callback(false, question);
+      });
+    }
+
+    asyn.map(question.answers, saveAnswer, saveTest);
+  });
+
+};
+
+
+
 module.exports.mongo = model;

@@ -1,10 +1,15 @@
 // SUBJECT page
 // action: { add, form: { save, remove, edit, cancel }}
 // Non capturing group (http://stackoverflow.com/a/3513858/938236)
-pagex(/^(?:subject)?/, function(bla){
-  
+pagex(/^subject/, subject);
+pagex(/^$/, subject);
+
+function subject(bla){
+
+  console.log("Hello world");
+
   var action = {};
-  
+
   // Functions for the subject
   action.add = function(e){
     e.preventDefault();
@@ -78,4 +83,4 @@ pagex(/^(?:subject)?/, function(bla){
 
   // Cancel the edition of a particular lesson
   u('form.preview .cancel').on('click', action.form.cancel);
-});
+};

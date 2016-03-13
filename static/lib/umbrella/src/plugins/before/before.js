@@ -1,11 +1,6 @@
-/**
- * .before(html)
- * 
- * Add child before all of the current nodes
- * @param String html to be inserted
- * @return this Umbrella object
- */
+// Add some html before each of the matched elements.
 u.prototype.before = function(html, data) {
-  
-  return this.adjacent('beforebegin', html, data);
+  return this.adjacent(html, data, function(node, fragment){
+    node.parentNode.insertBefore(fragment, node);
+  });
 };

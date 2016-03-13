@@ -1,5 +1,7 @@
 # Contributing
 
+> Please use the branch "2" for changes/new features until this notice is removed
+
 Thanks for contributing! Developing Umbrella is quite easy:
 
 1. Clone the repository `git clone git+https://github.com/umbrellajs/umbrella.git && cd ./umbrellajs`
@@ -26,6 +28,28 @@ it("can add a single class", function(){
 });
 ```
 
+You can use these methods to ease your testing:
+
+```js
+// Expect something to be a function:
+isFn(function(){}); // good
+isFn("a"); // throw
+
+// Expect the selector to have the size:
+size('body', 1); // good
+size('body', 2); // bad
+
+// Expect the selector, or the `base` if there's none, to have the class
+hasClass('bla') // good
+hasClass('bla', '.bla') // good
+hasClass('non-exist') // bad
+
+// You can also chain all of them:
+isFn(function(){})(function(){})(function(){})
+size('body', 1)('html', 1)
+hasClass('bla')('blu')
+```
+
 While a priori it might seem right, there are two potential and serious problems: the class might be there already and we might affect other tests. These can be corrected if we follow few simple principles:
 
 1. Make sure that the data at the begin of the test does *not* pass the test
@@ -36,14 +60,14 @@ So that's it, for our example of addClass we could now do:
 
 ```js
 it("can add a single class", function(){
-  
+
   // 1. Check that the class is not there previously
   expect(base.hasClass('bla')).to.equal(false);
-  
+
   // 2. The code to test and its test
   base.addClass('bla');
   expect(base.hasClass('bla')).to.equal(true);
-  
+
   // 3. Make sure we clean up
   base.removeClass('bla');
 });
@@ -61,3 +85,5 @@ afterEach(function(){
   base.removeClass('bla blu');
 });
 ```
+
+When the variable `work` is set to false `var work = false;` in each function test, all of the inner tests should fail. This is so only the smallest part is correctly tested.

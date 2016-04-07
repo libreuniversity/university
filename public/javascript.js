@@ -983,7 +983,7 @@ pagex(/^lesson/, function(id){
     action: function(editor){
       var form = u("form.edit");
       var html = encodeURIComponent(form.find("article.content").html());
-      ajax("POST", form.attr("action"), "content=" + html, function(err, data){
+      ajax(form.attr("action"), { method: "POST", body: "content=" + html }, function(err, data){
 
         u("form.lesson").removeClass("edit").find('article').attr('contenteditable', false);
 

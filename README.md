@@ -11,15 +11,15 @@ You need to install a bunch of things first to run this. Before, you'll need Nod
 
 1. Clone the repository  
 
-    git clone git://github.com/libre/university.git && cd ./university
+    `git clone git://github.com/libre/university.git && cd ./university`
 
 1. Install Nodemon, Istanbul and Mocha globally for testing (recommended):
 
-    npm install nodemon istanbul mocha -g
+    `npm install nodemon istanbul mocha -g`
 
 1. Install the dependencies:
 
-    npm install
+    `npm install`
 
 
 

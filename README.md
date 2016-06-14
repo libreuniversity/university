@@ -10,11 +10,16 @@ This is the alpha source code for Libre University ([www.libre.university](http:
 You need to install a bunch of things first to run this. Before, you'll need Node.js, NPM and MongoDB installed (and MongoDB running). **Once you have those installed**, do this to install Libre University:
 
 1. Clone the repository  
-`git clone git://github.com/libre/university.git && cd ./university`
+
+    git clone git://github.com/libre/university.git && cd ./university
+
 1. Install Nodemon, Istanbul and Mocha globally for testing (recommended):
-`npm install nodemon istanbul mocha -g`
+
+    npm install nodemon istanbul mocha -g
+
 1. Install the dependencies:
-`npm install`
+
+    npm install
 
 
 
@@ -31,7 +36,7 @@ For running a local copy you can just do this:
 npm start
 ```
 
-### Back-end
+### Server refresh
 
 If you want to listen for changes in the Node.js server and update the server accordingly, then use nodemon:
 
@@ -39,7 +44,7 @@ If you want to listen for changes in the Node.js server and update the server ac
 nodemon
 ```
 
-### Full-stack
+### Full-stack refresh
 
 If you also want to listen for changes on the front-end files (style and javascript), we recommend using this specially built script. However, it's a bit slower, so we don't recommend it for back-end:
 

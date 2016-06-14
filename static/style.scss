@@ -16,12 +16,12 @@ $picnic-modal-transition: all .3s ease;
 @import 'lib/katex/dist/katex.min';
 
 // Picnic CSS for default nice styles
-@import 'lib/picnic/src/picnic';
-@import 'lib/picnic/plugins/nav/plugin';
-@import 'lib/picnic/plugins/card/plugin';
-@import 'lib/picnic/plugins/modal/plugin';
-@import 'lib/picnic/plugins/stack/plugin';
-@import 'lib/picnic/plugins/tooltip/plugin';
+@import './lib/picnic/src/picnic';
+@import './lib/picnic/src/plugins/nav/plugin';
+@import './lib/picnic/src/plugins/card/plugin';
+@import './lib/picnic/src/plugins/modal/plugin';
+@import './lib/picnic/src/plugins/stack/plugin';
+@import './lib/picnic/src/plugins/tooltip/plugin';
 
 
 

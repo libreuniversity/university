@@ -1,6 +1,5 @@
 // Handle the errors from the middleware
-module.exports = function(err, req, res, next) {
-
+module.exports = function (err, req, res, next) {
   console.log(err);
   console.error(err.stack);
 
@@ -11,8 +10,7 @@ module.exports = function(err, req, res, next) {
   // If ajax call
   if (err.ajax === true) {
     res.status(err.status).json({ error: err.message });
-  }
-  else {
-    res.status(err.status).render('error/404', {message: err.message });
+  } else {
+    res.status(err.status).render('error/404', { message: err.message });
   }
 };

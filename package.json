@@ -7,8 +7,8 @@
   },
   "scripts": {
     "start": "node app.js",
-    "test": "istanbul cover _mocha tests.js",
-    "watch": "grunt watch"
+    "test": "grunt semistandard && istanbul cover _mocha tests.js",
+    "watch": "nodemon --ignore public/ -x \"grunt build && npm test && grunt notify:done && npm start\""
   },
   "dependencies": {
     "async": "^1.5.0",
@@ -55,7 +55,10 @@
     "grunt-contrib-sass": "^0.9.2",
     "grunt-contrib-uglify": "^0.8.0",
     "grunt-contrib-watch": "^0.6.1",
+    "grunt-notify": "^0.4.5",
     "grunt-sass": "^1.0.0",
+    "grunt-semistandard": "^1.0.6",
+    "mocha": "^2.5.3",
     "superagent": "^1.4.0"
   }
 }

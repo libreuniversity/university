@@ -1,9 +1,9 @@
 // Handle error creating in a simpler way that the default
-module.exports = function(message, status, ajax){
+module.exports = function (message, status, ajax) {
   var err = new Error(message);
 
   // Options
-  if(status instanceof Object) {
+  if (status instanceof Object) {
     err.ajax = status.ajax || false;
     err.status = status.status || 500;
   } else {

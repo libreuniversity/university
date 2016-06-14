@@ -1,5 +1,5 @@
 
-module.exports = function(timestamp){
+module.exports = function (timestamp) {
   var date = new Date(timestamp);
   return {
     time: date.getHours() + ':' + date.getMinutes(),

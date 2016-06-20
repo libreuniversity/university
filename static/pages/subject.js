@@ -6,14 +6,10 @@ pagex(/^$/, subject);
 
 function subject(bla){
 
-  console.log("Hello world");
-
   var action = {};
 
   // Functions for the subject
-  action.add = function(e){
-    e.preventDefault();
-
+  this.exports.add = function(e){
     if(!user) {
       return modal('login').show('Tienes que ser un usuario de Libre University para editar esto');
     }
@@ -72,9 +68,6 @@ function subject(bla){
 
 
   // IMPLEMENTATION
-  // Add a new subject or lesson
-  u('button.add').on('click', action.add);
-
   // When we save a lesson that we were editing
   u('form.preview').ajax(action.form.save);
 

@@ -1,1 +1,28 @@
-p Index works
+extends ../../app/views/layout
+
+block content
+  +header(text.papers)
+
+  section.subjects
+
+  section.add
+    button.add.icon-plus(data-click="add")= text.add
+
+  div.modal
+    input#addpaper(type="checkbox")
+    label.overlay(for="addpaper")
+    form.addpaper.wide(action="/research" method="post" data-submit="create")
+      header
+        h2 Add research paper
+        label.close(for="addpaper") &times;
+      section.content
+        .flex.three
+          div.third
+            label.dropimage
+              input(title="Drop image or click me" type="file")
+          div.two-third
+            input(name="title" placeholder="Title")
+
+      footer
+        button Add
+        label.button.dangerous(for="addpaper") Cancel

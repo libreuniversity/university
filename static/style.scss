@@ -35,6 +35,7 @@ $picnic-modal-transition: all .3s ease;
 @import 'preview';
 @import 'lesson';
 @import 'test';
+@import 'research';
 
 @import 'print';
 
@@ -137,6 +138,11 @@ main .message {
   .content input {
     display: block;
   }
+}
+
+.modal .wide {
+  width: 90%;
+  max-width: 800px;
 }
 
 @media all and (max-width: $picnic-breakpoint) {

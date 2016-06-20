@@ -2,6 +2,7 @@ module.exports = {
   add: 'Añadir',
   subjects: 'Asignaturas',
   lessons: 'Apuntes',
+  papers: 'Publicaciones',
   tests: 'Tests',
   enter: 'Entrar',
   save: 'Guardar',

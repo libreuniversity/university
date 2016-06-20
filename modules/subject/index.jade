@@ -8,7 +8,7 @@ block content
       +preview('subject', article, { subject: text.enter })
   
   section.add
-    button.add.icon-plus= text.add
+    button.add.icon-plus(data-click='add')= text.add
   
   template.add
     +preview('subject')

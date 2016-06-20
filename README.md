@@ -7,7 +7,7 @@ This is the alpha source code for Libre University ([www.libre.university](http:
 
 ## Install
 
-You need to install a bunch of things first to run this. Before, you'll need Node.js, NPM and MongoDB installed (and MongoDB running). **Once you have those installed**, do this to install Libre University:
+You need to install a bunch of things first to run this. Before, you'll need **Node.js**, **NPM** and **MongoDB** installed (and MongoDB running). **Once you have those installed**, do this to install Libre University:
 
 1. Clone the repository  
 

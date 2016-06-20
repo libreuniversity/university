@@ -9,7 +9,7 @@ block content
     div.wrap
       div.content
         h1 Umbrella JS
-        p.slogan Tiny and intuitive javascript library
+        p.slogan Tiny library for DOM manipulation, events and AJAX
         pre.install bower install umbrella
         a.button.icon-link(href="http://www.jsdelivr.com/projects/umbrella" target="_blank") CDN
         = ' '
@@ -24,9 +24,9 @@ block content
       div
         :markdown
           ## Intuitive and Documented
-          It is <strong>strongly influenced by jquery</strong> so there are many similar methods and you'll feel at ease developing with Umbrella.
+          It is **strongly influenced by jquery** with many similar methods so you'll feel at ease developing with Umbrella.
           
-          However there are also some improvements to make your code intuitive such as ajax(). It's all detailed here:
+          However there are also some improvements such as with `.ajax()`, `.append()`, etc. It's all detailed here:
         a.button.icon-doc(href="documentation" target="_blank") Documentation
       div
         pre
@@ -45,20 +45,22 @@ block content
       div
         :markdown
           ## Tiny and Clear
-          **2kb** when gzipped means it will load in a snap on mobile. The core is reusable so new features are also tiny.
+          **3kb** when gzipped means it will load in a snap on mobile. The core is reusable so new features are also tiny.
           
           You can see two features of Umbrella JS source code on the right, or check it all on github:
         a.button.icon-g(href="https://github.com/umbrellajs/umbrella" target="_blank") Source on Github
       div
         pre
           code.language-javascript.
-            // Add child after all of the current nodes
-            u.prototype.after = function(text) {
-              return this.adjacent('afterend', text);
+            // Find the nodes matched by a selector
+            u.prototype.find = function(selector) {
+              return this.map(function(node){
+                return u(selector || "*", node);
+              });
             };
             // Check if any node matches the selector
             u.prototype.is = function(selector){
-              return this.filter(selector).nodes.length > 0;
+              return this.filter(selector).length > 0;
             };
     
     section.row
@@ -73,12 +75,12 @@ block content
         pre
           code.language-javascript.
             it("can select by class", function() {
-              expect(u('.demo').nodes.length).to.equal(1);
+              expect(u('.demo').length).to.equal(1);
             });
 
-            it("can select the children of ul", function() {
+            it("can select li inside ul", function() {
               var ul = base.find('li').closest('ul');
-              expect(ul.nodes.length).to.equal(1);
+              expect(ul.length).to.equal(1);
             });
     
     section.row
@@ -101,4 +103,4 @@ block content
         div With love,
         a(href="http://francisco.io/" target="_blank") Francisco Presencia
 
-  script(src="plugins.min.js")
+  script(src="umbrella.min.js")

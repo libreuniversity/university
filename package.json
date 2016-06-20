@@ -8,7 +8,9 @@
   "scripts": {
     "start": "node app.js",
     "test": "grunt semistandard && istanbul cover _mocha tests.js",
-    "watch": "nodemon --ignore public/ -x \"grunt build && npm test && grunt notify:done && npm start\""
+    "build": "grunt build && grunt notify:done && npm start",
+    "watch-build": "nodemon --ignore public/ -e js,scss -x \"npm run build\"",
+    "watch": "nodemon --ignore public/ -e js,scss -x \"grunt build && npm test && grunt notify:done && npm start\""
   },
   "dependencies": {
     "async": "^1.5.0",

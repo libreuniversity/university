@@ -2,6 +2,7 @@ module.exports = {
   add: 'Add',
   subjects: 'Subjects',
   lessons: 'Lessons',
+  papers: 'Papers',
   tests: 'Tests',
   enter: 'Enter',
   save: 'Save',

@@ -1,4 +1,4 @@
-# Umbrella JS [![Circle CI](https://circleci.com/gh/umbrellajs/umbrella/tree/master.svg?style=shield)](https://circleci.com/gh/umbrellajs/umbrella/tree/master) [![License MIT](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/umbrellajs/umbrella/blob/master/LICENSE)
+# Umbrella JS [![Circle CI](https://circleci.com/gh/umbrellajs/umbrella/tree/master.svg?style=shield)](https://circleci.com/gh/umbrellajs/umbrella/tree/master) [![js-semistandard-style](https://img.shields.io/badge/code%20style-semistandard-brightgreen.svg)](https://github.com/Flet/semistandard) [![License MIT](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/umbrellajs/umbrella/blob/master/LICENSE)
 
 > [**Library Documentation**](http://umbrellajs.com/documentation)
 
@@ -13,17 +13,16 @@ You probably need awesome CSS (like [Picnic CSS](http://picnicss.com/)) and a li
 
 A simple example:
 
-```html
-<a class="example button">Click me</a>
+```js
+// Simple events like jquery
+u("button").on('click', function(){
+  alert("Hello world");
+});
 
-<script>
-  u('form.example').ajax(function(err, data){
-    if (err) u(".error").html("There was an error");
-    u('button.send').html("Send again, " + data.name);
-  }, function(){
-    u('button.send').html("Sending...");
-  });
-</script>
+// Send form through ajax when submitted
+u('form.login').ajax(function(err, res){
+  window.href = '/user/' + res.id;
+});
 ```
 
 
@@ -54,6 +53,15 @@ Bower is a front-end package manager that makes it super-easy to add a new packa
 bower install umbrella
 ```
 
+### Module support
+
+If you use a front-end module bundler like Webpack or Browserify, `u` and `ajax` are exposed as CommonJS exports. You can pull them in like so:
+
+```
+var u = require('path/to/umbrella').u;
+// or ES-style modules
+import { u } from 'path/to/umbrella';
+```
 
 ### Download it
 
@@ -80,18 +88,24 @@ For beginners in Javascript or contributing to an Open Source project, there are
 
 Current usage for IE 10- is under 1% for each version (8, 9, 10) so it's not Umbrella's mission to support this. However, those extra seconds gained from loading faster on mobile might be even bigger than that percentage. You should probably test it.
 
-Known, wontfix IE9- bugs:
+Known, wontfix IE10- bugs:
 
-- [Invalid target element for this operation](http://caniuse.com/#feat=insertadjacenthtml) when trying to use insertAdjacentHTML on table, tbody, thead or tr. Affects in that situation to:
+- [Invalid target element for this operation](http://caniuse.com/#feat=insertadjacenthtml) when trying to use any of these methods on **table**, **tbody**, **thead** or **tr**. Check [the issue on StackOverflow](http://stackoverflow.com/q/8771498/938236). For those elements, this gives an error:
   - `.before()`
   - `.after()`
   - `.append()`
-  - `.prepend`
-- [unable to get property ____ of undefined or null reference](http://caniuse.com/#search=classList) since classList is not supported by IE9-. Affects:
+  - `.prepend()`
+
+
+- [Unable to get property ____ of undefined or null reference](http://caniuse.com/#search=classList) since classList is not supported by IE9-. Just use `polyfill.js` and they will work. Affects:
   - `.addClass()`
   - `.removeClass()`
   - `.hasClass()`
   - `.toggleClass()`
+
+- Choosing multiple options within `<select>` doesn't work with IE10- when using `.serialize()` (and thus `.ajax()`). No idea why, but it's a really corner case. Affects:
+  - `.ajax()`
+  - `.serialize()`
 
 
 

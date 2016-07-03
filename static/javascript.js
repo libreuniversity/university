@@ -50,11 +50,15 @@ pagex.after(function(actions){
   u('body').on('click', '[data-click]', function(e){
     e.preventDefault();
     // Pass `action` to keep the `this.[actionname]` inside the actions
-    actions[u(e.target).data('click')].apply(actions, arguments);
+    var clickable = actions[u(e.target).data('click')];
+    if (clickable)
+      clickable.apply(actions, arguments);
   });
   u('body').on('submit', '[data-submit]', function(e){
     e.preventDefault();
     // Pass `action` to keep the `this.[actionname]` inside the actions
-    actions[u(e.target).data('submit')].apply(actions, arguments);
+    var clickable = actions[u(e.target).data('submit')];
+    if (clickable)
+      clickable.apply(actions, arguments);
   });
 });

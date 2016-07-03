@@ -9,7 +9,7 @@ function subject(bla){
   var action = {};
 
   // Functions for the subject
-  this.exports.add = function(e){
+  action.add = function(e){
     if(!user) {
       return modal('login').show('Tienes que ser un usuario de Libre University para editar esto');
     }
@@ -68,6 +68,8 @@ function subject(bla){
 
 
   // IMPLEMENTATION
+  u('.add').on('click', action.add);
+
   // When we save a lesson that we were editing
   u('form.preview').ajax(action.form.save);
 

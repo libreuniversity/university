@@ -91,7 +91,7 @@ Editor.prototype.add = function(name, options){
   options = this.defaults(options, { init: fn, action: fn, destroy: fn });
 
   // Call the init action inmediately
-  options.init.call(this);
+  options.init.call(this, this);
 
   // Add the action to the action event list like action:save
   this.on('action:' + name, options.action.bind(this, this));
@@ -185,12 +185,6 @@ u.prototype.empty = function(callback){
 u.prototype.replace = function(el){
   this.each(function(node){
     node.parentNode.replaceChild(u('<p>').html(u(node).html()).first(), node);
-  });
-};
-
-u.prototype.wrap = function(el){
-  this.each(function(node){
-    node.parentNode.replaceChild(u('<p>').html(node.outerHTML).first(), node);
   });
 };
 
@@ -364,8 +358,8 @@ Editor.prototype.menu.events = function(){
 
   // Avoid deselecting text when clicking on the menu
   u(menu.element).on('mousedown', function(e){
-    if (!u(e.target).closest('select')) {
-      console.log("Prevented mousedown");
+    // Only if it was not a select
+    if (u(e.target).closest('select').length === 0) {
       e.preventDefault();
     }
   });

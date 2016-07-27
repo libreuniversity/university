@@ -14,6 +14,21 @@ pagex(/^\/lesson/, function(id){
             </select>',
       defaults: true
     },
+    init: function(editor){
+      editor.on('clean', function(e, node){
+
+        // Lonely <code> are wrapped in <pre>
+        var bare = u(editor.element).children('code').wrap('<pre>');
+
+        var nopre = u(editor.element).children().children('code').parent(function(node){
+          return !u(node).is('pre');
+        });
+
+        nopre.filter(function(node){
+          return u(node).text() === u(node).children().text();
+        }).wrap('<pre>').html(nopre.html());
+      });
+    },
     action: function (editor) {
       u('[name="type"]').not('.listened').addClass('listened').on('change', function(e){
         editor.tag(e.target.value);

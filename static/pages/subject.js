@@ -1,8 +1,8 @@
 // SUBJECT page
 // action: { add, form: { save, remove, edit, cancel }}
 // Non capturing group (http://stackoverflow.com/a/3513858/938236)
-pagex(/^subject/, subject);
-pagex(/^$/, subject);
+pagex(/^\/subject/, subject);
+pagex(/^\/$/, subject);
 
 function subject(bla){
 
@@ -10,6 +10,7 @@ function subject(bla){
 
   // Functions for the subject
   action.add = function(e){
+    console.log("Added");
     if(!user) {
       return modal('login').show('Tienes que ser un usuario de Libre University para editar esto');
     }
@@ -68,7 +69,7 @@ function subject(bla){
 
 
   // IMPLEMENTATION
-  u('.add').on('click', action.add);
+  u('button.add').on('click', action.add);
 
   // When we save a lesson that we were editing
   u('form.preview').ajax(action.form.save);

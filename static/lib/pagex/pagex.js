@@ -23,19 +23,7 @@ var pagex = function (path, negate, callback, url) {
 
     // Check whether we are in the correct page or not
     if (path.test(url) !== negate) {
-      var params = url.match(path) ? url.match(path).slice(1) : [];
-
-      var self = { url: url, exports: {}, params: params };
-
-      pagex.events.before.forEach(function (cb) {
-        cb.call(self);
-      });
-
-      var ret = callback.apply(self, params);
-
-      pagex.events.after.forEach(function (cb) {
-        cb.call(pagex, ret || self.exports);
-      });
+      callback.apply(null, url.match(path) ? url.match(path).slice(1) : []);
     }
   };
 
@@ -47,16 +35,6 @@ var pagex = function (path, negate, callback, url) {
   if (['interactive', 'complete', 'loaded'].indexOf(document.readyState) !== -1) {
     fn();
   }
-};
-
-pagex.events = { before: [], after: [] };
-
-pagex.before = function (cb) {
-  this.events.before.push(cb);
-};
-
-pagex.after = function (cb) {
-  this.events.after.push(cb);
 };
 
 // Export it as part of PageX

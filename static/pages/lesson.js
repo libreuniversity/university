@@ -1,8 +1,12 @@
 
-pagex(/^lesson/, function(id){
+pagex(/^\/lesson/, function(id){
 
   // Initialize the editor in the element that is contenteditable
   var editor = new Editor("article.content", { menu: "editormenu", active: false });
+
+  editor.add('type', {
+    menu: ""
+  });
 
   // Register a new action called "bold"
   editor.add("bold", {

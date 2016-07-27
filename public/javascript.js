@@ -8,6 +8,501 @@ skew:0},101:{depth:0,height:.44444,italic:0,skew:0},102:{depth:0,height:.69444,i
 
 /* Umbrella JS 2.6.3 umbrellajs.com */
 function ajax(a,b,c,d){c=c||function(){},b=b||{},b.body=b.body||"",b.method=(b.method||"GET").toUpperCase(),b.headers=b.headers||{},b.headers["X-Requested-With"]=b.headers["X-Requested-With"]||"XMLHttpRequest","undefined"!=typeof window.FormData&&b.body instanceof window.FormData||(b.headers["Content-Type"]=b.headers["Content-Type"]||"application/x-www-form-urlencoded"),/json/.test(b.headers["Content-Type"])&&(this.encode=function(a){return JSON.stringify(b.body||{})}),"object"!=typeof b.body||b.body instanceof window.FormData||(b.body=u().param(b.body));var e=new window.XMLHttpRequest;u(e).on("error timeout abort",function(){c(new Error,null,e)}).on("load",function(){var a=/^(2|3)/.test(e.status)?null:new Error(e.status),b=parseJson(e.response)||e.response;return c(a,b,e)}),e.open(b.method,a);for(var f in b.headers)e.setRequestHeader(f,b.headers[f]);return d&&d(e),e.send(b.body),e}function parseJson(a){try{var b=JSON.parse(a);if(b&&"object"==typeof b)return b}catch(c){}return!1}var u=function(a,b){return this instanceof u?a instanceof u?a:("string"==typeof a&&(a=this.select(a,b)),a&&a.nodeName&&(a=[a]),void(this.nodes=this.slice(a))):new u(a,b)};u.prototype={get length(){return this.nodes.length}},u.prototype.nodes=[],u.prototype.addClass=function(){return this.eacharg(arguments,function(a,b){a.classList.add(b)})},u.prototype.adjacent=function(a,b,c){return"number"==typeof b&&(b=0===b?[]:new Array(b).join().split(",").map(Number.call,Number)),this.each(function(d,e){var f=document.createDocumentFragment();u(b||{}).map(function(b,c){var f="function"==typeof a?a.call(this,b,c,d,e):a;return"string"==typeof f?this.generate(f):u(f)}).each(function(a){this.isInPage(a)?f.appendChild(u(a).clone().first()):f.appendChild(a)}),c.call(this,d,f)})},u.prototype.after=function(a,b){return this.adjacent(a,b,function(a,b){a.parentNode.insertBefore(b,a.nextSibling)})},u.prototype.ajax=function(a,b){return this.handle("submit",function(c){ajax(u(this).attr("action"),{body:u(this).serialize(),method:u(this).attr("method")},a&&a.bind(this),b&&b.bind(this))})},u.prototype.append=function(a,b){return this.adjacent(a,b,function(a,b){a.appendChild(b)})},u.prototype.args=function(a,b,c){return"function"==typeof a&&(a=a(b,c)),"string"!=typeof a&&(a=this.slice(a).map(this.str(b,c))),a.toString().split(/[\s,]+/).filter(function(a){return a.length})},u.prototype.array=function(a){a=a;var b=this;return this.nodes.reduce(function(c,d,e){var f;return a?(f=a.call(b,d,e),f||(f=!1),"string"==typeof f&&(f=u(f)),f instanceof u&&(f=f.nodes)):f=d.innerHTML,c.concat(f!==!1?f:[])},[])},u.prototype.attr=function(a,b,c){if(c=c?"data-":"",void 0!==b){var d=a;a={},a[d]=b}return"object"==typeof a?this.each(function(b){for(var d in a)b.setAttribute(c+d,a[d])}):this.length?this.first().getAttribute(c+a):""},u.prototype.before=function(a,b){return this.adjacent(a,b,function(a,b){a.parentNode.insertBefore(b,a)})},u.prototype.children=function(a){return this.map(function(a){return this.slice(a.children)}).filter(a)},u.prototype.clone=function(){return this.map(function(a,b){var c=a.cloneNode(!0),d=this.getAll(c);return this.getAll(a).each(function(a,b){for(var c in this.mirror)this.mirror[c](a,d.nodes[b])}),c})},u.prototype.getAll=function(a){return u([a].concat(u("*",a).nodes))},u.prototype.mirror={},u.prototype.mirror.events=function(a,b){if(a._e)for(var c in a._e)a._e[c].forEach(function(a){u(b).on(c,a)})},u.prototype.mirror.select=function(a,b){u(a).is("select")&&(b.value=a.value)},u.prototype.mirror.textarea=function(a,b){u(a).is("textarea")&&(b.value=a.value)},u.prototype.closest=function(a){return this.map(function(b){do if(u(b).is(a))return b;while((b=b.parentNode)&&b!==document)})},u.prototype.data=function(a,b){return this.attr(a,b,!0)},u.prototype.each=function(a){return this.nodes.forEach(a.bind(this)),this},u.prototype.eacharg=function(a,b){return this.each(function(c,d){this.args(a,c,d).forEach(function(a){b.call(this,c,a)},this)})},u.prototype.filter=function(a){var b=function(b){return b.matches=b.matches||b.msMatchesSelector||b.webkitMatchesSelector,b.matches(a||"*")};return"function"==typeof a&&(b=a),a instanceof u&&(b=function(b){return-1!==a.nodes.indexOf(b)}),u(this.nodes.filter(b))},u.prototype.find=function(a){return this.map(function(b){return u(a||"*",b)})},u.prototype.first=function(){return this.nodes[0]||!1},u.prototype.generate=function(a){return/^\s*<t(h|r|d)/.test(a)?u(document.createElement("table")).html(a).children().nodes:/^\s*</.test(a)?u(document.createElement("div")).html(a).children().nodes:document.createTextNode(a)},u.prototype.handle=function(a,b){return this.on(a,function(a){a.preventDefault(),b.apply(this,arguments)})},u.prototype.hasClass=function(){return this.is("."+this.args(arguments).join("."))},u.prototype.html=function(a){return void 0===a?this.first().innerHTML||"":this.each(function(b){b.innerHTML=a})},u.prototype.is=function(a){return this.filter(a).length>0},u.prototype.isInPage=function(a){return a===document.body?!1:document.body.contains(a)},u.prototype.last=function(){return this.nodes[this.length-1]||!1},u.prototype.map=function(a){return a?u(this.array(a)).unique():this},u.prototype.not=function(a){return this.filter(function(b){return!u(b).is(a||!0)})},u.prototype.off=function(a){return this.eacharg(a,function(a,b){u(a._e?a._e[b]:[]).each(function(c){a.removeEventListener(b,c)})})},u.prototype.on=function(a,b,c){if("string"==typeof b){var d=b;b=function(a){var b=arguments;u(a.currentTarget).find(d).each(function(d){(d===a.target||d.contains(a.target))&&c.apply(a.target,b)})}}var e=function(a){return b.apply(this,[a].concat(a.detail||[]))};return this.eacharg(a,function(a,b){a.addEventListener(b,e),a._e=a._e||{},a._e[b]=a._e[b]||[],a._e[b].push(e)})},u.prototype.param=function(a){return Object.keys(a).map(function(b){return this.uri(b)+"="+this.uri(a[b])}.bind(this)).join("&")},u.prototype.parent=function(a){return this.map(function(a){return a.parentNode}).filter(a)},u.prototype.prepend=function(a,b){return this.adjacent(a,b,function(a,b){a.insertBefore(b,a.firstChild)})},u.prototype.remove=function(){return this.each(function(a){a.parentNode.removeChild(a)})},u.prototype.removeClass=function(){return this.eacharg(arguments,function(a,b){a.classList.remove(b)})},u.prototype.replace=function(a,b){var c=[];return this.adjacent(a,b,function(a,b){c=c.concat(this.slice(b.children)),a.parentNode.replaceChild(b,a)}),u(c)},u.prototype.scroll=function(){return this.first().scrollIntoView({behavior:"smooth"}),this},u.prototype.select=function(a,b){if(a=a.replace(/^\s*/,"").replace(/\s*$/,""),b)return this.select.byCss(a,b);for(var c in this.selectors)if(b=c.split("/"),new RegExp(b[1],b[2]).test(a))return this.selectors[c](a);return this.select.byCss(a)},u.prototype.select.byCss=function(a,b){return(b||document).querySelectorAll(a)},u.prototype.selectors={},u.prototype.selectors[/^\.[\w\-]+$/]=function(a){return document.getElementsByClassName(a.substring(1))},u.prototype.selectors[/^\w+$/]=function(a){return document.getElementsByTagName(a)},u.prototype.selectors[/^\#[\w\-]+$/]=function(a){return document.getElementById(a.substring(1))},u.prototype.selectors[/^</]=function(a){return u().generate(a)},u.prototype.serialize=function(){var a=this;return this.slice(this.first().elements).reduce(function(b,c){return!c.name||c.disabled||"file"===c.type?b:/(checkbox|radio)/.test(c.type)&&!c.checked?b:"select-multiple"===c.type?(u(c.options).each(function(d){d.selected&&(b+="&"+a.uri(c.name)+"="+a.uri(d.value))}),b):b+"&"+a.uri(c.name)+"="+a.uri(c.value)},"").slice(1)},u.prototype.siblings=function(a){return this.parent().children(a).not(this)},u.prototype.size=function(){return this.first().getBoundingClientRect()},u.prototype.slice=function(a){return a&&0!==a.length&&"string"!=typeof a&&"[object Function]"!==a.toString()?a.length?[].slice.call(a.nodes||a):[a]:[]},u.prototype.str=function(a,b){return function(c){return"function"==typeof c?c.call(this,a,b):c.toString()}},u.prototype.text=function(a){return void 0===a?this.first().textContent||"":this.each(function(b){b.textContent=a})},u.prototype.toggleClass=function(a,b){return!!b===b?this[b?"addClass":"removeClass"](a):this.eacharg(a,function(a,b){a.classList.toggle(b)})},u.prototype.trigger=function(a){var b=this.slice(arguments).slice(1);return this.eacharg(a,function(a,c){var d,e={bubbles:!0,cancelable:!0,detail:b};try{d=new window.CustomEvent(c,e)}catch(f){d=document.createEvent("CustomEvent"),d.initCustomEvent(c,!0,!0,b)}a.dispatchEvent(d)})},u.prototype.unique=function(){return u(this.nodes.reduce(function(a,b){var c=null!==b&&void 0!==b&&b!==!1;return c&&-1===a.indexOf(b)?a.concat(b):a},[]))},u.prototype.uri=function(a){return encodeURIComponent(a).replace(/!/g,"%21").replace(/'/g,"%27").replace(/\(/g,"%28").replace(/\)/g,"%29").replace(/\*/g,"%2A").replace(/%20/g,"+")},u.prototype.wrap=function(a){function b(a){for(;a.firstElementChild;)a=a.firstElementChild;return u(a)}return this.map(function(c){return u(a).each(function(a){b(a).append(c.cloneNode(!0)),c.parentNode.replaceChild(a,c)})})},"object"==typeof module&&module.exports&&(module.exports={u:u,ajax:ajax});
+/* eslint new-cap: 0 */
+// PageX
+// A minimal engine for loading only page-specific code with regex or paths
+var pagex = function (path, negate, callback, url) {
+  if (!(this instanceof pagex)) {
+    return new pagex(path, negate, callback, url);
+  }
+
+  // Allow it to have different signatures
+  if (!callback) {
+    callback = negate;
+    negate = false;
+  }
+
+  if (typeof path === 'string') {
+    path = this.path(path);
+  }
+
+  // The actual function
+  var fn = function () {
+    // Url with leading slash. Allows for testing
+    url = url || window.location.pathname.replace(/^\//, '/');
+
+    // Check whether we are in the correct page or not
+    if (path.test(url) !== negate) {
+      var params = url.match(path) ? url.match(path).slice(1) : [];
+
+      var self = { url: url, exports: {}, params: params };
+
+      pagex.events.before.forEach(function (cb) {
+        cb.call(self);
+      });
+
+      var ret = callback.apply(self, params);
+
+      pagex.events.after.forEach(function (cb) {
+        cb.call(pagex, ret || self.exports);
+      });
+    }
+  };
+
+  // We want to execute it when the DOM is ready, but not before. So we need to
+  // add the listener, but we also need to check if it was already triggered
+  document.addEventListener('DOMContentLoaded', fn);
+
+  // The DOM was lodaded already
+  if (['interactive', 'complete', 'loaded'].indexOf(document.readyState) !== -1) {
+    fn();
+  }
+};
+
+pagex.events = { before: [], after: [] };
+
+pagex.before = function (cb) {
+  this.events.before.push(cb);
+};
+
+pagex.after = function (cb) {
+  this.events.after.push(cb);
+};
+
+// Export it as part of PageX
+// Wrap it globally not to leak
+pagex.prototype.path = (function(){
+
+  var isarray = Array.isArray || function (arr) {
+    return Object.prototype.toString.call(arr) == '[object Array]';
+  };
+
+
+  /**
+   * The main path matching regexp utility.
+   *
+   * @type {RegExp}
+   */
+  var PATH_REGEXP = new RegExp([
+    // Match escaped characters that would otherwise appear in future matches.
+    // This allows the user to escape special characters that won't transform.
+    '(\\\\.)',
+    // Match Express-style parameters and un-named parameters with a prefix
+    // and optional suffixes. Matches appear as:
+    //
+    // "/:test(\\d+)?" => ["/", "test", "\d+", undefined, "?", undefined]
+    // "/route(\\d+)"  => [undefined, undefined, undefined, "\d+", undefined, undefined]
+    // "/*"            => ["/", undefined, undefined, undefined, undefined, "*"]
+    '([\\/.])?(?:(?:\\:(\\w+)(?:\\(((?:\\\\.|[^\\\\()])+)\\))?|\\(((?:\\\\.|[^\\\\()])+)\\))([+*?])?|(\\*))'
+  ].join('|'), 'g')
+
+  /**
+   * Parse a string for the raw tokens.
+   *
+   * @param  {string} str
+   * @return {!Array}
+   */
+  function parse (str) {
+    var tokens = []
+    var key = 0
+    var index = 0
+    var path = ''
+    var res
+
+    while ((res = PATH_REGEXP.exec(str)) != null) {
+      var m = res[0]
+      var escaped = res[1]
+      var offset = res.index
+      path += str.slice(index, offset)
+      index = offset + m.length
+
+      // Ignore already escaped sequences.
+      if (escaped) {
+        path += escaped[1]
+        continue
+      }
+
+      var next = str[index]
+      var prefix = res[2]
+      var name = res[3]
+      var capture = res[4]
+      var group = res[5]
+      var modifier = res[6]
+      var asterisk = res[7]
+
+      // Push the current path onto the tokens.
+      if (path) {
+        tokens.push(path)
+        path = ''
+      }
+
+      var partial = prefix != null && next != null && next !== prefix
+      var repeat = modifier === '+' || modifier === '*'
+      var optional = modifier === '?' || modifier === '*'
+      var delimiter = res[2] || '/'
+      var pattern = capture || group || (asterisk ? '.*' : '[^' + delimiter + ']+?')
+
+      tokens.push({
+        name: name || key++,
+        prefix: prefix || '',
+        delimiter: delimiter,
+        optional: optional,
+        repeat: repeat,
+        partial: partial,
+        asterisk: !!asterisk,
+        pattern: escapeGroup(pattern)
+      })
+    }
+
+    // Match any characters still remaining.
+    if (index < str.length) {
+      path += str.substr(index)
+    }
+
+    // If the path exists, push it onto the end.
+    if (path) {
+      tokens.push(path)
+    }
+
+    return tokens
+  }
+
+  /**
+   * Compile a string to a template function for the path.
+   *
+   * @param  {string}             str
+   * @return {!function(Object=, Object=)}
+   */
+  function compile (str) {
+    return tokensToFunction(parse(str))
+  }
+
+  /**
+   * Prettier encoding of URI path segments.
+   *
+   * @param  {string}
+   * @return {string}
+   */
+  function encodeURIComponentPretty (str) {
+    return encodeURI(str).replace(/[\/?#]/g, function (c) {
+      return '%' + c.charCodeAt(0).toString(16).toUpperCase()
+    })
+  }
+
+  /**
+   * Encode the asterisk parameter. Similar to `pretty`, but allows slashes.
+   *
+   * @param  {string}
+   * @return {string}
+   */
+  function encodeAsterisk (str) {
+    return encodeURI(str).replace(/[?#]/g, function (c) {
+      return '%' + c.charCodeAt(0).toString(16).toUpperCase()
+    })
+  }
+
+  /**
+   * Expose a method for transforming tokens into the path function.
+   */
+  function tokensToFunction (tokens) {
+    // Compile all the tokens into regexps.
+    var matches = new Array(tokens.length)
+
+    // Compile all the patterns before compilation.
+    for (var i = 0; i < tokens.length; i++) {
+      if (typeof tokens[i] === 'object') {
+        matches[i] = new RegExp('^(?:' + tokens[i].pattern + ')$')
+      }
+    }
+
+    return function (obj, opts) {
+      var path = ''
+      var data = obj || {}
+      var options = opts || {}
+      var encode = options.pretty ? encodeURIComponentPretty : encodeURIComponent
+
+      for (var i = 0; i < tokens.length; i++) {
+        var token = tokens[i]
+
+        if (typeof token === 'string') {
+          path += token
+
+          continue
+        }
+
+        var value = data[token.name]
+        var segment
+
+        if (value == null) {
+          if (token.optional) {
+            // Prepend partial segment prefixes.
+            if (token.partial) {
+              path += token.prefix
+            }
+
+            continue
+          } else {
+            throw new TypeError('Expected "' + token.name + '" to be defined')
+          }
+        }
+
+        if (isarray(value)) {
+          if (!token.repeat) {
+            throw new TypeError('Expected "' + token.name + '" to not repeat, but received `' + JSON.stringify(value) + '`')
+          }
+
+          if (value.length === 0) {
+            if (token.optional) {
+              continue
+            } else {
+              throw new TypeError('Expected "' + token.name + '" to not be empty')
+            }
+          }
+
+          for (var j = 0; j < value.length; j++) {
+            segment = encode(value[j])
+
+            if (!matches[i].test(segment)) {
+              throw new TypeError('Expected all "' + token.name + '" to match "' + token.pattern + '", but received `' + JSON.stringify(segment) + '`')
+            }
+
+            path += (j === 0 ? token.prefix : token.delimiter) + segment
+          }
+
+          continue
+        }
+
+        segment = token.asterisk ? encodeAsterisk(value) : encode(value)
+
+        if (!matches[i].test(segment)) {
+          throw new TypeError('Expected "' + token.name + '" to match "' + token.pattern + '", but received "' + segment + '"')
+        }
+
+        path += token.prefix + segment
+      }
+
+      return path
+    }
+  }
+
+  /**
+   * Escape a regular expression string.
+   *
+   * @param  {string} str
+   * @return {string}
+   */
+  function escapeString (str) {
+    return str.replace(/([.+*?=^!:${}()[\]|\/\\])/g, '\\$1')
+  }
+
+  /**
+   * Escape the capturing group by escaping special characters and meaning.
+   *
+   * @param  {string} group
+   * @return {string}
+   */
+  function escapeGroup (group) {
+    return group.replace(/([=!:$\/()])/g, '\\$1')
+  }
+
+  /**
+   * Attach the keys as a property of the regexp.
+   *
+   * @param  {!RegExp} re
+   * @param  {Array}   keys
+   * @return {!RegExp}
+   */
+  function attachKeys (re, keys) {
+    re.keys = keys
+    return re
+  }
+
+  /**
+   * Get the flags for a regexp from the options.
+   *
+   * @param  {Object} options
+   * @return {string}
+   */
+  function flags (options) {
+    return options.sensitive ? '' : 'i'
+  }
+
+  /**
+   * Pull out keys from a regexp.
+   *
+   * @param  {!RegExp} path
+   * @param  {!Array}  keys
+   * @return {!RegExp}
+   */
+  function regexpToRegexp (path, keys) {
+    // Use a negative lookahead to match only capturing groups.
+    var groups = path.source.match(/\((?!\?)/g)
+
+    if (groups) {
+      for (var i = 0; i < groups.length; i++) {
+        keys.push({
+          name: i,
+          prefix: null,
+          delimiter: null,
+          optional: false,
+          repeat: false,
+          partial: false,
+          asterisk: false,
+          pattern: null
+        })
+      }
+    }
+
+    return attachKeys(path, keys)
+  }
+
+  /**
+   * Transform an array into a regexp.
+   *
+   * @param  {!Array}  path
+   * @param  {Array}   keys
+   * @param  {!Object} options
+   * @return {!RegExp}
+   */
+  function arrayToRegexp (path, keys, options) {
+    var parts = []
+
+    for (var i = 0; i < path.length; i++) {
+      parts.push(pathToRegexp(path[i], keys, options).source)
+    }
+
+    var regexp = new RegExp('(?:' + parts.join('|') + ')', flags(options))
+
+    return attachKeys(regexp, keys)
+  }
+
+  /**
+   * Create a path regexp from string input.
+   *
+   * @param  {string}  path
+   * @param  {!Array}  keys
+   * @param  {!Object} options
+   * @return {!RegExp}
+   */
+  function stringToRegexp (path, keys, options) {
+    var tokens = parse(path)
+    var re = tokensToRegExp(tokens, options)
+
+    // Attach keys back to the regexp.
+    for (var i = 0; i < tokens.length; i++) {
+      if (typeof tokens[i] !== 'string') {
+        keys.push(tokens[i])
+      }
+    }
+
+    return attachKeys(re, keys)
+  }
+
+  /**
+   * Expose a function for taking tokens and returning a RegExp.
+   *
+   * @param  {!Array}  tokens
+   * @param  {Object=} options
+   * @return {!RegExp}
+   */
+  function tokensToRegExp (tokens, options) {
+    options = options || {}
+
+    var strict = options.strict
+    var end = options.end !== false
+    var route = ''
+    var lastToken = tokens[tokens.length - 1]
+    var endsWithSlash = typeof lastToken === 'string' && /\/$/.test(lastToken)
+
+    // Iterate over the tokens and create our regexp string.
+    for (var i = 0; i < tokens.length; i++) {
+      var token = tokens[i]
+
+      if (typeof token === 'string') {
+        route += escapeString(token)
+      } else {
+        var prefix = escapeString(token.prefix)
+        var capture = '(?:' + token.pattern + ')'
+
+        if (token.repeat) {
+          capture += '(?:' + prefix + capture + ')*'
+        }
+
+        if (token.optional) {
+          if (!token.partial) {
+            capture = '(?:' + prefix + '(' + capture + '))?'
+          } else {
+            capture = prefix + '(' + capture + ')?'
+          }
+        } else {
+          capture = prefix + '(' + capture + ')'
+        }
+
+        route += capture
+      }
+    }
+
+    // In non-strict mode we allow a slash at the end of match. If the path to
+    // match already ends with a slash, we remove it for consistency. The slash
+    // is valid at the end of a path match, not in the middle. This is important
+    // in non-ending mode, where "/test/" shouldn't match "/test//route".
+    if (!strict) {
+      route = (endsWithSlash ? route.slice(0, -2) : route) + '(?:\\/(?=$))?'
+    }
+
+    if (end) {
+      route += '$'
+    } else {
+      // In non-ending mode, we need the capturing groups to match as much as
+      // possible by using a positive lookahead to the end or next path segment.
+      route += strict && endsWithSlash ? '' : '(?=\\/|$)'
+    }
+
+    return new RegExp('^' + route, flags(options))
+  }
+
+  /**
+   * Normalize the given path string, returning a regular expression.
+   *
+   * An empty array can be passed in for the keys, which will hold the
+   * placeholder key descriptions. For example, using `/user/:id`, `keys` will
+   * contain `[{ name: 'id', delimiter: '/', optional: false, repeat: false }]`.
+   *
+   * @param  {(string|RegExp|Array)} path
+   * @param  {(Array|Object)=}       keys
+   * @param  {Object=}               options
+   * @return {!RegExp}
+   */
+  function pathToRegexp (path, keys, options) {
+    keys = keys || [];
+
+    if (!isarray(keys)) {
+      options = /** @type {!Object} */ (keys)
+      keys = []
+    } else if (!options) {
+      options = {}
+    }
+
+    if (path instanceof RegExp) {
+      return regexpToRegexp(path, /** @type {!Array} */ (keys))
+    }
+
+    if (isarray(path)) {
+      return arrayToRegexp(/** @type {!Array} */ (path), /** @type {!Array} */ (keys), options)
+    }
+
+    return stringToRegexp(/** @type {string} */ (path), /** @type {!Array} */ (keys), options)
+  }
+
+  var pathToRegex = pathToRegexp;
+  pathToRegex.parse = parse;
+  pathToRegex.compile = compile;
+  pathToRegex.tokensToFunction = tokensToFunction;
+  pathToRegex.tokensToRegExp = tokensToRegExp;
+
+  return pathToRegex;
+})();
+
 /*
  * Sweet Justice: beautiful justified text.
  *
@@ -196,76 +691,6 @@ function copy_protect(e) {
   }
   return;
 }
-
-// Pagex
-// A minimal engine for loading only page-specific code with regex
-var pagex = (function(){
-  function pagex(path, negate, callback){
-
-    if (!(this instanceof pagex)) {
-      return new pagex(path, negate, callback);
-    }
-
-    // Allow it to have different signatures
-    if (!callback) {
-      callback = negate;
-      negate = false;
-    }
-
-    // Make sure it's only called once
-    var functioncalled = false;
-
-    // The actual function
-    var fn = function(){
-      if (functioncalled) return;
-
-      // Url without leading slash
-      var url = window.location.pathname.replace(/^\//, '');
-
-      // Check whether we are in the correct page or not
-      if (path.test(url) != negate) {
-
-        pagex.events.before.forEach(function(cb){
-          cb.call(pagex, ret);
-        });
-
-        var self = { exports: {} };
-
-        var ret = callback.apply(self, url.match(path) ? url.match(path).slice(1) : []);
-
-        pagex.events.after.forEach(function(cb){
-          cb.call(pagex, ret || self.exports);
-        });
-      }
-
-      functioncalled = true;
-    };
-
-    // We want to execute it when the DOM is ready, but not before. So we need to
-    // add the listener, but we also need to check if it was already triggered
-    document.addEventListener('DOMContentLoaded', fn);
-
-    // The DOM was lodaded already
-    if (["interactive", "complete", "loaded"].indexOf(document.readyState) != -1) {
-      fn();
-    }
-  }
-
-  pagex.events = {
-    before: [],
-    after: []
-  };
-
-  pagex.before = function(cb){
-    pagex.events.before.push(cb);
-  };
-
-  pagex.after = function(cb){
-    pagex.events.after.push(cb);
-  };
-
-  return pagex;
-})();
 
 /* mousetrap v1.6.0 craig.is/killing/mice */
 (function(r,t,g){function u(a,b,h){a.addEventListener?a.addEventListener(b,h,!1):a.attachEvent("on"+b,h)}function y(a){if("keypress"==a.type){var b=String.fromCharCode(a.which);a.shiftKey||(b=b.toLowerCase());return b}return k[a.which]?k[a.which]:p[a.which]?p[a.which]:String.fromCharCode(a.which).toLowerCase()}function D(a){var b=[];a.shiftKey&&b.push("shift");a.altKey&&b.push("alt");a.ctrlKey&&b.push("ctrl");a.metaKey&&b.push("meta");return b}function v(a){return"shift"==a||"ctrl"==a||"alt"==a||
@@ -961,10 +1386,14 @@ pagex.after(function(actions){
 });
 
 
-pagex(/^lesson/, function(id){
+pagex(/^\/lesson/, function(id){
 
   // Initialize the editor in the element that is contenteditable
   var editor = new Editor("article.content", { menu: "editormenu", active: false });
+
+  editor.add('type', {
+    menu: ""
+  });
 
   // Register a new action called "bold"
   editor.add("bold", {
@@ -1110,34 +1539,11 @@ pagex(/^lesson/, function(id){
   }
 });
 
-pagex(/^research/, function () {
-
-  // Functions for the subject
-  this.exports.add = function () {
-    if (!user) return this.needUser();
-    u('#addpaper').first().checked = true;
-    u('[name="title"]').first().focus();
-  };
-
-  this.exports.create = function (e) {
-    if (!user) return this.needUser();
-    ajax('/research', { method: 'POST', body: u(e.target).serialize() }, this.saved);
-  }
-
-  this.exports.saved = function(){
-    alert('Done!');
-  }
-
-  this.exports.needUser = function () {
-    modal('login').show('You should be logged in to add this');
-  }
-});
-
 // SUBJECT page
 // action: { add, form: { save, remove, edit, cancel }}
 // Non capturing group (http://stackoverflow.com/a/3513858/938236)
-pagex(/^subject/, subject);
-pagex(/^$/, subject);
+pagex(/^\/subject/, subject);
+pagex(/^\/$/, subject);
 
 function subject(bla){
 
@@ -1145,6 +1551,7 @@ function subject(bla){
 
   // Functions for the subject
   action.add = function(e){
+    console.log("Added");
     if(!user) {
       return modal('login').show('Tienes que ser un usuario de Libre University para editar esto');
     }
@@ -1203,7 +1610,7 @@ function subject(bla){
 
 
   // IMPLEMENTATION
-  u('.add').on('click', action.add);
+  u('button.add').on('click', action.add);
 
   // When we save a lesson that we were editing
   u('form.preview').ajax(action.form.save);
@@ -1218,7 +1625,7 @@ function subject(bla){
 // TEST page
 
 //
-pagex(/^test/, function(){
+pagex(/^\/test/, function(){
 
   var actions = {};
 

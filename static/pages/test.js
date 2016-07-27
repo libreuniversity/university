@@ -1,7 +1,7 @@
 // TEST page
 
 //
-pagex(/^test/, function(){
+pagex(/^\/test/, function(){
 
   var actions = {};
 

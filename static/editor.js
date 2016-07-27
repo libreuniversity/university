@@ -279,6 +279,7 @@ Editor.prototype.menu.add = function(element){
     'data-action': element.action
   }).addClass('action').on('click', function(e){
     if (!element.defaults) {
+      console.log("Prevented shortcut on menu.add");
       e.preventDefault();
     }
     editor.trigger('action');
@@ -363,7 +364,8 @@ Editor.prototype.menu.events = function(){
 
   // Avoid deselecting text when clicking on the menu
   u(menu.element).on('mousedown', function(e){
-    if (!menu.element.defaults) {
+    if (!u(e.target).closest('select')) {
+      console.log("Prevented mousedown");
       e.preventDefault();
     }
   });
@@ -372,7 +374,8 @@ Editor.prototype.menu.events = function(){
   u('body').on("click", function (e) {
 
     // Don't unselect text when clicking on the menu
-    if (menu.element && menu.element.contains(e.currentTarget) && !menu.element.defaults) {
+    if (menu.element && menu.element.contains(e.currentTarget)) {
+      console.log("Prevented shortcut on click");
       e.preventDefault();
     }
   });
@@ -465,8 +468,10 @@ Editor.prototype.shortcuts = function(){
     if (!data) return false;
     var b = data[0];
     data = b;
+    if (!data || !data.shortcut) return false;
     mousetrap.bind(data.shortcut, function(e){
       e.preventDefault();
+      console.log("Prevented shortcut");
       editor.trigger('shortcut', data.action);
     });
   });

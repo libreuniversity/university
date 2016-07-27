@@ -14,11 +14,8 @@ pagex(/^\/lesson/, function(id){
             </select>',
       defaults: true
     },
-    ready: function(){
-      alert("Ready!")
-    },
     action: function (editor) {
-      u('[name="type"]').on('change', function(e){
+      u('[name="type"]').not('.listened').addClass('listened').on('change', function(e){
         editor.tag(e.target.value);
       });
     }

@@ -4,8 +4,21 @@ pagex(/^\/lesson/, function(id){
   // Initialize the editor in the element that is contenteditable
   var editor = new Editor("article.content", { menu: "editormenu", active: false });
 
-  editor.add('type', {
-    menu: ""
+  editor.add("type", {
+    menu: {
+      html:'<select name="type">\
+              <option value="p">Paragraph</option>\
+              <option value="h1">H1</option>\
+              <option value="h2">H2</option>\
+              <option value="code">code</option>\
+            </select>',
+      defaults: false
+    },
+    action: function (editor) {
+      u('[name="type"]').on('change', function(e){
+        editor.tag(e.target.value);
+      });
+    }
   });
 
   // Register a new action called "bold"

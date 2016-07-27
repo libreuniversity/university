@@ -4,7 +4,7 @@
     opacity: .2;
     transform: translateY(-3.25em) rotateX(-90deg);
   }
-  
+
   100% {
     opacity: 1;
     transform: translateY(-2em) rotateX(0deg);
@@ -21,7 +21,6 @@
   font-family: serif;
   list-style: none;
   margin: -.5em 0 0;
-  overflow: hidden;
   padding: 0;
   position: absolute;
   transform: translateY(-2em);
@@ -48,6 +47,24 @@
     text-align: center;
   }
 
+  [data-action="type"] {
+    padding: 0;
+  }
+
+  select {
+    height: 100%;
+    display: block;
+    margin: 0;
+    height: 2em;
+    border-radius: 0px;
+    border: 0px none;
+    padding-right: 25px;
+  }
+
+  select:hover {
+    background-color: #def;
+  }
+
   .action {
     min-width: 1em;
   }
@@ -64,7 +81,7 @@
   .bold {
     font-weight: bold;
   }
-  
+
   .italic {
     font-style: italic;
   }

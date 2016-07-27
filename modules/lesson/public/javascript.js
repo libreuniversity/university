@@ -1,8 +1,43 @@
 
-pagex(/^\/lesson/, function(id){
+pagex(/^lesson/, function(id){
 
   // Initialize the editor in the element that is contenteditable
   var editor = new Editor("article.content", { menu: "editormenu", active: false });
+
+  var opts = {
+    menu: '<em>i</em>', // Defaults to type button
+    menu: {
+      button: '<em>i</em>',  // HTML inside the button
+      text: 'Search',  // Text on the placeholder
+      checkbox: 'Autocomplete',  // HTML after the checkbox
+      dropdown: {  // List for the dropdown
+        p: 'Paragraph',
+        h1: 'Main Title',
+        h2: 'Second Title',
+        code: 'Code'
+      }
+    }
+  };
+
+
+  var action = function(event, editor, done) {};
+  var event = {
+    original: event,
+    trigger: 'shortcut/click/custom',
+    value: {
+      button: 'true/false',
+      text: 'input text',
+      checkbox: 'true/false',
+      dropdown: 'p/h1/h2/code',
+    },
+    previous: {
+      button: 'true/false',
+      text: 'input text',
+      checkbox: 'true/false',
+      dropdown: 'p/h1/h2/code',
+    }
+  };
+
 
   editor.add("type", {
     menu: {
@@ -12,10 +47,7 @@ pagex(/^\/lesson/, function(id){
               <option value="h2">H2</option>\
               <option value="code">code</option>\
             </select>',
-      defaults: true
-    },
-    ready: function(){
-      alert("Ready!")
+      defaults: false
     },
     action: function (editor) {
       u('[name="type"]').on('change', function(e){

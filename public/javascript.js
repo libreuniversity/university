@@ -965,14 +965,19 @@ Editor.prototype.menu = function(name){
 // Add an element to the menu
 Editor.prototype.menu.add = function(element){
   var editor = this.editor;
+  if (element instanceof Array) {
+    element = element[0];
+  }
   var li = u(document.createElement('li')).attr({
     'title': element.title,
     'data-action': element.action
   }).addClass('action').on('click', function(e){
-    e.preventDefault();
+    if (!element.defaults) {
+      e.preventDefault();
+    }
     editor.trigger('action');
     editor.trigger('action:' + element.action);
-  }).html(element[0].html).first();
+  }).html(element.html).first();
   this.element.appendChild(li);
 }
 
@@ -1052,14 +1057,16 @@ Editor.prototype.menu.events = function(){
 
   // Avoid deselecting text when clicking on the menu
   u(menu.element).on('mousedown', function(e){
-    e.preventDefault();
+    if (!menu.element.defaults) {
+      e.preventDefault();
+    }
   });
 
   // On mousedown check whether or not we click on the menu
   u('body').on("click", function (e) {
 
     // Don't unselect text when clicking on the menu
-    if (menu.element && menu.element.contains(e.currentTarget)) {
+    if (menu.element && menu.element.contains(e.currentTarget) && !menu.element.defaults) {
       e.preventDefault();
     }
   });
@@ -1399,7 +1406,10 @@ pagex(/^\/lesson/, function(id){
               <option value="h2">H2</option>\
               <option value="code">code</option>\
             </select>',
-      defaults: false
+      defaults: true
+    },
+    ready: function(){
+      alert("Ready!")
     },
     action: function (editor) {
       u('[name="type"]').on('change', function(e){
@@ -1407,6 +1417,8 @@ pagex(/^\/lesson/, function(id){
       });
     }
   });
+
+  editor.trigger('menu:separator');
 
   // Register a new action called "bold"
   editor.add("bold", {

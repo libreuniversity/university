@@ -5,6 +5,7 @@ var data = {
   _id: { type: String, unique: true, default: shortid.generate },
   title: { type: String, required: true, validate: /.+/ },
   summary: { type: String, required: true },
+  stage: String,
   lessons: [{ type: String, ref: 'Lesson' }],
   language: { type: String, required: true, validate: /(es|en)/ },
   added: { type: Date, default: Date.now }

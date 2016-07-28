@@ -11,6 +11,7 @@ pagex(/^\/lesson/, function(id){
               <option value="h1">H1</option>\
               <option value="h2">H2</option>\
               <option value="code">code</option>\
+              <option value="math">math</option>\
             </select>',
       defaults: true
     },
@@ -19,7 +20,6 @@ pagex(/^\/lesson/, function(id){
 
         // Lonely <code> are wrapped in <pre>
         var bare = u(editor.element).children('code').wrap('<pre>');
-
         var nopre = u(editor.element).children().children('code').parent(function(node){
           return !u(node).is('pre');
         });
@@ -31,6 +31,17 @@ pagex(/^\/lesson/, function(id){
     },
     action: function (editor) {
       u('[name="type"]').not('.listened').addClass('listened').on('change', function(e){
+
+        if (e.target.value === 'math') {
+          var equationblock = createEquation(editor.selection.text);
+          u(editor.selection.element).html('').append(equationblock);
+          return;
+        } else {
+          u(editor.selection.element).closest('.equation').each(function(eq){
+            u(eq).closest('p').html(u(eq).data('latex'));
+          });
+        }
+
         editor.tag(e.target.value);
       });
     }
@@ -97,11 +108,39 @@ pagex(/^\/lesson/, function(id){
   }
 
 
+  function createEquation(latex){
+    if (!latex) latex = '';
+    var rendered = katex.renderToString(latex);
+    return u('<div class="equation flex two">')
+      .data('latex', latex)
+      .append('<pre><code>' + latex)
+      .append('<div class="live"><div class="visual">' + rendered + '</div></div>');
+  }
+
+
   editor.add("edit", {
     shortcut: "ctrl+e",
+    init: function (editor) {
+      editor.on('clean', function () {
+        if (!editor.options.active) return false;
+        u(editor.element).find('.equation').each(function(equation){
+          var latex = u(equation).find('pre').text();
+          if (latex !== u(equation).data('latex')) {
+            u(equation).data('latex', latex);
+            var rendered = katex.renderToString(latex);
+            u(equation).find('.visual').html(rendered);
+          }
+        });
+      });
+    },
     action: function(editor){
       auth(100, function(){
         u("form.lesson").addClass("edit").find('article').attr('contenteditable', true);
+        u('.katex-display').each(function(kat){
+          var equationblock = createEquation(u(kat).find('annotation').html());
+          u(kat).closest('p').html('').append(equationblock);
+        });
+
         editor.options.active = true;
       });
     }
@@ -111,13 +150,23 @@ pagex(/^\/lesson/, function(id){
     shortcut: "ctrl+s",
     action: function(editor){
       var form = u("form.edit");
+
+      u(editor.element).find('.equation').each(function(equation){
+        var latex = u(equation).data('latex');
+        u(equation).parent().html('').append('$$' + latex + '$$');
+      });
+
       var html = encodeURIComponent(form.find("article.content").html());
       ajax(form.attr("action"), { method: "POST", body: "content=" + html }, function(err, data){
+
+        u(editor.element).find('.preview').remove();
 
         u("form.lesson").removeClass("edit").find('article').attr('contenteditable', false);
 
         // Overwrite the current data in case anything has changed/cleaning
         u("article.content").html(data.html);
+
+        renderMathInElement(document.body);
 
         // Deactivate the editor
         editor.options.active = false;

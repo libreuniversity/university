@@ -1,8 +1,8 @@
 // This file is for specific styles that match those of /lesson/...
 .lesson {
-  
+
   overflow-x: hidden;
-  
+
   .edit {
     display: block;
   }
@@ -15,37 +15,58 @@
     min-height: 400px;
     outline: 0 solid transparent;
     transition: all .3s ease;
-    
+
     > :first-child {
       margin-top: 0;
     }
   }
-  
+
   img {
     max-width: 100%;
   }
-  
+
   &.edit {
     .content {
       border: 1px solid #eee;
       padding: 20px;
-      
+
     }
-    
+
     .content:hover,
     .content:focus {
       border: 1px solid #ccc;
       outline: 0 solid transparent;
       transition: all .3s ease;
     }
-    
-    
+
+
     .edit {
       display: none;
     }
-    
+
     .save {
       display: block;
+    }
+  }
+
+
+  .equation {
+    margin: 0;
+    width: 100%;
+
+    & > * {
+      padding-bottom: 0;
+    }
+
+    pre {
+      margin: 0;
+    }
+
+    .live {
+      border: 1px solid #eee;
+      text-align: center;
+      padding: 10px;
+      pointer-events: none;
     }
   }
 }
@@ -54,7 +75,7 @@
 @media (max-width: $picnic-breakpoint) {
   .lesson.edit .content {
     padding: 0 10px;
-    
+
     > *:first-child {
       margin-top: 0;
       padding-top: 10px;

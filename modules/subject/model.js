@@ -8,7 +8,7 @@ var ops = app.utils.dbops;
 // Retrieve all of the elements
 module.exports.index = function(arg, data, callback){
   callback = ops.append(data, callback, 'subject');
-  model.find({ language: data.language }, callback);
+  model.find({ language: data.language, stage: 'production' }, callback);
 };
 
 // Retrieve a single element from the database

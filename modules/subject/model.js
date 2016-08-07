@@ -17,7 +17,10 @@ module.exports.get = function(id, data, callback){
   callback = ops.append(data, callback, 'subject');
   model.findOne(filter).populate('lessons').exec(function (err, one) {
     one.lessons = one.lessons.map(function(lesson){
-      lesson.summary = /<p.*?>(.+?)<\/p>/.exec(lesson.content)[1];
+      lesson.summary = '';
+      if (lesson.content) {
+        lesson.summary = /<p.*?>(.+?)<\/p>/.exec(lesson.content)[1];
+      }
       return lesson;
     });
     callback(err, one);

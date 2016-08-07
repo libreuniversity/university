@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
 var shortid = require('shortid');
 
-var stageProduction = process.env.production ? 'alpha' : 'production';
+var stageProduction = process.env.production ? 'beta' : 'production';
 
 var data = {
   _id: { type: String, unique: true, default: shortid.generate },

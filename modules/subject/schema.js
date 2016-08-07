@@ -1,13 +1,15 @@
 var mongoose = require('mongoose');
 var shortid = require('shortid');
 
+var stageProduction = process.env.production ? 'alpha' : 'production';
+
 var data = {
   _id: { type: String, unique: true, default: shortid.generate },
   title: { type: String, required: true, validate: /.+/ },
   summary: { type: String, required: true },
-  stage: String,
+  stage: { type:String, default: stageProduction } ,
   lessons: [{ type: String, ref: 'Lesson' }],
-  language: { type: String, required: true, validate: /(es|en)/ },
+  language: { type: String, required: true, validate: /^(es|en)$/ },
   added: { type: Date, default: Date.now }
 };
 

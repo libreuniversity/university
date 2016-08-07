@@ -8,14 +8,20 @@ var ops = app.utils.dbops;
 // Retrieve all of the elements
 module.exports.index = function(arg, data, callback){
   callback = ops.append(data, callback, 'subject');
-  model.find({ language: data.language, stage: 'production' }, callback);
+  model.find({ language: data.language, stage: { $in: ['beta', 'production'] } }, callback);
 };
 
 // Retrieve a single element from the database
 module.exports.get = function(id, data, callback){
   var filter = { _id: id, language: data.language };
   callback = ops.append(data, callback, 'subject');
-  model.findOne(filter).populate('lessons').exec(callback);
+  model.findOne(filter).populate('lessons').exec(function (err, one) {
+    one.lessons = one.lessons.map(function(lesson){
+      lesson.summary = /<p.*?>(.+?)<\/p>/.exec(lesson.content)[1];
+      return lesson;
+    });
+    callback(err, one);
+  });
 };
 
 // Add a new subject to the database

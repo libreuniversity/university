@@ -1358,7 +1358,10 @@ u("form.login").ajax(function(err, data){
 justify_my_love(document.querySelector(".sweet-justice"));
 
 // Display the mathematics on the pagee
-renderMathInElement(document.body);
+renderMathInElement(document.body, { delimiters: [
+  { left: "$$", right: "$$", display: true  },
+  { left: '@@', right: '@@', display: false }
+]});
 
 // / internal
 // "http://www.libre.university/" internal

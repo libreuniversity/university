@@ -1562,7 +1562,10 @@ pagex(/^\/lesson/, function(id){
         // Overwrite the current data in case anything has changed/cleaning
         u("article.content").html(data.html);
 
-        renderMathInElement(document.body);
+        renderMathInElement(document.body, { delimiters: [
+          { left: "$$", right: "$$", display: true  },
+          { left: '@@', right: '@@', display: false }
+        ]});
 
         // Deactivate the editor
         editor.options.active = false;

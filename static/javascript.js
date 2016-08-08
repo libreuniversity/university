@@ -30,10 +30,14 @@ u("form.login").ajax(function(err, data){
 justify_my_love(document.querySelector(".sweet-justice"));
 
 // Display the mathematics on the pagee
-renderMathInElement(document.body, { delimiters: [
-  { left: "$$", right: "$$", display: true  },
-  { left: '@@', right: '@@', display: false }
-]});
+try {
+  renderMathInElement(document.body, { delimiters: [
+    { left: "$$", right: "$$", display: true  },
+    { left: '@@', right: '@@', display: false }
+  ]});
+} catch (e) {
+  console.log(e);
+}
 
 // / internal
 // "http://www.libre.university/" internal

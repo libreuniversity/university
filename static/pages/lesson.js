@@ -180,10 +180,14 @@ pagex(/^\/lesson/, function(id){
         // Overwrite the current data in case anything has changed/cleaning
         u("article.content").html(data ? data.html : html);
 
-        renderMathInElement(document.body, { delimiters: [
-          { left: "$$", right: "$$", display: true  },
-          { left: '@@', right: '@@', display: false }
-        ]});
+        try {
+          renderMathInElement(document.body, { delimiters: [
+            { left: "$$", right: "$$", display: true  },
+            { left: '@@', right: '@@', display: false }
+          ]});
+        } catch (e) {
+          console.log(e);
+        }
 
         // Deactivate the editor
         editor.options.active = false;

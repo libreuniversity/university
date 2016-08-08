@@ -1519,22 +1519,38 @@ pagex(/^\/lesson/, function(id){
     init: function (editor) {
       editor.on('clean', function () {
         if (!editor.options.active) return false;
-        u(editor.element).find('.equation').each(function(equation){
-          var latex = u(equation).find('pre').text();
-          if (latex !== u(equation).data('latex')) {
-            u(equation).data('latex', latex);
-            var rendered = katex.renderToString(latex);
-            u(equation).find('.visual').html(rendered);
-          }
-        });
+        // u('.katex').find('annotation').each(function(equation){
+        //   var eq = u(equation).html();
+        //   u(equation).closest('.katex').parent().html('@@' + eq + '@@');
+        // });
+        //
+        // u('.katex').find('.equation').each(function(equation){
+        //   var eq = u(equation).html();
+        //   u(equation).closest('.katex').parent().html('@@' + eq + '@@');
+        // });
+
+        // u(editor.element).find('.equation').each(function(equation){
+        //   var latex = u(equation).find('pre').text();
+        //   if (latex !== u(equation).data('latex')) {
+        //     u(equation).data('latex', latex);
+        //     var rendered = katex.renderToString(latex);
+        //     u(equation).find('.visual').html(rendered);
+        //   }
+        // });
       });
     },
     action: function(editor){
       auth(100, function(){
         u("form.lesson").addClass("edit").find('article').attr('contenteditable', true);
-        u('.katex-display').each(function(kat){
-          var equationblock = createEquation(u(kat).find('annotation').html());
-          u(kat).closest('p').html('').append(equationblock);
+
+        u('.katex').find('annotation').each(function(equation){
+          var eq = u(equation).html();
+          u(equation).closest('.katex-display').parent().html('$$' + eq + '$$');
+        });
+
+        u('.katex').find('annotation').each(function(equation){
+          var eq = u(equation).html();
+          u(equation).closest('.katex').parent().html('@@' + eq + '@@');
         });
 
         editor.options.active = true;
@@ -1555,12 +1571,10 @@ pagex(/^\/lesson/, function(id){
       var html = encodeURIComponent(form.find("article.content").html());
       ajax(form.attr("action"), { method: "POST", body: "content=" + html }, function(err, data){
 
-        u(editor.element).find('.preview').remove();
-
         u("form.lesson").removeClass("edit").find('article').attr('contenteditable', false);
 
         // Overwrite the current data in case anything has changed/cleaning
-        u("article.content").html(data.html);
+        u("article.content").html(data ? data.html : html);
 
         renderMathInElement(document.body, { delimiters: [
           { left: "$$", right: "$$", display: true  },

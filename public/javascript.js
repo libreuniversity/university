@@ -1354,9 +1354,6 @@ u("form.login").ajax(function(err, data){
   }
 });
 
-// Justify everything that has the class .sweet-justice
-// justify_my_love(document.querySelector(".sweet-justice"));
-
 // Display the mathematics on the pagee
 try {
   renderMathInElement(document.body, { delimiters: [
@@ -1366,6 +1363,9 @@ try {
 } catch (e) {
   console.log(e);
 }
+
+// Justify everything that has the class .sweet-justice
+justify_my_love(document.querySelector(".sweet-justice"));
 
 // / internal
 // "http://www.libre.university/" internal

@@ -555,7 +555,7 @@ function justify_my_love(el) {
       case 1: // Node.ELEMENT_NODE
         if (!tag_blacklist[node.nodeName.toLowerCase()] &&
             node.className.indexOf('justice-denied') === -1 &&
-            node.className.indexOf('katex-display') === -1) {
+            node.className.indexOf('katex') === -1) {
           justify_my_love(node);
         }
         break;
@@ -1365,7 +1365,7 @@ try {
 }
 
 // Justify everything that has the class .sweet-justice
-justify_my_love(document.querySelector(".sweet-justice"));
+//justify_my_love(document.querySelector(".sweet-justice"));
 
 // / internal
 // "http://www.libre.university/" internal

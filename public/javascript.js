@@ -1355,7 +1355,7 @@ u("form.login").ajax(function(err, data){
 });
 
 // Justify everything that has the class .sweet-justice
-justify_my_love(document.querySelector(".sweet-justice"));
+// justify_my_love(document.querySelector(".sweet-justice"));
 
 // Display the mathematics on the pagee
 try {

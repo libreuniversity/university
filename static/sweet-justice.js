@@ -51,7 +51,7 @@ function justify_my_love(el) {
       case 1: // Node.ELEMENT_NODE
         if (!tag_blacklist[node.nodeName.toLowerCase()] &&
             node.className.indexOf('justice-denied') === -1 &&
-            node.className.indexOf('katex-display') === -1) {
+            node.className.indexOf('katex') === -1) {
           justify_my_love(node);
         }
         break;

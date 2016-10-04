@@ -158,7 +158,7 @@ pagex(/^\/lesson/, function(id){
         });
 
         u('pre', editor.element).each(function(pre){
-          u(pre).html('<code>' + u(pre).text() + '</code>');
+          u(pre).html('<code>' + u(pre).text().replace(/\<br[\s\\]*>/g, '\n') + '</code>');
         });
 
         editor.options.active = true;
@@ -172,7 +172,7 @@ pagex(/^\/lesson/, function(id){
       var form = u("form.edit");
 
       u(editor.element).find('pre').each(function(pre){
-        u(pre).html('<code>' + u(pre).text() + '</code>');
+        u(pre).html('<code>' + u(pre).text().replace(/\<br[\s\\]*>/g, '\n') + '</code>');
       });
 
       u(editor.element).find('.equation').each(function(equation){

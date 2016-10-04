@@ -167,6 +167,10 @@ pagex(/^\/lesson/, function(id){
     action: function(editor){
       var form = u("form.edit");
 
+      u(editor.element).find('pre').each(function(pre){
+        u(pre).html('<code>' + u(pre).text() + '</code>');
+      });
+
       u(editor.element).find('.equation').each(function(equation){
         var latex = u(equation).data('latex');
         u(equation).parent().html('').append('$$' + latex + '$$');
@@ -186,7 +190,13 @@ pagex(/^\/lesson/, function(id){
             { left: '@@', right: '@@', display: false }
           ]});
         } catch (e) {
-          console.log(e);
+          console.log("Katex failed:", e);
+        }
+
+        try {
+          Prism.highlightAll();
+        } catch (e) {
+          console.log("Prism failed:", e);
         }
 
         // Deactivate the editor

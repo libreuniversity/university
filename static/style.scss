@@ -6,6 +6,9 @@ $picnic-card-shadow: 0;
 $picnic-transition: background-color .3s, color .3s, box-shadow .3s, border-color .3s;
 $picnic-modal-transition: all .3s ease;
 
+// Syntax highlighting
+@import 'prism';
+
 // Fontello icons from font awesome
 @import 'css/fontello';
 

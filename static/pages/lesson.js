@@ -157,11 +157,11 @@ pagex(/^\/lesson/, function(id){
           u(equation).closest('.katex').parent().html('@@' + eq + '@@');
         });
 
-        u('pre', editor.element).each(function(pre){
-          var clean = u(pre).html().replace(/\<br[\s\\]*>/g, '\n');
-          u('<pre>').html(clean).text();
-          u(pre).html('<code>' + u('<pre>').html(clean).text() + '</code>');
-        });
+        // u('pre', editor.element).each(function(pre){
+        //   var clean = u(pre).html().replace(/\<br[\s\\]*>/g, '\n');
+        //   u('<pre>').html(clean).text();
+        //   u(pre).html('<code>' + u('<pre>').html(clean).text() + '</code>');
+        // });
 
         editor.options.active = true;
       });

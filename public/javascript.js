@@ -1573,6 +1573,10 @@ pagex(/^\/lesson/, function(id){
           u(equation).closest('.katex').parent().html('@@' + eq + '@@');
         });
 
+        u('pre', editor.element).each(function(pre){
+          u(pre).html('<code>' + u(pre).text() + '</code>');
+        });
+
         editor.options.active = true;
       });
     }

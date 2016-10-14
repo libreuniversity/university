@@ -28,22 +28,37 @@ app.npm.mongoose.connect(process.env.MONGOLAB_URI || 'mongodb://localhost', func
   server.use(app.npm.bodyParser.urlencoded({ extended: false }));
   server.use(app.npm.compression());
   server.use(app.npm.express.static('public', { maxAge: 86400000 }));
+  server.use(app.npm.cookieParser('foo'));
+  var redis = app.npm.connectRedis(app.npm.expressSession);
+  server.use(app.npm.expressSession({
+    store: new redis(process.env.REDIS_URL ? { url: process.env.REDIS_URL } : {}),
+    secret: 'dfbdfilsjpergnsjkdafnweofnwevre',
+    resave: true,
+    saveUninitialized: false
+  }));
 
   // Avoid urls that finish with '/'
   // The "https: false" is because we're using cloudfare for https
   server.use(app.middle.cleanurl({ https: false }));
   server.use(app.npm.notrailing);
 
+  server.locals.env = process.env;
+
+  var passport = require('./modules/user/passport');
+  server.use(passport.initialize());
+  server.use(passport.session());
+
+  server.use(function(req, res, next){
+    if (req.session && req.query.returnTo) req.session.returnTo = req.query.returnTo;
+    res.locals.user = req.user;
+    next();
+  });
+
   // Localization
   server.use("/", app.middle.local('app/localization', { allow: ['en', 'es'] }));
 
 
   server.use(app.middle.createSession(app.npm.mongoose));
-
-  // Load the user auth stuff
-  var passport = require('./modules/user/passport');
-  var usermodel = require('./modules/user/model');
-  passport(server, usermodel);
 
   // Use the routes in /routes.js
   var home = app.npm.express.Router();

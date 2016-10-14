@@ -1345,15 +1345,6 @@ var modal = function(type){
   };
 };
 
-u("form.login").ajax(function(err, data){
-  if (data.error === false) {
-    window.location.reload();
-  }
-  else {
-    u("form.login p").html(data.error).addClass("message error");
-  }
-});
-
 // Display the mathematics on the pagee
 try {
   renderMathInElement(document.body, { delimiters: [
@@ -1363,6 +1354,8 @@ try {
 } catch (e) {
   console.log(e);
 }
+
+u('.login').on('click', login);
 
 // Justify everything that has the class .sweet-justice
 //justify_my_love(document.querySelector(".sweet-justice"));
@@ -1515,11 +1508,11 @@ pagex(/^\/lesson/, function(id){
   // Require authorization to execute callback
   function auth(number, callback){
     if (!user) {
-      return modal("login").show("Tienes que ser un usuario de libreuniversity para editar esto");
+      return login();
     }
-    if (!user.over(100)) {
-      return modal("permission").show(100);
-    }
+    // if (!user.over(100)) {
+    //   return modal("permission").show(100);
+    // }
 
     callback.call();
   }
@@ -1701,12 +1694,12 @@ function subject(bla){
   action.add = function(e){
     console.log("Added");
     if(!user) {
-      return modal('login').show('Tienes que ser un usuario de Libre University para editar esto');
+      return login();
     }
 
-    if(!user.over(1000)) {
-      return modal('permission').show(1000);
-    }
+    // if(!user.over(1000)) {
+    //   return modal('permission').show(1000);
+    // }
 
     template('template.add', {}, action.form).before('section.add');
     u(u('.preview.add').nodes.pop()).closest('form').find('input').first().focus();

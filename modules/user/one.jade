@@ -2,26 +2,30 @@ extend ../../app/views/layout
 
 // Give it the right title of this article
 block title
-  title= title
+  title= user.name
 
 // Set the
 block content
   article.lesson
     header
-      h1= 'User: ' + email.split('@').shift()
-    p= text.wip
-    
-    div.row
-      div.card
-        header
-          h2 Favourites
-        section
-          div
-            each one in favourites
-              a.pseudo.button.stack(href=one.link)= one.title
-      div.card
-        header
-          h2 Recent
-        section
-          each one in recent
-            a.pseudo.button.stack(href=one.link)= one.title
+      h1= 'User: ' + user.username
+    p= text.userdata + ':'
+
+    pre= JSON.stringify(user, null, 2)
+
+    a.button(href="/user/logout") Logout
+
+    //- div.row
+    //-   div.card
+    //-     header
+    //-       h2 Favourites
+    //-     section
+    //-       div
+    //-         each one in favourites
+    //-           a.pseudo.button.stack(href=one.link)= one.title
+    //-   div.card
+    //-     header
+    //-       h2 Recent
+    //-     section
+    //-       each one in recent
+    //-         a.pseudo.button.stack(href=one.link)= one.title

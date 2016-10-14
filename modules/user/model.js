@@ -20,11 +20,6 @@ userSchema.statics.create = function(data, callback){
   newUser.save(callback);
 };
 
-// Compare a number to the user's points
-userSchema.methods.over = function(number){
-  return this.points > number;
-};
-
 userSchema.methods.validPassword = function(password){
   return bcrypt.compareSync(password, this.password);
 };

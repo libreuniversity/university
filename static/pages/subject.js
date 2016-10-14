@@ -12,12 +12,12 @@ function subject(bla){
   action.add = function(e){
     console.log("Added");
     if(!user) {
-      return modal('login').show('Tienes que ser un usuario de Libre University para editar esto');
+      return login();
     }
 
-    if(!user.over(1000)) {
-      return modal('permission').show(1000);
-    }
+    // if(!user.over(1000)) {
+    //   return modal('permission').show(1000);
+    // }
 
     template('template.add', {}, action.form).before('section.add');
     u(u('.preview.add').nodes.pop()).closest('form').find('input').first().focus();

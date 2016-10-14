@@ -11,6 +11,7 @@ module.exports = {
   cancel: 'Cancelar',
 
   wip: 'En construcción',
+  userdata: 'Esta es toda la información que tenemos sobre tí. Edítala directamente desde Github',
 
   greeta: 'Hello World',
   greetb: name => `Hello ${ name }`,

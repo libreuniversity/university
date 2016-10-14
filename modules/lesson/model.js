@@ -16,7 +16,7 @@ module.exports.get = function(id, data, callback){
 
 // Add a new lesson to the database
 module.exports.add = function(param, data, callback){
-  
+
   pipe(data)
     .pipe(module.exports.checkPreviewData)
     .pipe(api.subject.needed, data.subject)
@@ -34,7 +34,7 @@ module.exports.insert = function (arg, data, callback){
 
 // Updates the preview
 module.exports.update = function(id, data, callback){
-  
+
   pipe(data)
     .pipe(module.exports.checkPreviewData)
     .pipe(module.exports.set, id)
@@ -58,7 +58,7 @@ module.exports.save = function(id, data, callback){
 };
 
 module.exports.addToHistory = function(arg, data, callback){
-  var lesson = extend(data.lesson, { user: data.user._id, lesson: data.lesson.id });
+  var lesson = extend(data.lesson, { user: data.user.id, lesson: data.lesson.id });
   var fields = 'lesson user title language summary content';
   var article = new mongo.history(only(lesson, fields));
   article.save(ops.pass(lesson, callback));

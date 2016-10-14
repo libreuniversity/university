@@ -17,15 +17,6 @@ var modal = function(type){
   };
 };
 
-u("form.login").ajax(function(err, data){
-  if (data.error === false) {
-    window.location.reload();
-  }
-  else {
-    u("form.login p").html(data.error).addClass("message error");
-  }
-});
-
 // Display the mathematics on the pagee
 try {
   renderMathInElement(document.body, { delimiters: [
@@ -35,6 +26,8 @@ try {
 } catch (e) {
   console.log(e);
 }
+
+u('.login').on('click', login);
 
 // Justify everything that has the class .sweet-justice
 //justify_my_love(document.querySelector(".sweet-justice"));

@@ -98,11 +98,11 @@ pagex(/^\/lesson/, function(id){
   // Require authorization to execute callback
   function auth(number, callback){
     if (!user) {
-      return modal("login").show("Tienes que ser un usuario de libreuniversity para editar esto");
+      return login();
     }
-    if (!user.over(100)) {
-      return modal("permission").show(100);
-    }
+    // if (!user.over(100)) {
+    //   return modal("permission").show(100);
+    // }
 
     callback.call();
   }
@@ -265,7 +265,7 @@ pagex(/^\/lesson/, function(id){
     editor.trigger('action:edit');
   });
 
-  if (u("form.lesson").hasClass("edit") && user && user.over(100)) {
+  if (u("form.lesson").hasClass("edit") && user) {
     editor.trigger('action:edit');
   }
 });

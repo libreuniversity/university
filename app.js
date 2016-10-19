@@ -21,7 +21,6 @@ app.npm.mongoose.connect(process.env.MONGOLAB_URI || 'mongodb://localhost', func
   server.use(app.npm.expressSession({
     store: new redis(process.env.REDIS_URL ? { url: process.env.REDIS_URL } : {}),
     secret: 'dfbdfilsjpergnsjkdafnweofnwevre',
-    cookie: {secure : true},
     resave: true,
     saveUninitialized: false
   }));

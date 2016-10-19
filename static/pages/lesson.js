@@ -268,4 +268,63 @@ pagex(/^\/lesson/, function(id){
   if (u("form.lesson").hasClass("edit") && user) {
     editor.trigger('action:edit');
   }
+
+
+
+
+
+
+  // Supermenu
+  var lessonName = u('h1').html();
+  var main = '<a href="#" class="pseudo button"><strong>' + lessonName + '</strong></a>';
+  u('nav .menu').html(main).append(function(node, i){
+    var id = u(node).attr('id');
+    var html = u(node).html();
+    return '<a href="#' + id + '" class="pseudo button">' + (i+1) + '. ' + html + '</a>';
+  }, u('article').find('h2, h3'));
+
+  u('.menu').on('click', 'a', function(e){
+    u('#responsive-menu').first().checked = false;
+    u('body').removeClass('no-scroll');
+
+    if (smoothscroll) {
+      e.preventDefault();
+      var to = u(u(e.currentTarget).attr('href'));
+      if (to.length) {
+        to.scroll();
+      }
+    }
+  });
+
+
+  function shouldScrollOrNot(){
+    u('body').toggleClass('no-scroll', u('#responsive-menu').first().checked);
+  }
+  u('#responsive-menu').on('change', shouldScrollOrNot);
+  shouldScrollOrNot();
+
+
+  // Change the title of the section
+  var pagesize = u('body').size().height / 2;
+  function setupSection () {
+    var current = u('article h2').filter(function(node){
+      return u(node).size().top < pagesize;
+    }).last();
+    var section = u(current).html() || u('h1').html();
+    var hash = section;
+    if (u('h1').size().top > 0 && u('h1').size().top < pagesize) {
+      section = u('h1').html();
+      hash = false;
+    }
+    u('nav header').html(section);
+
+    // This function can be namespaced. In this example, we define it on window:
+    if (hash) {
+      window.replaceHash(hash);
+    } else {
+      history.pushState("", document.title, window.location.pathname);
+    }
+  }
+  u(document).on('scroll', setupSection);
+  setupSection();
 });

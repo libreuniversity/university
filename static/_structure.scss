@@ -97,6 +97,6 @@ nav .brand {
     transition: all 0;
   }
   nav .brand {
-    padding-left: 0;
+    padding-left: $picnic-separation / 2;
   }
 }

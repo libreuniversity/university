@@ -26,7 +26,7 @@ You can create complex, flexible layouts with it. Just resize the browser to see
 ```
 
 
-### Equaly sized columns
+### Equally sized columns
 
 Let's start through the basics though. Just a container with equally sized children:
 
@@ -68,7 +68,7 @@ If instead you prefer certain column count, such as in a gallery where it can sp
 ```
 
 
-The columns will keep being equaly spaced, but this time with the width corresponding to the column counter. You can use any number as a class from one to twelve:
+The columns will keep being equally spaced, but this time with the width corresponding to the column counter. You can use any number as a class from one to twelve:
 
 
 <div class="flex six">
@@ -174,7 +174,8 @@ Or you can center them:
 
 ### Children sizing
 
-Now that we know how the parent (or grid) can modify itself and the elements below them, the children can also go rebel and behave on their own. Say that one children wants to be half of the size of the parent. Easy, just add the class `half`:
+Now that we know how the parent (or grid) can modify itself and the elements below them, the children can also go rebel and behave on their own. Say that a child wants to be half of the size of its parent element. Easy, just add the class `half`:
+
 
 ```html
 <div class="flex four demo">
@@ -230,7 +231,7 @@ The children can also have one offset (empty space) before it. They are built ad
 
 We have many classes like those. They are the size of the offset relative to the parent grid:
 
-<div class="flex two three-600 six-1100 demo">
+<div class="flex two three-600 six-1200 demo">
   <div><code>off-none</code></div>
   <div><code>off-half</code></div>
   <div><code>off-third</code></div>
@@ -256,7 +257,7 @@ They can also have the minimum screen size when they start working:
 <div class="flex three four-1000 demo">
   <div><span>1</span></div>
   <div><span>2</span></div>
-  <div class="off-fourth-1000"><span>3</span></div>
+  <div class="off-fourth-800"><span>3</span></div>
 </div>
 ```
 

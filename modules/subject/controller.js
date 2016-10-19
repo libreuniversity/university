@@ -34,4 +34,3 @@ exports.edit = function(req, res, next) {
     .pipe(model.edit, req.params.id)
     .end(answer.ajax(res, next));
 };
-

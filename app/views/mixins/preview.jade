@@ -19,10 +19,10 @@ mixin preview(type, article, actions, other)
         each text, base in actions
           a.button(href= '/' + base + '/' + article.id)= text
           = ' '
-      
+
       if other
         each value, key in other
           input(type="hidden" name=key value=value)
-      
+
       button.save.icon-floppy= text.save
       button.cancel.dangerous= text.cancel

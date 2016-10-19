@@ -1,0 +1,34 @@
+//- Preview mixin
+//- @type ['subject', 'lesson', '...'] the kind of preview that this is
+//- @article { id, title, summary, parent } the data that gets shown
+//- @actions { action: text, action2: text2 } the buttons to generate
+//- @other { field: value } other fields to be added
+mixin supermenu()
+  nav.super
+    a.brand(href="/") Libre University
+    header
+
+    //- responsive
+    input#responsive-menu.show(type="checkbox")
+    label.burger.pseudo.button.switch(for="responsive-menu")
+
+    section.menu
+
+    footer
+      div.flex.three
+        a.pseudo.button.home(href="/")
+          i.icon-home
+          | Home
+        = ' '
+        a.pseudo.button(href="http://github.com/libre/university")
+          i.icon-gh
+          | Github
+        = ' '
+        if user
+          a.button(href="/user/" + user.username)
+            i.icon-user
+            = user.username ? user.username : 'Anonymous'
+        else
+          label.button.login
+            i.icon-user
+            = text.enter

@@ -52,12 +52,12 @@ function subject(bla){
     e.preventDefault();
 
     if(!user) {
-      return modal('login').show('Tienes que ser un usuario de Libre University para editar esto');
+      login();
     }
 
-    if(!user.over(500)) {
-      return modal('permission').show(500);
-    }
+    // if(!user.over(500)) {
+    //   return modal('permission').show(500);
+    // }
 
     u(this).closest('form').addClass('edit');
     u(this).closest('form').find('input').first().focus();

@@ -34,6 +34,7 @@ $picnic-modal-transition: all .3s ease;
 // Load the structure of the page (body)
 // With other main elements (article, header, nav)
 @import 'structure';
+@import 'supermenu';
 
 @import 'preview';
 @import 'lesson';

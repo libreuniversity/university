@@ -1,6 +1,6 @@
 {
   "name": "picnic",
-  "version": "6.1.1",
+  "version": "6.2.4",
   "homepage": "https://github.com/picnicss/picnic",
   "authors": [
     "Francisco Presencia <developerfrancisco@hotmail.com>"
@@ -22,14 +22,14 @@
     "web",
     "package.json"
   ],
-  "_release": "6.1.1",
+  "_release": "6.2.4",
   "_resolution": {
     "type": "version",
-    "tag": "6.1.1",
-    "commit": "ea146a8e3f42a586b0daf3c6f3e96eb6c87ca764"
+    "tag": "6.2.4",
+    "commit": "efffbc00363a75b38e16fdb5ed2d23e19a4bb670"
   },
   "_source": "https://github.com/picnicss/picnic.git",
-  "_target": "^6.1.1",
+  "_target": "^6.2.4",
   "_originalSource": "picnic",
   "_direct": true
 }

@@ -4,6 +4,7 @@ html
   include mixins/actions
   include mixins/header
   include mixins/preview
+  include mixins/supermenu
 
   head
     block title
@@ -15,7 +16,8 @@ html
     link(rel='stylesheet', href='/style.min.css')
     link(rel="icon", href="/images/logo.png", type="image/png")
   body
-    include templates/nav
+    block nav
+      include templates/nav
 
     if !user
       include templates/modal
@@ -48,6 +50,6 @@ html
         ? history.replaceState(null, null, window.location.href.split('#')[0])
         : window.location.hash = '';
       }
-      
+
       var user = JSON.parse('!{JSON.stringify(user || false)}');
     script(type="text/javascript" src="/javascript.js")

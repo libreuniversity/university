@@ -4,17 +4,20 @@ extends ../../app/views/layout
 block title
   title= lesson.title
 
+block nav
+  +supermenu
+
 // Set the
 block content
   form.lesson(method="POST" action="/lesson/save/" + lesson.id)
     +header(lesson.title, { edit: null, save: null }, subject)
-    
+
     article.content.sweet-justice
       if lesson.html
         != lesson.html
       else
         p Empieza a escribir la lección...
-    
+
     input.content(type="hidden" name="content")
-          
+
   ul.editormenu

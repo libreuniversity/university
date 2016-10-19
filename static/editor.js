@@ -31,7 +31,6 @@ var Editor = function(selector, options){
     blocks: []
   });
 
-
   // Start each of the parts of the library
   this.menu(this.options.menu);
 
@@ -479,6 +478,9 @@ Editor.prototype.shortcuts = function(){
   });
 };
 
+
+
+// Tag
 Editor.prototype.tag = function(name, attr){
 
   name = name.toLowerCase();

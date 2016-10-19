@@ -45,7 +45,7 @@ npm install picnic --save
 To add it to your repository. Then you can include it straight from your css like:
 
 ```css
-@import "../node_modules/picnic/picnic.css";
+@import "../node_modules/picnic/picnic.min.css";
 ```
 
 Thanks to [chadoh](https://github.com/chadoh) for helping me in publishing it in NPM and for the instructions.
@@ -60,7 +60,7 @@ You can always download the latest minimized version from github, clone the repo
 
 ## Wait, *invasive*?
 
-Many libraries rely upon adding classes to your already existing html elements, resulting in bloated code like `<button class="btn btn-primary">Hey</button>`. It would be easier if the buttons knew they are, well, *buttons*. Crazy eh?
+Many libraries rely upon adding classes to your already existing HTML elements, resulting in bloated code like `<button class="btn btn-primary">Hey</button>`. It would be easier if the buttons knew they are, well, *buttons*. Crazy eh?
 
 This setup works neatly for newly created projects or for pages that you have to build quick from scratch. It also allows for a much more intuitive extension of base elements.
 
@@ -68,7 +68,7 @@ This setup works neatly for newly created projects or for pages that you have to
 
 ## Browser support IE11+
 
-Bug reports and fixes only for IE11+. With IE8- usage [dropping *fast*](http://ux.stackexchange.com/a/643.61) and with IE9 and IE10 usage even below their older mate, it is time to start thinking about not supporting them anymore. For others, up to 2 previous versions are expected to be working, and everything that is not is definitely a bug.
+Bug reports and fixes only for IE11+. With IE8- usage [dropping *fast*](https://ux.stackexchange.com/questions/64250/do-websites-still-have-to-support-internet-explorer-8-and-below/#64361) and with IE9 and IE10 usage even below their older mate, it is time to start thinking about not supporting them anymore. For others, up to 2 previous versions are expected to be working, and everything that is not is definitely a bug.
 
 
 

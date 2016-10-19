@@ -19,7 +19,9 @@ module.exports.get = function(id, data, callback){
     one.lessons = one.lessons.map(function(lesson){
       lesson.summary = '';
       if (lesson.content) {
-        lesson.summary = /<p.*?>(.+?)<\/p>/.exec(lesson.content)[1];
+        var parts = /<p.*?>(.+?)<\/p>/.exec(lesson.content.replace(/\n/g, ' '));
+        var summary = parts ? parts[1] : '';
+        lesson.summary = summary.replace(/<.*?>/g, '');
       }
       return lesson;
     });

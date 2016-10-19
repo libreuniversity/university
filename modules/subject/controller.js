@@ -7,6 +7,7 @@ var answer = app.utils.answer;
 
 // Retrieve all of the subjects available and display them
 exports.index = function(req, res, next) {
+  console.log("User Home:", req.user);
   pipe({ language: req.lang })
     .pipe(model.index)
     .end(answer.view(res, next, 'subject/index'));

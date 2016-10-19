@@ -1746,7 +1746,7 @@ pagex(/^\/lesson/, function(id){
   // Change the title of the section
   var pagesize = u('body').size().height / 2;
   u('article h2').each(function(node){
-    u(node).attr('id', node.html().replace(/\W/g, '-'));
+    u(node).attr('id', u(node).html().replace(/\W/g, '-'));
   });
   function setupSection () {
     var current = u('article h2').filter(function(node){

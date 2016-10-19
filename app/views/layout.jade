@@ -31,7 +31,7 @@ html
     script.
       var l = window.location;
       var url = l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') + '/user/login';
-
+      console.log(url);
       // Construct an instance of Auth0Lock with your clientId and aut0 domain name
       var lock = new Auth0Lock('#{env.AUTH0_CLIENT_ID}', '#{env.AUTH0_DOMAIN}',{ auth: {
         redirectUrl: '#{env.AUTH0_CALLBACK_URL}' + url

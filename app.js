@@ -25,12 +25,12 @@ app.npm.mongoose.connect(process.env.MONGOLAB_URI || 'mongodb://localhost', func
     resave: true,
     saveUninitialized: false
   }));
-  
-  app.use(function (req, res, next) {
+
+  server.use(function (req, res, next) {
     if (!req.session) {
-      return next(new Error('oh no')) // handle error
+      return next(new Error('oh no')); // handle error
     }
-    next() // otherwise continue
+    next(); // otherwise continue
   });
 
 

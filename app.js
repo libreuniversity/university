@@ -10,14 +10,13 @@ server.use(app.npm.bodyParser.json());
 server.use(app.npm.bodyParser.urlencoded({ extended: false }));
 server.use(app.npm.compression());
 server.use(app.npm.express.static('public', { maxAge: 86400000 }));
-server.use(app.npm.cookieParser('foo', { domain: '.libre.university' }));
+server.use(app.npm.cookieParser('foo'));
 var redis = app.npm.connectRedis(app.npm.expressSession);
 server.use(app.npm.expressSession({
   store: new redis(process.env.REDIS_URL ? { url: process.env.REDIS_URL } : {}),
   secret: 'dfbdfilsjpergnsjkdafnweofnwevre',
   resave: true,
-  saveUninitialized: false,
-  domain: '.libre.university'
+  saveUninitialized: false
 }));
 
 app.npm.mongoose.connect(process.env.MONGOLAB_URI || 'mongodb://localhost', function(err){

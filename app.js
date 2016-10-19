@@ -25,21 +25,12 @@ app.npm.mongoose.connect(process.env.MONGOLAB_URI || 'mongodb://localhost', func
     saveUninitialized: false
   }));
 
-  server.use(function (req, res, next) {
-    if (!req.session) {
-      return next(new Error('oh no')); // handle error
-    } else {
-      console.log("Session:", req.session);
-    }
-    next(); // otherwise continue
-  });
-
 
 
   // Avoid urls that finish with '/'
   // The "https: false" is because we're using cloudfare for https
-  server.use(app.middle.cleanurl({ https: false }));
-  server.use(app.npm.notrailing);
+  // server.use(app.middle.cleanurl({ https: false }));
+  // server.use(app.npm.notrailing);
 
   server.locals.env = process.env;
 
@@ -58,6 +49,16 @@ app.npm.mongoose.connect(process.env.MONGOLAB_URI || 'mongodb://localhost', func
 
 
   // server.use(app.middle.createSession(app.npm.mongoose));
+
+
+  server.use(function (req, res, next) {
+    if (!req.session) {
+      return next(new Error('No session')); // handle error
+    } else {
+      console.log("Session:", req.session, req.user);
+    }
+    next(); // otherwise continue
+  });
 
   // Use the routes in /routes.js
   var home = app.npm.express.Router();

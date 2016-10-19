@@ -16,7 +16,8 @@ server.use(app.npm.expressSession({
   store: new redis(process.env.REDIS_URL ? { url: process.env.REDIS_URL } : {}),
   secret: 'dfbdfilsjpergnsjkdafnweofnwevre',
   resave: true,
-  saveUninitialized: false
+  saveUninitialized: false,
+  domain: '.libre.university'
 }));
 
 app.npm.mongoose.connect(process.env.MONGOLAB_URI || 'mongodb://localhost', function(err){

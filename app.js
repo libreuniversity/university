@@ -21,9 +21,19 @@ app.npm.mongoose.connect(process.env.MONGOLAB_URI || 'mongodb://localhost', func
   server.use(app.npm.expressSession({
     store: new redis(process.env.REDIS_URL ? { url: process.env.REDIS_URL } : {}),
     secret: 'dfbdfilsjpergnsjkdafnweofnwevre',
+    cookie: {secure : true},
     resave: true,
     saveUninitialized: false
   }));
+  
+  app.use(function (req, res, next) {
+    if (!req.session) {
+      return next(new Error('oh no')) // handle error
+    }
+    next() // otherwise continue
+  });
+
+
 
   // Avoid urls that finish with '/'
   // The "https: false" is because we're using cloudfare for https

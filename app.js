@@ -47,9 +47,7 @@ app.npm.mongoose.connect(process.env.MONGOLAB_URI || 'mongodb://localhost', func
   // Localization
   server.use("/", app.middle.local('app/localization', { allow: ['en', 'es'] }));
 
-
   // server.use(app.middle.createSession(app.npm.mongoose));
-
 
   server.use(function (req, res, next) {
     if (!req.session) {

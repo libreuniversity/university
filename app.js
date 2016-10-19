@@ -29,6 +29,8 @@ app.npm.mongoose.connect(process.env.MONGOLAB_URI || 'mongodb://localhost', func
   server.use(function (req, res, next) {
     if (!req.session) {
       return next(new Error('oh no')); // handle error
+    } else {
+      console.log("Session:", req.session);
     }
     next(); // otherwise continue
   });
@@ -56,7 +58,7 @@ app.npm.mongoose.connect(process.env.MONGOLAB_URI || 'mongodb://localhost', func
   server.use("/", app.middle.local('app/localization', { allow: ['en', 'es'] }));
 
 
-  server.use(app.middle.createSession(app.npm.mongoose));
+  // server.use(app.middle.createSession(app.npm.mongoose));
 
   // Use the routes in /routes.js
   var home = app.npm.express.Router();

@@ -7,6 +7,7 @@ module.exports.get = function(req, res){
 };
 
 module.exports.login = function(req, res, next){
+  console.log("User:", req.user);
   res.redirect('/');
 };
 

@@ -5,6 +5,7 @@ var controller = require('./controller');
 module.exports = function(router){
   router.get('/user/login', function(req, res, next){
     var fullUrl = (process.env.HTTPS || req.protocol) + '://' + req.get('host') + '/callback';
+    console.log(fullUrl, req.query, req.body);
     app.npm.passport.authenticate('auth0', {
       failureRedirect: '/error',
       failureFlash: true,

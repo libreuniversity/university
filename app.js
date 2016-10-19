@@ -1,18 +1,6 @@
 // Load everything, including dependencies
-var fs = require('fs');
-if (fs.existsSync('.env')) { require('dotenv').load(); }
+require('dotenv').config({silent: true});
 var app = require('auto-load')('app');
-
-// app
-//   .set('views', __dirname + '/module')
-//   .set('view engine', 'jade')
-//   .use(app.npm.serveFavicon(__dirname + '/public/images/logo.png'))
-//   .use(bodyParser.json())
-//   .use(bodyParser.urlencoded({ extended: true }))
-//   .use(compression())
-//   .use(express.static('public', { maxAge: 86400000 }))
-//   .listen(process.env.PORT || 3000);
-
 
 app.npm.mongoose.connect(process.env.MONGOLAB_URI || 'mongodb://localhost', function(err){
   if (err) console.error.bind(console, 'connection error:');

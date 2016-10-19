@@ -1714,6 +1714,9 @@ pagex(/^\/lesson/, function(id){
 
 
   // Supermenu
+  u('article h2').each(function(node){
+    u(node).attr('id', u(node).html().replace(/\W/g, '-'));
+  });
   var lessonName = u('h1').html();
   var main = '<a href="#" class="pseudo button"><strong>' + lessonName + '</strong></a>';
   u('nav .menu').html(main).append(function(node, i){
@@ -1745,9 +1748,6 @@ pagex(/^\/lesson/, function(id){
 
   // Change the title of the section
   var pagesize = u('body').size().height / 2;
-  u('article h2').each(function(node){
-    u(node).attr('id', u(node).html().replace(/\W/g, '-'));
-  });
   function setupSection () {
     var current = u('article h2').filter(function(node){
       return u(node).size().top < pagesize;

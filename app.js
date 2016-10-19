@@ -18,7 +18,6 @@ app.npm.mongoose.connect(process.env.MONGOLAB_URI || 'mongodb://localhost', func
   server.use(app.npm.express.static('public', { maxAge: 86400000 }));
   server.use(app.npm.cookieParser('foo'));
   var redis = app.npm.connectRedis(app.npm.expressSession);
-  console.log("Redis:", process.env.REDIS_URL);
   server.use(app.npm.expressSession({
     store: new redis(process.env.REDIS_URL ? { url: process.env.REDIS_URL } : {}),
     secret: 'dfbdfilsjpergnsjkdafnweofnwevre',

@@ -306,15 +306,17 @@ pagex(/^\/lesson/, function(id){
 
   // Change the title of the section
   var pagesize = u('body').size().height / 2;
+  u('article h2').each(function(node){
+    u(node).attr('id', node.html().replace(/\W/g, '-'));
+  });
   function setupSection () {
     var current = u('article h2').filter(function(node){
       return u(node).size().top < pagesize;
     }).last();
     var section = u(current).html() || u('h1').html();
-    var hash = section;
     if (u('h1').size().top > 0 && u('h1').size().top < pagesize) {
       section = u('h1').html();
-      hash = false;
+      hash = u(current).attr('id');
     }
     u('nav header').html(section);
 

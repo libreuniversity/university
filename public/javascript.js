@@ -1614,7 +1614,7 @@ pagex(/^\/lesson/, function(id){
 
       u(editor.element).find('pre').each(function(pre){
         var inner = u(u(pre).children('code').first() || u(pre).first());
-        var clean = inner.html().replace(/\<br[\s\\]*>/g, '\n').replace(/\&lt\;/g, '<').replace(/\&gt\;/g, '>');
+        var clean = inner.html().replace(/\<br[\s\\]*>/g, '\n').replace(/\&lt\;/g, '<').replace(/\&gt\;/g, '>').replace(/\&amp\;/g, '&');
         console.log(u('<pre>').text(clean).text(), inner.html());
         if (!u(pre).children()) u(pre).html('<code></code>');
         u(pre).find('code').text(clean);

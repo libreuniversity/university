@@ -203,11 +203,11 @@ pagex(/^\/lesson/, function(id){
           console.log("Katex failed:", e);
         }
 
-        try {
-          Prism.highlightAll();
-        } catch (e) {
-          console.log("Prism failed:", e);
-        }
+        // try {
+        //   Prism.highlightAll();
+        // } catch (e) {
+        //   console.log("Prism failed:", e);
+        // }
 
         // Deactivate the editor
         editor.options.active = false;

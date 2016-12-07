@@ -174,9 +174,11 @@ pagex(/^\/lesson/, function(id){
       var form = u("form.edit");
 
       u(editor.element).find('pre').each(function(pre){
-        var clean = u(pre).html().replace(/\<br[\s\\]*>/g, '\n');
-        u('<pre>').text(clean).text();
-        u(pre).html('<code>' + u('<pre>').text(clean).text() + '</code>');
+        var inner = u(u(pre).children('code').first() || u(pre).first());
+        var clean = inner.html().replace(/\<br[\s\\]*>/g, '\n').replace(/\&lt\;/g, '<').replace(/\&gt\;/g, '>').replace(/\&amp\;/g, '&');
+        console.log(u('<pre>').text(clean).text(), inner.html());
+        if (!u(pre).children()) u(pre).html('<code></code>');
+        u(pre).find('code').text(clean);
       });
 
       u(editor.element).find('.equation').each(function(equation){

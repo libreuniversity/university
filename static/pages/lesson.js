@@ -319,13 +319,6 @@ pagex(/^\/lesson/, function(id){
       hash = u(current).attr('id');
     }
     u('nav header').html(section);
-
-    // This function can be namespaced. In this example, we define it on window:
-    if (hash) {
-      window.replaceHash(hash);
-    } else {
-      history.pushState("", document.title, window.location.pathname);
-    }
   }
   u(document).on('scroll', setupSection);
   setupSection();

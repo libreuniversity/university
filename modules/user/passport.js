@@ -11,7 +11,7 @@ var strategy = new Auth0Strategy({
     // accessToken is the token to call Auth0 API (not needed in the most cases)
     // extraParams.id_token has the JSON Web Token
     // profile has all the information from the user
-    console.log("Strat", profile);
+    // console.log("Strat", profile);
     return done(null, profile);
   });
 
@@ -19,7 +19,7 @@ passport.use(strategy);
 
 // This can be used to keep a smaller payload
 passport.serializeUser(function(user, done) {
-  console.log("Serial", user);
+  // console.log("Serial", user);
   var locale = user.locale || user._json ? user._json.lang || 'en' : 'en';
   var publicUser = {
     id: user.id,
@@ -34,7 +34,7 @@ passport.serializeUser(function(user, done) {
 });
 
 passport.deserializeUser(function(user, done) {
-  console.log("Unserial", user);
+  // console.log("Unserial", user);
   done(null, user);
 });
 

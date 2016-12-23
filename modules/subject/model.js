@@ -6,16 +6,24 @@ var model = require('./schema').subject;
 var ops = app.utils.dbops;
 
 // Retrieve all of the elements
-module.exports.index = function(arg, data, callback){
-  callback = ops.append(data, callback, 'subject');
-  model.find({ language: data.language, stage: { $in: ['beta', 'production'] } }, callback);
+module.exports.index = req => {
+  let query = { language: req.lang, stage: { $in: ['beta', 'production'] } };
+  return model.find(query).then(subject => subject );
 };
 
-// Retrieve a single element from the database
-module.exports.get = function(id, data, callback){
-  var filter = { _id: id, language: data.language };
-  callback = ops.append(data, callback, 'subject');
-  model.findOne(filter).populate('lessons').exec(function (err, one) {
+// module.exports.index = (req) => new Promise((resolve, reject) => {
+//   let query = { language: req.lang, stage: { $in: ['beta', 'production'] } };
+//   model.find(query).then(subject => resolve({ subject }));
+// });
+
+// module.exports.index = function(arg, data, callback){
+//   callback = ops.append(data, callback, 'subject');
+//   model.find({ language: data.language, stage: { $in: ['beta', 'production'] } }, callback);
+// };
+
+module.exports.get = req => {
+  let query = { _id: req.params.id, language: req.lang };
+  return model.findOne(query).populate('lessons').exec().then(one => {
     one.lessons = one.lessons.map(function(lesson){
       lesson.summary = '';
       if (lesson.content) {
@@ -25,11 +33,34 @@ module.exports.get = function(id, data, callback){
       }
       return lesson;
     });
-    callback(err, one);
+    return new Promise((good, bad) => good(one));
   });
-};
+}
+
+// Retrieve a single element from the database
+// module.exports.get = function(id, data, callback){
+//   var filter = { _id: id, language: data.language };
+//   callback = ops.append(data, callback, 'subject');
+//   model.findOne(filter).populate('lessons').exec(function (err, one) {
+//     one.lessons = one.lessons.map(function(lesson){
+//       lesson.summary = '';
+//       if (lesson.content) {
+//         var parts = /<p.*?>(.+?)<\/p>/.exec(lesson.content.replace(/\n/g, ' '));
+//         var summary = parts ? parts[1] : '';
+//         lesson.summary = summary.replace(/<.*?>/g, '');
+//       }
+//       return lesson;
+//     });
+//     callback(err, one);
+//   });
+// };
 
 // Add a new subject to the database
+module.exports.add = req => {
+  var article = new model(only(data, 'title summary language'));
+  return article.save();
+}
+
 module.exports.add = function(param, data, callback){
   var article = new model(only(data, 'title summary language'));
   article.save(function(err) {

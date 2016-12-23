@@ -7,8 +7,12 @@ module.exports.get = function(req, res){
 };
 
 module.exports.login = function(req, res, next){
-  console.log("User:", req.user);
-  res.redirect('/');
+  console.log("User:", req.session, req.user);
+  if (req.session.returnTo) {
+    res.redirect(req.session.returnTo);
+  } else {
+    res.redirect('/');
+  }
 };
 
 module.exports.logout = function(req, res){

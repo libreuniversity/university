@@ -6,6 +6,12 @@ var fs = require('fs');
 module.exports = function (filename, concat) {
   var files = {};
 
+  // The one in the root is the first one to be read
+  if (fs.existsSync(__dirname + '/../' + filename)) {
+    files = require(__dirname + '/../' + filename);
+  }
+
+  // Then add each of the modules ones
   fs.readdirSync(__dirname + '/../modules').forEach(function (folder) {
     var file = __dirname + '/../modules/' + folder + '/' + filename;
     if (fs.existsSync(file)) {

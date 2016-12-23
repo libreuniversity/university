@@ -1,3 +1,15 @@
+// FUTURE:
+// let controller = require('./controller');
+// let { get, post } = require('server').router;
+//
+// module.exports = [
+//   get('/subject', controller.index),
+//   get('/subject/:id', controller.get);
+//   post('/subject', controller.add);
+//   post('/subject/:id', controller.edit);
+// ];
+
+
 // Routing
 var controller = require('./controller');
 

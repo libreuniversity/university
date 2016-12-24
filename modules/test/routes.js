@@ -1,13 +1,9 @@
-// Routing
-var controller = require('./controller');
+let { get, post } = require('server').router;
+let controller = require('./controller');
 
-module.exports = function(router){
-  
-  router.get('/test', function(req, res){ res.redirect('/'); });
-  router.get('/test/:id', controller.index);
-  router.post('/test', controller.add);
-  router.post('/test/:id', controller.update);
-  
-  return router;
-};
-
+module.exports = [
+  get('/test', (req, res) => res.redirect('/')),
+  get('/test/:id', controller.index),
+  post('/test', controller.add),
+  post('/test/:id', controller.update)
+];

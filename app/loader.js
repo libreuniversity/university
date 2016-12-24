@@ -16,7 +16,7 @@ module.exports = function (filename, concat) {
     var file = __dirname + '/../modules/' + folder + '/' + filename;
     if (fs.existsSync(file)) {
       files[folder] = require(file);
-      if (files[folder] && concat) {
+      if (files[folder] && concat && typeof files[folder] === 'function') {
         concat = files[folder](concat);
       }
     }

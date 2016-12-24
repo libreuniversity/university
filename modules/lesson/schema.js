@@ -7,7 +7,6 @@ var sanitize = require('./sanitize');
 var lessonData = {
   _id: { type: String, unique: true, default: shortid.generate },
   title: { type: String, required: true, trim: true },
-  summary: { type: String, required: true, trim: true },
   content: { type: String },
   language: { type: String, required: true, validate: /(es|en)/ },
   history: [],  // Otherwise it doesn't appear when adding it dynamically...
@@ -17,6 +16,12 @@ var lessonData = {
 var lessonSchema = mongoose.Schema(lessonData);
 lessonSchema.virtual('html').get(function(){
   return sanitize(this.content);
+});
+lessonSchema.virtual('summary').get(function(){
+  if (!this.content) return false;
+  var parts = /<p.*?>(.+?)<\/p>/.exec(sanitize(this.content).replace(/\n/g, ' '));
+  var summary = parts ? parts[1] : '';
+  return summary.replace(/<.*?>/g, '');
 });
 lessonSchema.virtual('id')
   .get(function(){ return this._id; })

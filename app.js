@@ -10,5 +10,6 @@ server(app.config, [
   passport.session(),
   app.middle.user,
   app.middle.local('app/localization', { allow: app.config.languages }),
-  app.middle.domai18n(app.config.languages, app.router, app.routerhome)
+  app.router
+  // app.middle.domai18n(app.config.languages, app.router, app.routerhome)
 ]);

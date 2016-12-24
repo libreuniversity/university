@@ -1,13 +1,13 @@
 extends ../../app/views/layout
 
-// Give it the right title of this article
+//- Give it the right title of this article
 block title
   title= lesson.title
 
 block nav
   +supermenu
 
-// Set the
+//- Set the
 block content
   form.lesson(method="POST" action="/lesson/save/" + lesson.id)
     +header(lesson.title, { edit: null, save: null }, subject)

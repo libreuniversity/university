@@ -1,8 +1,6 @@
-// Routing
+let { get, post } = require('server').router;
 var controller = require('../subject/controller');
 
-module.exports = function(router){
-  router.get('/', controller.index);
-
-  return router;
-};
+module.exports = [
+  get('/', controller.index)
+];

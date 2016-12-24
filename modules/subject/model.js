@@ -11,71 +11,34 @@ module.exports.index = req => {
   return model.find(query).then(subject => subject );
 };
 
-// module.exports.index = (req) => new Promise((resolve, reject) => {
-//   let query = { language: req.lang, stage: { $in: ['beta', 'production'] } };
-//   model.find(query).then(subject => resolve({ subject }));
-// });
-
-// module.exports.index = function(arg, data, callback){
-//   callback = ops.append(data, callback, 'subject');
-//   model.find({ language: data.language, stage: { $in: ['beta', 'production'] } }, callback);
-// };
+module.exports.get = req => {
+  let query = { _id: req.params.id, language: req.lang };
+  return model.findOne(query).populate('lessons').exec();
+}
 
 module.exports.get = req => {
   let query = { _id: req.params.id, language: req.lang };
-  return model.findOne(query).populate('lessons').exec().then(one => {
-    one.lessons = one.lessons.map(function(lesson){
-      lesson.summary = '';
-      if (lesson.content) {
-        var parts = /<p.*?>(.+?)<\/p>/.exec(lesson.content.replace(/\n/g, ' '));
-        var summary = parts ? parts[1] : '';
-        lesson.summary = summary.replace(/<.*?>/g, '');
-      }
-      return lesson;
-    });
-    return new Promise((good, bad) => good(one));
-  });
+  return model.findOne(query).populate('lessons').exec();
 }
 
-// Retrieve a single element from the database
-// module.exports.get = function(id, data, callback){
-//   var filter = { _id: id, language: data.language };
-//   callback = ops.append(data, callback, 'subject');
-//   model.findOne(filter).populate('lessons').exec(function (err, one) {
-//     one.lessons = one.lessons.map(function(lesson){
-//       lesson.summary = '';
-//       if (lesson.content) {
-//         var parts = /<p.*?>(.+?)<\/p>/.exec(lesson.content.replace(/\n/g, ' '));
-//         var summary = parts ? parts[1] : '';
-//         lesson.summary = summary.replace(/<.*?>/g, '');
-//       }
-//       return lesson;
-//     });
-//     callback(err, one);
-//   });
-// };
-
 // Add a new subject to the database
-module.exports.add = req => {
-  var article = new model(only(data, 'title summary language'));
+module.exports.add = data => {
+  let article = new model(data);
   return article.save();
 }
 
-module.exports.add = function(param, data, callback){
-  var article = new model(only(data, 'title summary language'));
-  article.save(function(err) {
-    callback(err, extend(data, { subject: article }));
-  });
+module.exports.edit = (id, data) => {
+  return model.findByIdAndUpdate(id, { $set: data }, { new: true }).exec();
 };
 
-// Update a single record
-module.exports.edit = function(id, data, callback){
-  if (!id) return callback(new Error("Id is required"));
-  if (!data.title) return callback(new Error("Title is required"));
-  if (!data.summary) return callback(new Error("Summary is required"));
-  data = only(data, 'title summary');
-  model.findByIdAndUpdate(id, { $set: data }, { new: true }, callback);
-};
+// // Update a single record
+// module.exports.edit = function(id, data, callback){
+//   if (!id) return callback(new Error("Id is required"));
+//   if (!data.title) return callback(new Error("Title is required"));
+//   if (!data.summary) return callback(new Error("Summary is required"));
+//   data = only(data, 'title summary');
+//   model.findByIdAndUpdate(id, { $set: data }, { new: true }, callback);
+// };
 
 // Add a lesson to a subject
 module.exports.addLesson = function(subjectId, data, callback){

@@ -7,6 +7,7 @@ let data = function(promise, what) {
     return new data(promise, what);
   }
 
+  this.stack = [];
   this.promise = promise;
   this.clean = data => what ? (
     typeof what === 'string' ? ({ [what]: data }) : what(data)
@@ -18,12 +19,14 @@ let data = function(promise, what) {
     }).catch(err => next(err));
   };
 
-  this.json = function(){
-    return function(req, res, next){
-      promise(req, res, next).then(data => {
-        res.json(this.clean(data));
-      }).catch(err => next(err));
-    }
+  this.json = () => (req, res, next) => {
+    promise(req, res, next).then(data => {
+      res.json(this.clean(data));
+    }).catch(err => next(err));
+  };
+
+  this.use = () => (fn) => {
+    this.stack.push(fn);
   };
 
   return this;

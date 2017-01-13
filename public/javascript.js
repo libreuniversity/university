@@ -7,6 +7,18 @@ numArgs:0},function(e){return{type:"op",limits:true,symbol:true,body:e.funcName}
 
 /* Umbrella JS 2.6.3 umbrellajs.com */
 function ajax(a,b,c,d){c=c||function(){},b=b||{},b.body=b.body||"",b.method=(b.method||"GET").toUpperCase(),b.headers=b.headers||{},b.headers["X-Requested-With"]=b.headers["X-Requested-With"]||"XMLHttpRequest","undefined"!=typeof window.FormData&&b.body instanceof window.FormData||(b.headers["Content-Type"]=b.headers["Content-Type"]||"application/x-www-form-urlencoded"),/json/.test(b.headers["Content-Type"])&&(this.encode=function(a){return JSON.stringify(b.body||{})}),"object"!=typeof b.body||b.body instanceof window.FormData||(b.body=u().param(b.body));var e=new window.XMLHttpRequest;u(e).on("error timeout abort",function(){c(new Error,null,e)}).on("load",function(){var a=/^(2|3)/.test(e.status)?null:new Error(e.status),b=parseJson(e.response)||e.response;return c(a,b,e)}),e.open(b.method,a);for(var f in b.headers)e.setRequestHeader(f,b.headers[f]);return d&&d(e),e.send(b.body),e}function parseJson(a){try{var b=JSON.parse(a);if(b&&"object"==typeof b)return b}catch(c){}return!1}var u=function(a,b){return this instanceof u?a instanceof u?a:("string"==typeof a&&(a=this.select(a,b)),a&&a.nodeName&&(a=[a]),void(this.nodes=this.slice(a))):new u(a,b)};u.prototype={get length(){return this.nodes.length}},u.prototype.nodes=[],u.prototype.addClass=function(){return this.eacharg(arguments,function(a,b){a.classList.add(b)})},u.prototype.adjacent=function(a,b,c){return"number"==typeof b&&(b=0===b?[]:new Array(b).join().split(",").map(Number.call,Number)),this.each(function(d,e){var f=document.createDocumentFragment();u(b||{}).map(function(b,c){var f="function"==typeof a?a.call(this,b,c,d,e):a;return"string"==typeof f?this.generate(f):u(f)}).each(function(a){this.isInPage(a)?f.appendChild(u(a).clone().first()):f.appendChild(a)}),c.call(this,d,f)})},u.prototype.after=function(a,b){return this.adjacent(a,b,function(a,b){a.parentNode.insertBefore(b,a.nextSibling)})},u.prototype.ajax=function(a,b){return this.handle("submit",function(c){ajax(u(this).attr("action"),{body:u(this).serialize(),method:u(this).attr("method")},a&&a.bind(this),b&&b.bind(this))})},u.prototype.append=function(a,b){return this.adjacent(a,b,function(a,b){a.appendChild(b)})},u.prototype.args=function(a,b,c){return"function"==typeof a&&(a=a(b,c)),"string"!=typeof a&&(a=this.slice(a).map(this.str(b,c))),a.toString().split(/[\s,]+/).filter(function(a){return a.length})},u.prototype.array=function(a){a=a;var b=this;return this.nodes.reduce(function(c,d,e){var f;return a?(f=a.call(b,d,e),f||(f=!1),"string"==typeof f&&(f=u(f)),f instanceof u&&(f=f.nodes)):f=d.innerHTML,c.concat(f!==!1?f:[])},[])},u.prototype.attr=function(a,b,c){if(c=c?"data-":"",void 0!==b){var d=a;a={},a[d]=b}return"object"==typeof a?this.each(function(b){for(var d in a)b.setAttribute(c+d,a[d])}):this.length?this.first().getAttribute(c+a):""},u.prototype.before=function(a,b){return this.adjacent(a,b,function(a,b){a.parentNode.insertBefore(b,a)})},u.prototype.children=function(a){return this.map(function(a){return this.slice(a.children)}).filter(a)},u.prototype.clone=function(){return this.map(function(a,b){var c=a.cloneNode(!0),d=this.getAll(c);return this.getAll(a).each(function(a,b){for(var c in this.mirror)this.mirror[c](a,d.nodes[b])}),c})},u.prototype.getAll=function(a){return u([a].concat(u("*",a).nodes))},u.prototype.mirror={},u.prototype.mirror.events=function(a,b){if(a._e)for(var c in a._e)a._e[c].forEach(function(a){u(b).on(c,a)})},u.prototype.mirror.select=function(a,b){u(a).is("select")&&(b.value=a.value)},u.prototype.mirror.textarea=function(a,b){u(a).is("textarea")&&(b.value=a.value)},u.prototype.closest=function(a){return this.map(function(b){do if(u(b).is(a))return b;while((b=b.parentNode)&&b!==document)})},u.prototype.data=function(a,b){return this.attr(a,b,!0)},u.prototype.each=function(a){return this.nodes.forEach(a.bind(this)),this},u.prototype.eacharg=function(a,b){return this.each(function(c,d){this.args(a,c,d).forEach(function(a){b.call(this,c,a)},this)})},u.prototype.filter=function(a){var b=function(b){return b.matches=b.matches||b.msMatchesSelector||b.webkitMatchesSelector,b.matches(a||"*")};return"function"==typeof a&&(b=a),a instanceof u&&(b=function(b){return-1!==a.nodes.indexOf(b)}),u(this.nodes.filter(b))},u.prototype.find=function(a){return this.map(function(b){return u(a||"*",b)})},u.prototype.first=function(){return this.nodes[0]||!1},u.prototype.generate=function(a){return/^\s*<t(h|r|d)/.test(a)?u(document.createElement("table")).html(a).children().nodes:/^\s*</.test(a)?u(document.createElement("div")).html(a).children().nodes:document.createTextNode(a)},u.prototype.handle=function(a,b){return this.on(a,function(a){a.preventDefault(),b.apply(this,arguments)})},u.prototype.hasClass=function(){return this.is("."+this.args(arguments).join("."))},u.prototype.html=function(a){return void 0===a?this.first().innerHTML||"":this.each(function(b){b.innerHTML=a})},u.prototype.is=function(a){return this.filter(a).length>0},u.prototype.isInPage=function(a){return a===document.body?!1:document.body.contains(a)},u.prototype.last=function(){return this.nodes[this.length-1]||!1},u.prototype.map=function(a){return a?u(this.array(a)).unique():this},u.prototype.not=function(a){return this.filter(function(b){return!u(b).is(a||!0)})},u.prototype.off=function(a){return this.eacharg(a,function(a,b){u(a._e?a._e[b]:[]).each(function(c){a.removeEventListener(b,c)})})},u.prototype.on=function(a,b,c){if("string"==typeof b){var d=b;b=function(a){var b=arguments;u(a.currentTarget).find(d).each(function(d){(d===a.target||d.contains(a.target))&&c.apply(a.target,b)})}}var e=function(a){return b.apply(this,[a].concat(a.detail||[]))};return this.eacharg(a,function(a,b){a.addEventListener(b,e),a._e=a._e||{},a._e[b]=a._e[b]||[],a._e[b].push(e)})},u.prototype.param=function(a){return Object.keys(a).map(function(b){return this.uri(b)+"="+this.uri(a[b])}.bind(this)).join("&")},u.prototype.parent=function(a){return this.map(function(a){return a.parentNode}).filter(a)},u.prototype.prepend=function(a,b){return this.adjacent(a,b,function(a,b){a.insertBefore(b,a.firstChild)})},u.prototype.remove=function(){return this.each(function(a){a.parentNode.removeChild(a)})},u.prototype.removeClass=function(){return this.eacharg(arguments,function(a,b){a.classList.remove(b)})},u.prototype.replace=function(a,b){var c=[];return this.adjacent(a,b,function(a,b){c=c.concat(this.slice(b.children)),a.parentNode.replaceChild(b,a)}),u(c)},u.prototype.scroll=function(){return this.first().scrollIntoView({behavior:"smooth"}),this},u.prototype.select=function(a,b){if(a=a.replace(/^\s*/,"").replace(/\s*$/,""),b)return this.select.byCss(a,b);for(var c in this.selectors)if(b=c.split("/"),new RegExp(b[1],b[2]).test(a))return this.selectors[c](a);return this.select.byCss(a)},u.prototype.select.byCss=function(a,b){return(b||document).querySelectorAll(a)},u.prototype.selectors={},u.prototype.selectors[/^\.[\w\-]+$/]=function(a){return document.getElementsByClassName(a.substring(1))},u.prototype.selectors[/^\w+$/]=function(a){return document.getElementsByTagName(a)},u.prototype.selectors[/^\#[\w\-]+$/]=function(a){return document.getElementById(a.substring(1))},u.prototype.selectors[/^</]=function(a){return u().generate(a)},u.prototype.serialize=function(){var a=this;return this.slice(this.first().elements).reduce(function(b,c){return!c.name||c.disabled||"file"===c.type?b:/(checkbox|radio)/.test(c.type)&&!c.checked?b:"select-multiple"===c.type?(u(c.options).each(function(d){d.selected&&(b+="&"+a.uri(c.name)+"="+a.uri(d.value))}),b):b+"&"+a.uri(c.name)+"="+a.uri(c.value)},"").slice(1)},u.prototype.siblings=function(a){return this.parent().children(a).not(this)},u.prototype.size=function(){return this.first().getBoundingClientRect()},u.prototype.slice=function(a){return a&&0!==a.length&&"string"!=typeof a&&"[object Function]"!==a.toString()?a.length?[].slice.call(a.nodes||a):[a]:[]},u.prototype.str=function(a,b){return function(c){return"function"==typeof c?c.call(this,a,b):c.toString()}},u.prototype.text=function(a){return void 0===a?this.first().textContent||"":this.each(function(b){b.textContent=a})},u.prototype.toggleClass=function(a,b){return!!b===b?this[b?"addClass":"removeClass"](a):this.eacharg(a,function(a,b){a.classList.toggle(b)})},u.prototype.trigger=function(a){var b=this.slice(arguments).slice(1);return this.eacharg(a,function(a,c){var d,e={bubbles:!0,cancelable:!0,detail:b};try{d=new window.CustomEvent(c,e)}catch(f){d=document.createEvent("CustomEvent"),d.initCustomEvent(c,!0,!0,b)}a.dispatchEvent(d)})},u.prototype.unique=function(){return u(this.nodes.reduce(function(a,b){var c=null!==b&&void 0!==b&&b!==!1;return c&&-1===a.indexOf(b)?a.concat(b):a},[]))},u.prototype.uri=function(a){return encodeURIComponent(a).replace(/!/g,"%21").replace(/'/g,"%27").replace(/\(/g,"%28").replace(/\)/g,"%29").replace(/\*/g,"%2A").replace(/%20/g,"+")},u.prototype.wrap=function(a){function b(a){for(;a.firstElementChild;)a=a.firstElementChild;return u(a)}return this.map(function(c){return u(a).each(function(a){b(a).append(c.cloneNode(!0)),c.parentNode.replaceChild(a,c)})})},"object"==typeof module&&module.exports&&(module.exports={u:u,ajax:ajax});
+/* mousetrap v1.6.0 craig.is/killing/mice */
+(function(r,t,g){function u(a,b,h){a.addEventListener?a.addEventListener(b,h,!1):a.attachEvent("on"+b,h)}function y(a){if("keypress"==a.type){var b=String.fromCharCode(a.which);a.shiftKey||(b=b.toLowerCase());return b}return k[a.which]?k[a.which]:p[a.which]?p[a.which]:String.fromCharCode(a.which).toLowerCase()}function D(a){var b=[];a.shiftKey&&b.push("shift");a.altKey&&b.push("alt");a.ctrlKey&&b.push("ctrl");a.metaKey&&b.push("meta");return b}function v(a){return"shift"==a||"ctrl"==a||"alt"==a||
+"meta"==a}function z(a,b){var h,c,e,g=[];h=a;"+"===h?h=["+"]:(h=h.replace(/\+{2}/g,"+plus"),h=h.split("+"));for(e=0;e<h.length;++e)c=h[e],A[c]&&(c=A[c]),b&&"keypress"!=b&&B[c]&&(c=B[c],g.push("shift")),v(c)&&g.push(c);h=c;e=b;if(!e){if(!n){n={};for(var l in k)95<l&&112>l||k.hasOwnProperty(l)&&(n[k[l]]=l)}e=n[h]?"keydown":"keypress"}"keypress"==e&&g.length&&(e="keydown");return{key:c,modifiers:g,action:e}}function C(a,b){return null===a||a===t?!1:a===b?!0:C(a.parentNode,b)}function c(a){function b(a){a=
+a||{};var b=!1,m;for(m in n)a[m]?b=!0:n[m]=0;b||(w=!1)}function h(a,b,m,f,c,h){var g,e,k=[],l=m.type;if(!d._callbacks[a])return[];"keyup"==l&&v(a)&&(b=[a]);for(g=0;g<d._callbacks[a].length;++g)if(e=d._callbacks[a][g],(f||!e.seq||n[e.seq]==e.level)&&l==e.action){var q;(q="keypress"==l&&!m.metaKey&&!m.ctrlKey)||(q=e.modifiers,q=b.sort().join(",")===q.sort().join(","));q&&(q=f&&e.seq==f&&e.level==h,(!f&&e.combo==c||q)&&d._callbacks[a].splice(g,1),k.push(e))}return k}function g(a,b,m,f){d.stopCallback(b,
+b.target||b.srcElement,m,f)||!1!==a(b,m)||(b.preventDefault?b.preventDefault():b.returnValue=!1,b.stopPropagation?b.stopPropagation():b.cancelBubble=!0)}function e(a){"number"!==typeof a.which&&(a.which=a.keyCode);var b=y(a);b&&("keyup"==a.type&&x===b?x=!1:d.handleKey(b,D(a),a))}function k(a,c,m,f){function e(c){return function(){w=c;++n[a];clearTimeout(r);r=setTimeout(b,1E3)}}function h(c){g(m,c,a);"keyup"!==f&&(x=y(c));setTimeout(b,10)}for(var d=n[a]=0;d<c.length;++d){var p=d+1===c.length?h:e(f||
+z(c[d+1]).action);l(c[d],p,f,a,d)}}function l(a,b,c,f,e){d._directMap[a+":"+c]=b;a=a.replace(/\s+/g," ");var g=a.split(" ");1<g.length?k(a,g,b,c):(c=z(a,c),d._callbacks[c.key]=d._callbacks[c.key]||[],h(c.key,c.modifiers,{type:c.action},f,a,e),d._callbacks[c.key][f?"unshift":"push"]({callback:b,modifiers:c.modifiers,action:c.action,seq:f,level:e,combo:a}))}var d=this;a=a||t;if(!(d instanceof c))return new c(a);d.target=a;d._callbacks={};d._directMap={};var n={},r,x=!1,p=!1,w=!1;d._handleKey=function(a,
+c,e){var f=h(a,c,e),d;c={};var k=0,l=!1;for(d=0;d<f.length;++d)f[d].seq&&(k=Math.max(k,f[d].level));for(d=0;d<f.length;++d)f[d].seq?f[d].level==k&&(l=!0,c[f[d].seq]=1,g(f[d].callback,e,f[d].combo,f[d].seq)):l||g(f[d].callback,e,f[d].combo);f="keypress"==e.type&&p;e.type!=w||v(a)||f||b(c);p=l&&"keydown"==e.type};d._bindMultiple=function(a,b,c){for(var d=0;d<a.length;++d)l(a[d],b,c)};u(a,"keypress",e);u(a,"keydown",e);u(a,"keyup",e)}if(r){var k={8:"backspace",9:"tab",13:"enter",16:"shift",17:"ctrl",
+18:"alt",20:"capslock",27:"esc",32:"space",33:"pageup",34:"pagedown",35:"end",36:"home",37:"left",38:"up",39:"right",40:"down",45:"ins",46:"del",91:"meta",93:"meta",224:"meta"},p={106:"*",107:"+",109:"-",110:".",111:"/",186:";",187:"=",188:",",189:"-",190:".",191:"/",192:"`",219:"[",220:"\\",221:"]",222:"'"},B={"~":"`","!":"1","@":"2","#":"3",$:"4","%":"5","^":"6","&":"7","*":"8","(":"9",")":"0",_:"-","+":"=",":":";",'"':"'","<":",",">":".","?":"/","|":"\\"},A={option:"alt",command:"meta","return":"enter",
+escape:"esc",plus:"+",mod:/Mac|iPod|iPhone|iPad/.test(navigator.platform)?"meta":"ctrl"},n;for(g=1;20>g;++g)k[111+g]="f"+g;for(g=0;9>=g;++g)k[g+96]=g;c.prototype.bind=function(a,b,c){a=a instanceof Array?a:[a];this._bindMultiple.call(this,a,b,c);return this};c.prototype.unbind=function(a,b){return this.bind.call(this,a,function(){},b)};c.prototype.trigger=function(a,b){if(this._directMap[a+":"+b])this._directMap[a+":"+b]({},a);return this};c.prototype.reset=function(){this._callbacks={};this._directMap=
+{};return this};c.prototype.stopCallback=function(a,b){return-1<(" "+b.className+" ").indexOf(" mousetrap ")||C(b,this.target)?!1:"INPUT"==b.tagName||"SELECT"==b.tagName||"TEXTAREA"==b.tagName||b.isContentEditable};c.prototype.handleKey=function(){return this._handleKey.apply(this,arguments)};c.addKeycodes=function(a){for(var b in a)a.hasOwnProperty(b)&&(k[b]=a[b]);n=null};c.init=function(){var a=c(t),b;for(b in a)"_"!==b.charAt(0)&&(c[b]=function(b){return function(){return a[b].apply(a,arguments)}}(b))};
+c.init();r.Mousetrap=c;"undefined"!==typeof module&&module.exports&&(module.exports=c);"function"===typeof define&&define.amd&&define(function(){return c})}})("undefined"!==typeof window?window:null,"undefined"!==typeof window?document:null);
+
 /* eslint new-cap: 0 */
 // PageX
 // A minimal engine for loading only page-specific code with regex or paths
@@ -1440,275 +1452,350 @@ var smoothscroll = false;
 
 pagex(/^\/lesson/, function(id){
 
-  // Initialize the editor in the element that is contenteditable
-  var editor = new Editor("article.content", { menu: "editormenu", active: false });
-
-  editor.add("type", {
-    menu: {
-      html:'<select name="type">\
-              <option value="p">Paragraph</option>\
-              <option value="h1">H1</option>\
-              <option value="h2">H2</option>\
-              <option value="code">code</option>\
-              <option value="math">math</option>\
-            </select>',
-      defaults: true
-    },
-    init: function(editor){
-      editor.on('clean', function(e, node){
-
-        // Lonely <code> are wrapped in <pre>
-        var bare = u(editor.element).children('code').wrap('<pre>');
-        var nopre = u(editor.element).children().children('code').parent(function(node){
-          return !u(node).is('pre');
-        });
-
-        nopre.filter(function(node){
-          return u(node).text() === u(node).children().text();
-        }).wrap('<pre>').html(nopre.html());
-      });
-    },
-    action: function (editor) {
-      u('[name="type"]').not('.listened').addClass('listened').on('change', function(e){
-
-        if (e.target.value === 'math') {
-          var equationblock = createEquation(editor.selection.text);
-          u(editor.selection.element).html('').append(equationblock);
-          return;
-        } else {
-          u(editor.selection.element).closest('.equation').each(function(eq){
-            u(eq).closest('p').html(u(eq).data('latex'));
-          });
-        }
-
-        editor.tag(e.target.value);
-      });
-    }
-  });
-
-  editor.trigger('menu:separator');
-
-  // Register a new action called "bold"
-  editor.add("bold", {
-    menu: "<strong>B</strong>", shortcut: "ctrl+b",
-    action: function(editor){
-      editor.command("bold");
-    }
-  });
-
-  // Register a new action called "italic"
-  editor.add("italic", {
-    menu: "<em>i</em>", shortcut: "ctrl+i",
-    action: function(editor){
-      editor.command("italic");
-    }
-  });
-
-  // Register a new action called "link"
-  editor.add("link", {
-    menu: "<i class='icon-link'></i>", shortcut: "ctrl+k",
-    action: function(editor) {
-      var link = editor.selection.element.getAttribute("href") || "";
-      var address = prompt("Link address", link);
-      editor.tag('a', (address ? { href: address } : false));
-    }
-  });
-
-  // Add an option to add code
-  editor.add("code", {
-    menu: "<i class='icon-terminal'></i>", shortcut: "ctrl+`",
-    action: function(editor) {
-      editor.tag("code");
-    }
-  });
-
-  editor.trigger('menu:separator');
-
-  // Register a new action called "italic"
-  editor.add('info', {
-    menu: "<i class='icon-help'></i>",
-    shortcut: "ctrl+?",
-    action: function(){
-      window.open("https://github.com/franciscop/modern-editor", "_blank");
-    }
-  });
-
-
-  // Require authorization to execute callback
-  function auth(number, callback){
-    if (!user) {
-      return login();
-    }
-    // if (!user.over(100)) {
-    //   return modal("permission").show(100);
-    // }
-
-    callback.call();
+  try {
+    renderMathInElement(document.body, { delimiters: [
+      { left: "$$", right: "$$", display: true  },
+      { left: '\\(', right: '\\)', display: false }
+    ]});
+  } catch (e) {
+    console.log("Katex failed:", e);
   }
 
+  var ready = false;
+  var loaded = false;
 
-  function createEquation(latex){
-    if (!latex) latex = '';
-    var rendered = katex.renderToString(latex);
-    return u('<div class="equation flex two">')
-      .data('latex', latex)
-      .append('<pre><code>' + latex)
-      .append('<div class="live"><div class="visual">' + rendered + '</div></div>');
-  }
+  var startEdition = function(){
+    u("form.lesson").addClass("edit").find('article').attr('contenteditable', true);
 
+    u('.katex').parent().each(function(node){
+      u(node).html('\\(' + u(node).find('annotation').html() + '\\)').addClass('math-tex');
+    });
 
-  editor.add("edit", {
-    shortcut: "ctrl+e",
-    init: function (editor) {
-      editor.on('clean', function () {
-        if (!editor.options.active) return false;
-        // u('.katex').find('annotation').each(function(equation){
-        //   var eq = u(equation).html();
-        //   u(equation).closest('.katex').parent().html('@@' + eq + '@@');
-        // });
-        //
-        // u('.katex').find('.equation').each(function(equation){
-        //   var eq = u(equation).html();
-        //   u(equation).closest('.katex').parent().html('@@' + eq + '@@');
-        // });
-
-        // u(editor.element).find('.equation').each(function(equation){
-        //   var latex = u(equation).find('pre').text();
-        //   if (latex !== u(equation).data('latex')) {
-        //     u(equation).data('latex', latex);
-        //     var rendered = katex.renderToString(latex);
-        //     u(equation).find('.visual').html(rendered);
-        //   }
-        // });
-      });
-    },
-    action: function(editor){
-      auth(100, function(){
-        u("form.lesson").addClass("edit").find('article').attr('contenteditable', true);
-
-        u('.katex').find('annotation').each(function(equation){
-          var eq = u(equation).html();
-          u(equation).closest('.katex-display').parent().html('$$' + eq + '$$');
+    if (!loaded) {
+      var script = document.createElement('script');
+      script.type = 'text/javascript';
+      script.src = '/ckeditor/ckeditor.js';
+      script.onload = function(e) {
+        loaded = true;
+        CKEDITOR.on('instanceReady', function(){
+          ready = true;
         });
-
-        u('.katex').find('annotation').each(function(equation){
-          var eq = u(equation).html();
-          u(equation).closest('.katex').parent().html('@@' + eq + '@@');
-        });
-
-        // u('pre', editor.element).each(function(pre){
-        //   var clean = u(pre).html().replace(/\<br[\s\\]*>/g, '\n');
-        //   u('<pre>').html(clean).text();
-        //   u(pre).html('<code>' + u('<pre>').html(clean).text() + '</code>');
-        // });
-
-        editor.options.active = true;
-      });
-    }
-  });
-
-  editor.add("save", {
-    shortcut: "ctrl+s",
-    action: function(editor){
-      var form = u("form.edit");
-
-      u(editor.element).find('pre').each(function(pre){
-        var inner = u(u(pre).children('code').first() || u(pre).first());
-        var clean = inner.html().replace(/\<br[\s\\]*>/g, '\n').replace(/\&lt\;/g, '<').replace(/\&gt\;/g, '>').replace(/\&amp\;/g, '&');
-        console.log(u('<pre>').text(clean).text(), inner.html());
-        if (!u(pre).children()) u(pre).html('<code></code>');
-        u(pre).find('code').text(clean);
-      });
-
-      u(editor.element).find('.equation').each(function(equation){
-        var latex = u(equation).data('latex');
-        u(equation).parent().html('').append('$$' + latex + '$$');
-      });
-
-      var html = encodeURIComponent(form.find("article.content").html());
-      ajax(form.attr("action"), { method: "POST", body: "content=" + html }, function(err, data){
-
-        u("form.lesson").removeClass("edit").find('article').attr('contenteditable', false);
-
-        // Overwrite the current data in case anything has changed/cleaning
-        u("article.content").html(data ? data.html : html);
-
-        try {
-          renderMathInElement(document.body, { delimiters: [
-            { left: "$$", right: "$$", display: true  },
-            { left: '@@', right: '@@', display: false }
-          ]});
-        } catch (e) {
-          console.log("Katex failed:", e);
-        }
-
-        // try {
-        //   Prism.highlightAll();
-        // } catch (e) {
-        //   console.log("Prism failed:", e);
-        // }
-
-        // Deactivate the editor
-        editor.options.active = false;
-      });
-    }
-  });
-
-
-
-  // Setup the drop listeners.
-  u('body').on('drop', function(e) {
-    console.log(e);
-    var data = new FormData();
-    data.append("image", e.dataTransfer.files[0]);
-
-    var xhr = new XMLHttpRequest();
-    xhr.open('POST', '/lesson/upload', true);
-
-    xhr.upload.onprogress = function(e) {
-      if (e.lengthComputable) {
-        var percentComplete = (e.loaded / e.total) * 100;
-        console.log(percentComplete + '% uploaded');
       }
-    };
-    xhr.onload = function() {
-      if (this.status == 200) {
-        console.log("Success");
-        var res = JSON.parse(this.responseText);
-        u('img').each(function(node){
-          if (/^data\:/.test(u(node).attr('src'))) {
-            u(node).attr({ src: res.image });
-          }
-        });
-      };
-    };
-    xhr.send(data);
+      u("body").append(script);
+    } else {
+      CKEDITOR.inline('editor');
+    }
+  };
 
-    // var files = e.dataTransfer.files; // FileList object.
-    //
-    // //files is a FileList of File objects. List some properties.
-    // for (var i = 0, f; f = files[i]; i++) {
-    //   console.log('"' + f.name + '" (' + (f.type || 'n/a') + ')');
-    //   console.log(f.size + ' bytes');
-    //   console.log('last modified: ' + (f.lastModifiedDate ? f.lastModifiedDate.toLocaleDateString() : 'n/a'));
-    // }
-  });
+  function saveContent(time){
+    if (!ready) return setTimeout(function(){ saveContent(100); }, time * 2);
+    var html = CKEDITOR.instances.editor.getData().replace(/\n/g, '<br>');
+    ajax(u('form.lesson').attr("action"), { method: "POST", body: "content=" + html }, function(err, data){
+      u("form.lesson").removeClass("edit").find('article').attr('contenteditable', false);
 
+      CKEDITOR.instances.editor.destroy();
 
+      // Overwrite the current data in case anything has changed/cleaning
+      u("article.content").html(data ? data.html : html);
 
-  u("form.lesson").on("submit", function(e){
-    e.preventDefault();
-    editor.trigger('action:save');
-  });
+      try {
+        renderMathInElement(document.body, { delimiters: [
+          { left: "$$", right: "$$", display: true  },
+          { left: '\\(', right: '\\)', display: false }
+        ]});
+      } catch (e) {
+        console.log("Katex failed:", e);
+      }
 
-  u("button.edit").on('click', function(e){
-    e.preventDefault();
-    editor.trigger('action:edit');
-  });
-
-  if (u("form.lesson").hasClass("edit") && user) {
-    editor.trigger('action:edit');
+      // u('article.content .math-tex').each(function(node){
+      //   var math = node.innerHTML.replace(/^\\\(/, '').replace(/\\\)/, '');
+      //   node.innerHTML = katex.renderToString(math);
+      // });
+    });
   }
+
+  u("button.edit").handle('click', function(){
+    startEdition();
+  });
+  Mousetrap.bind('mod+e', function(e) {
+    e.preventDefault();
+    startEdition();
+  });
+
+  u("button.save").handle('click', function(){
+    saveContent();
+  });
+  Mousetrap.bind(['command+s', 'ctrl+s'], function(e) {
+    e.preventDefault();
+    saveContent(100);
+  });
+
+
+  // // Initialize the editor in the element that is contenteditable
+  // var editor = new Editor("article.content", { menu: "editormenu", active: false });
+  //
+  // editor.add("type", {
+  //   menu: {
+  //     html:'<select name="type">\
+  //             <option value="p">Paragraph</option>\
+  //             <option value="h1">H1</option>\
+  //             <option value="h2">H2</option>\
+  //             <option value="code">code</option>\
+  //             <option value="math">math</option>\
+  //           </select>',
+  //     defaults: true
+  //   },
+  //   init: function(editor){
+  //     editor.on('clean', function(e, node){
+  //
+  //       // Lonely <code> are wrapped in <pre>
+  //       var bare = u(editor.element).children('code').wrap('<pre>');
+  //       var nopre = u(editor.element).children().children('code').parent(function(node){
+  //         return !u(node).is('pre');
+  //       });
+  //
+  //       nopre.filter(function(node){
+  //         return u(node).text() === u(node).children().text();
+  //       }).wrap('<pre>').html(nopre.html());
+  //     });
+  //   },
+  //   action: function (editor) {
+  //     u('[name="type"]').not('.listened').addClass('listened').on('change', function(e){
+  //
+  //       if (e.target.value === 'math') {
+  //         var equationblock = createEquation(editor.selection.text);
+  //         u(editor.selection.element).html('').append(equationblock);
+  //         return;
+  //       } else {
+  //         u(editor.selection.element).closest('.equation').each(function(eq){
+  //           u(eq).closest('p').html(u(eq).data('latex'));
+  //         });
+  //       }
+  //
+  //       editor.tag(e.target.value);
+  //     });
+  //   }
+  // });
+  //
+  // editor.trigger('menu:separator');
+  //
+  // // Register a new action called "bold"
+  // editor.add("bold", {
+  //   menu: "<strong>B</strong>", shortcut: "ctrl+b",
+  //   action: function(editor){
+  //     editor.command("bold");
+  //   }
+  // });
+  //
+  // // Register a new action called "italic"
+  // editor.add("italic", {
+  //   menu: "<em>i</em>", shortcut: "ctrl+i",
+  //   action: function(editor){
+  //     editor.command("italic");
+  //   }
+  // });
+  //
+  // // Register a new action called "link"
+  // editor.add("link", {
+  //   menu: "<i class='icon-link'></i>", shortcut: "ctrl+k",
+  //   action: function(editor) {
+  //     var link = editor.selection.element.getAttribute("href") || "";
+  //     var address = prompt("Link address", link);
+  //     editor.tag('a', (address ? { href: address } : false));
+  //   }
+  // });
+  //
+  // // Add an option to add code
+  // editor.add("code", {
+  //   menu: "<i class='icon-terminal'></i>", shortcut: "ctrl+`",
+  //   action: function(editor) {
+  //     editor.tag("code");
+  //   }
+  // });
+  //
+  // editor.trigger('menu:separator');
+  //
+  // // Register a new action called "italic"
+  // editor.add('info', {
+  //   menu: "<i class='icon-help'></i>",
+  //   shortcut: "ctrl+?",
+  //   action: function(){
+  //     window.open("https://github.com/franciscop/modern-editor", "_blank");
+  //   }
+  // });
+
+
+  // // Require authorization to execute callback
+  // function auth(number, callback){
+  //   if (!user) {
+  //     return login();
+  //   }
+  //   // if (!user.over(100)) {
+  //   //   return modal("permission").show(100);
+  //   // }
+  //
+  //   callback.call();
+  // }
+  //
+  //
+  // function createEquation(latex){
+  //   if (!latex) latex = '';
+  //   var rendered = katex.renderToString(latex);
+  //   return u('<div class="equation flex two">')
+  //     .data('latex', latex)
+  //     .append('<pre><code>' + latex)
+  //     .append('<div class="live"><div class="visual">' + rendered + '</div></div>');
+  // }
+  //
+  //
+  // editor.add("edit", {
+  //   shortcut: "ctrl+e",
+  //   init: function (editor) {
+  //     editor.on('clean', function () {
+  //       if (!editor.options.active) return false;
+  //       // u('.katex').find('annotation').each(function(equation){
+  //       //   var eq = u(equation).html();
+  //       //   u(equation).closest('.katex').parent().html('@@' + eq + '@@');
+  //       // });
+  //       //
+  //       // u('.katex').find('.equation').each(function(equation){
+  //       //   var eq = u(equation).html();
+  //       //   u(equation).closest('.katex').parent().html('@@' + eq + '@@');
+  //       // });
+  //
+  //       // u(editor.element).find('.equation').each(function(equation){
+  //       //   var latex = u(equation).find('pre').text();
+  //       //   if (latex !== u(equation).data('latex')) {
+  //       //     u(equation).data('latex', latex);
+  //       //     var rendered = katex.renderToString(latex);
+  //       //     u(equation).find('.visual').html(rendered);
+  //       //   }
+  //       // });
+  //     });
+  //   },
+  //   action: function(editor){
+  //     auth(100, function(){
+  //       u("form.lesson").addClass("edit").find('article').attr('contenteditable', true);
+  //
+  //       u('.katex').find('annotation').each(function(equation){
+  //         var eq = u(equation).html();
+  //         u(equation).closest('.katex-display').parent().html('$$' + eq + '$$');
+  //       });
+  //
+  //       u('.katex').find('annotation').each(function(equation){
+  //         var eq = u(equation).html();
+  //         u(equation).closest('.katex').parent().html('@@' + eq + '@@');
+  //       });
+  //
+  //       // u('pre', editor.element).each(function(pre){
+  //       //   var clean = u(pre).html().replace(/\<br[\s\\]*>/g, '\n');
+  //       //   u('<pre>').html(clean).text();
+  //       //   u(pre).html('<code>' + u('<pre>').html(clean).text() + '</code>');
+  //       // });
+  //
+  //       editor.options.active = true;
+  //     });
+  //   }
+  // });
+  //
+  // editor.add("save", {
+  //   shortcut: "ctrl+s",
+  //   action: function(editor){
+  //     var form = u("form.edit");
+  //
+  //     u(editor.element).find('pre').each(function(pre){
+  //       var inner = u(u(pre).children('code').first() || u(pre).first());
+  //       var clean = inner.html().replace(/\<br[\s\\]*>/g, '\n').replace(/\&lt\;/g, '<').replace(/\&gt\;/g, '>').replace(/\&amp\;/g, '&');
+  //       console.log(u('<pre>').text(clean).text(), inner.html());
+  //       if (!u(pre).children()) u(pre).html('<code></code>');
+  //       u(pre).find('code').text(clean);
+  //     });
+  //
+  //     u(editor.element).find('.equation').each(function(equation){
+  //       var latex = u(equation).data('latex');
+  //       u(equation).parent().html('').append('$$' + latex + '$$');
+  //     });
+  //
+  //     var html = encodeURIComponent(form.find("article.content").html());
+  //     ajax(form.attr("action"), { method: "POST", body: "content=" + html }, function(err, data){
+  //
+  //       u("form.lesson").removeClass("edit").find('article').attr('contenteditable', false);
+  //
+  //       // Overwrite the current data in case anything has changed/cleaning
+  //       u("article.content").html(data ? data.html : html);
+  //
+  //       try {
+  //         renderMathInElement(document.body, { delimiters: [
+  //           { left: "$$", right: "$$", display: true  },
+  //           { left: '@@', right: '@@', display: false }
+  //         ]});
+  //       } catch (e) {
+  //         console.log("Katex failed:", e);
+  //       }
+  //
+  //       // try {
+  //       //   Prism.highlightAll();
+  //       // } catch (e) {
+  //       //   console.log("Prism failed:", e);
+  //       // }
+  //
+  //       // Deactivate the editor
+  //       editor.options.active = false;
+  //     });
+  //   }
+  // });
+  //
+  //
+  //
+  // // Setup the drop listeners.
+  // u('body').on('drop', function(e) {
+  //   console.log(e);
+  //   var data = new FormData();
+  //   data.append("image", e.dataTransfer.files[0]);
+  //
+  //   var xhr = new XMLHttpRequest();
+  //   xhr.open('POST', '/lesson/upload', true);
+  //
+  //   xhr.upload.onprogress = function(e) {
+  //     if (e.lengthComputable) {
+  //       var percentComplete = (e.loaded / e.total) * 100;
+  //       console.log(percentComplete + '% uploaded');
+  //     }
+  //   };
+  //   xhr.onload = function() {
+  //     if (this.status == 200) {
+  //       console.log("Success");
+  //       var res = JSON.parse(this.responseText);
+  //       u('img').each(function(node){
+  //         if (/^data\:/.test(u(node).attr('src'))) {
+  //           u(node).attr({ src: res.image });
+  //         }
+  //       });
+  //     };
+  //   };
+  //   xhr.send(data);
+  //
+  //   // var files = e.dataTransfer.files; // FileList object.
+  //   //
+  //   // //files is a FileList of File objects. List some properties.
+  //   // for (var i = 0, f; f = files[i]; i++) {
+  //   //   console.log('"' + f.name + '" (' + (f.type || 'n/a') + ')');
+  //   //   console.log(f.size + ' bytes');
+  //   //   console.log('last modified: ' + (f.lastModifiedDate ? f.lastModifiedDate.toLocaleDateString() : 'n/a'));
+  //   // }
+  // });
+  //
+  //
+  //
+  // u("form.lesson").on("submit", function(e){
+  //   e.preventDefault();
+  //   editor.trigger('action:save');
+  // });
+  //
+
+  // if (u("form.lesson").hasClass("edit") && user) {
+  //   editor.trigger('action:edit');
+  // }
 
 
 

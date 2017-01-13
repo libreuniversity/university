@@ -9,6 +9,24 @@ exports.get = handle(model.get, 'lesson')
   .render('lesson/get');
 
 
+exports.upload = (req, res) => {
+  cloudinary.config({
+    cloud_name: process.env.cloud,
+    api_key: process.env.key,
+    api_secret: process.env.secret
+  });
+  cloudinary.uploader.upload(req.files.upload.path, result => res.json({
+    uploaded: 1,
+    fileName: req.files.upload.name,
+    url: result.url.replace('http://', 'https://')
+  }));
+}
+
+
+
+
+
+
 
 // Legacy:
 var app = require('auto-load')('app');
@@ -44,19 +62,3 @@ exports.save = function(req, res, next) {
     .pipe(model.save, req.params.id)
     .end(answer.ajax(res, next));
 };
-
-exports.upload = function(req, res, next){
-  var form = new app.npm.formidable.IncomingForm();
-  form.parse(req, function (err, fields, files) {
-
-    cloudinary.config({
-      cloud_name: process.env.cloud,
-      api_key: process.env.key,
-      api_secret: process.env.secret
-    });
-
-    cloudinary.uploader.upload(files.image.path, function(result) {
-      res.json({ error: false, image: result.url.replace('http://', 'https://') });
-    });
-  });
-}

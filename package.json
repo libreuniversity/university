@@ -66,6 +66,7 @@
     "grunt-sass": "^1.0.0",
     "grunt-semistandard": "^1.0.6",
     "mocha": "^2.5.3",
+    "mousetrap": "^1.6.0",
     "superagent": "^1.4.0"
   }
 }

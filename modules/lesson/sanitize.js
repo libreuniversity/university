@@ -4,7 +4,9 @@ var sanitizeOpt = {
   allowedTags: ['h2', 'h3', 'h4', 'br', 'p', 'b', 'i', 'a', 'ul', 'li', 'pre', 'code', 'img'],
   allowedAttributes: { 'a': ['href'], img: ['src'] },
   allowedClasses: {
-    'pre': ['js', 'javascript', 'css', 'html', 'pug', 'jade'].map(name => 'language-' + name)
+    'span': ['math-tex'],
+    'pre': ['js', 'javascript', 'css', 'html', 'pug', 'jade'].map(name => 'language-' + name),
+    'code': ['js', 'javascript', 'css', 'html', 'pug', 'jade'].map(name => 'language-' + name)
   }
 };
 

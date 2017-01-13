@@ -4,7 +4,7 @@ module.exports = points => (req, res, next) => {
     return next(new Error('User must be logged in'));
   }
   if (req.user.points < points) {
-    return next(new Error('User has not enough points for this action. ' + points + ' needed'))
+    return next(new Error('User has not enough points for this action. ' + points + ' needed'));
   }
   next();
-}
+};

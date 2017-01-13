@@ -17,9 +17,11 @@ module.exports = function (grunt) {
       dist: {
         src: [
           // External libraries
+          // 'public/ckeditor/ckeditor.js',
           'static/lib/katex/dist/katex.min.js',
           'static/lib/katex-auto-render.min.js',
           'static/lib/umbrella/umbrella.min.js',
+          'node_modules/mousetrap/mousetrap.min.js',
           'static/page.js',
 
           // Internal libraries
@@ -53,6 +55,22 @@ module.exports = function (grunt) {
       }
     },
 
+    watch: {
+      scripts: {
+        files: [
+          'package.js', // To bump versions
+          'Gruntfile.js',
+          'superdom.js',
+          'static/**/*'
+        ],
+        tasks: ['default'],
+        options: {
+          spawn: false,
+          livereload: true
+        }
+      }
+    },
+
     copy: {
       files: {
         cwd: 'static/lib/katex/dist/fonts/',  // set working folder / root to copy
@@ -76,6 +94,7 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-contrib-uglify');
+  grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-sass');
   grunt.loadNpmTasks('grunt-notify');
 

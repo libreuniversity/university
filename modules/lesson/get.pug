@@ -13,7 +13,7 @@ block content
   form.lesson(method="POST" action="/lesson/save/" + lesson.id)
     +header(lesson.title, { edit: null, save: null }, back)
 
-    article.content.sweet-justice
+    article#editor.content.sweet-justice.mousetrap
       if lesson.html
         != lesson.html
       else

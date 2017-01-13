@@ -1489,7 +1489,9 @@ pagex(/^\/lesson/, function(id){
 
   function saveContent(time){
     if (!ready) return setTimeout(function(){ saveContent(100); }, time * 2);
+    console.log("Data:", CKEDITOR.instances.editor.getData());
     var html = CKEDITOR.instances.editor.getData().replace(/\n/g, '<br>');
+    console.log("HTML:", html);
     ajax(u('form.lesson').attr("action"), { method: "POST", body: "content=" + html }, function(err, data){
       u("form.lesson").removeClass("edit").find('article').attr('contenteditable', false);
 

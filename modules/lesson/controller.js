@@ -57,6 +57,7 @@ exports.update = function(req, res, next) {
 };
 
 exports.save = function(req, res, next) {
+  console.log(req.body);
   pipe({ lesson: req.body, user: req.user, language: req.lang, subject: req.body.subject })
     .pipe(api.user.auth, config.auth.save)
     .pipe(model.save, req.params.id)

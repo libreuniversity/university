@@ -23,6 +23,7 @@ CKEDITOR.editorConfig = function( config ) {
 	subdomain = ['en', 'es'].includes(subdomain) ? subdomain : 'en';
 
 	config.language = subdomain;
+	config.entities = false;
 
 	// Remove some buttons provided by the standard plugins, which are
 	// not needed in the Standard(s) toolbar.

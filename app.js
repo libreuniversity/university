@@ -14,4 +14,6 @@ server(app.config, [
   (err, req, res, next) => {
     res.render('error/404');
   }
-]);
+]).catch(err => {
+  console.log(err);
+});

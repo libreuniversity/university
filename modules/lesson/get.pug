@@ -9,8 +9,9 @@ block nav
 
 //- Set the
 block content
+  - let back = { link: '/subject/' + lesson.subject._id, title: lesson.subject.title }
   form.lesson(method="POST" action="/lesson/save/" + lesson.id)
-    +header(lesson.title, { edit: null, save: null }, subject)
+    +header(lesson.title, { edit: null, save: null }, back)
 
     article.content.sweet-justice
       if lesson.html

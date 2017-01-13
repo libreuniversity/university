@@ -1,19 +1,8 @@
 let subdomain = require('express-subdomain');
-let express = require('express');
+let join = require('server').router.join;
 
-let { use } = require('server').router;
-
-module.exports = (langs, main, landing) => {
-  let router = express.Router();
-
-  langs.forEach(lang => {
-    router.use(subdomain(lang, main));
-  });
-
-  if (landing) {
-    router.use(subdomain('www', use(router)));
-    router.use(landing);
-  }
-
-  return router;
-};
+module.exports = (langs = [], main = [], landing = main) => join(
+  langs.map(lang => subdomain(lang, join(main))),
+  subdomain('www', join(landing)),
+  join(landing)
+);

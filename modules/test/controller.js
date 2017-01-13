@@ -5,7 +5,7 @@ var crypto = require('crypto');
 // Autoload all of the models
 var model = require('./model');
 var app = require('auto-load')('app');
-var api = app.api();
+var api = app.api;
 var answer = app.utils.answer;
 var config = app.config.lesson;
 var pipe = require('water-pipe');

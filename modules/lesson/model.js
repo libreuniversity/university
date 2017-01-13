@@ -1,18 +1,27 @@
+const model = require('./schema').lesson;
+
+// Retrieve a single element by its id
+exports.get = req => model.findOne({
+  _id: req.params.id
+}).populate('lessons').exec().then(res => res.toObject({ getters: true }));
+
+
+
+
+
+// Legacy:
+var app = require('auto-load')('app');
 var asyn = require('async');
 var only = require('only');
 var extend = require('extend');
-var app = require('auto-load')('app');
 var ops = app.utils.dbops;
 var pipe = require('water-pipe');
-var api = app.api();
+var api = app.api;
+let modules = app.modules;
 
 var mongo = require('./schema');
 
 
-// Retrieve a single element by its id
-module.exports.get = function(id, data, callback){
-  mongo.lesson.findOne({ _id: id }, ops.append(data, ops.lean(callback), 'lesson'));
-};
 
 // Add a new lesson to the database
 module.exports.add = function(param, data, callback){

@@ -4,7 +4,7 @@ var shortid = require('shortid');
 var mongoose = require('mongoose');
 var lessonModel = require('../lesson/model');
 var app = require('auto-load')('app');
-var api = app.api();
+var api = app.api;
 var ops = app.utils.dbops;
 var answerModel = require('./modelanswer');
 

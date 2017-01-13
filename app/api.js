@@ -1,4 +1,9 @@
 // Load each of the modules API
-module.exports = function () {
-  return require('./loader')('api.js');
-};
+let all;
+module.exports = new Proxy({}, {
+  get: (orig, key) => {
+    if (orig[key]) return orig[key];
+    if (!all) all = require('./loader')('api.js');
+    return all[key];
+  }
+});

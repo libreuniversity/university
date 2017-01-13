@@ -2,6 +2,7 @@ let { get, post } = require('server').router;
 var controller = require('./controller');
 
 module.exports = [
+  get('/lesson/', controller.index),
   get('/lesson/:id', controller.get),
   post('/lesson', controller.add),
   post('/lesson/upload', controller.upload),

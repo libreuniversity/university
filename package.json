@@ -47,7 +47,7 @@
     "request": "^2.51.0",
     "sanitize-html": "^1.11.1",
     "serve-favicon": "^2.1.7",
-    "server": "^1.0.0-alpha.10",
+    "server": "^1.0.0-alpha.15",
     "short-mongo-id": "^0.1.1",
     "shortid": "^2.2.4",
     "test-controller": "^3.1.0",

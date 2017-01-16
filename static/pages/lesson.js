@@ -38,16 +38,13 @@ pagex(/^\/lesson/, function(id){
 
   function saveContent(time){
     if (!ready) return setTimeout(function(){ saveContent(100); }, time * 2);
-    console.log("Data:", CKEDITOR.instances.editor.getData());
-    var html = CKEDITOR.instances.editor.getData().replace(/\n/g, '<br>');
-    console.log("HTML:", html);
-    ajax(u('form.lesson').attr("action"), { method: "POST", body: "content=" + html }, function(err, data){
-      u("form.lesson").removeClass("edit").find('article').attr('contenteditable', false);
 
+    function init(html){
+      u("form.lesson").removeClass("edit").find('article').attr('contenteditable', false);
       CKEDITOR.instances.editor.destroy();
 
       // Overwrite the current data in case anything has changed/cleaning
-      u("article.content").html(data ? data.html : html);
+      u("article.content").html(html);
 
       try {
         renderMathInElement(document.body, { delimiters: [
@@ -57,11 +54,13 @@ pagex(/^\/lesson/, function(id){
       } catch (e) {
         console.log("Katex failed:", e);
       }
+    }
 
-      // u('article.content .math-tex').each(function(node){
-      //   var math = node.innerHTML.replace(/^\\\(/, '').replace(/\\\)/, '');
-      //   node.innerHTML = katex.renderToString(math);
-      // });
+    var html = encodeURIComponent(CKEDITOR.instances.editor.getData().replace(/\n/g, '<br>'));
+    ajax(u('form.lesson').attr("action"), {
+      method: "POST", body: "content=" + html
+    }, function(err, data){
+      init(data ? data.html : html);
     });
   }
 

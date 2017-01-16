@@ -1,9 +1,27 @@
 const model = require('./schema').lesson;
+const history = require('./schema').history;
 
 // Retrieve a single element by its id
 exports.get = req => model.findOne({
   _id: req.params.id
 }).populate('lessons').exec().then(res => res.toObject({ getters: true }));
+
+// Save the current document in the db
+exports.save = data => model.findByIdAndUpdate(data.id, {
+  content: data.content
+}, { new: true }).exec().then(lesson => ({ lesson: lesson, user: data.user }));
+
+// Add the current record to history
+exports.archive = data => (new history({
+  lesson: data.lesson._id,
+  user: data.user,
+  title: data.lesson.title,
+  summary: data.lesson.summary,
+  content: data.lesson.content,
+  language: data.lesson.language
+})).save();
+
+
 
 
 
@@ -57,15 +75,6 @@ module.exports.set = function(id, data, callback){
   mongo.lesson.findByIdAndUpdate(id, toUpdate, { new: true }, callback);
 };
 
-// Updates the content
-module.exports.save = function(id, data, callback){
-  pipe(data)
-    .pipe(module.exports.checkPreviewData)
-    .pipe(module.exports.set, id)
-  .pipe(module.exports.addToHistory)
-  .end(callback);
-};
-
 module.exports.addToHistory = function(arg, data, callback){
   var lesson = extend(data.lesson, { user: data.user.id, lesson: data.lesson.id });
   var fields = 'lesson user title language summary content';
@@ -80,6 +89,7 @@ module.exports.findHistory = function(lesson, callback){
 };
 
 module.exports.checkPreviewData = function(arg, data, callback) {
+  console.log("Got here!");
   if (!data) return callback(new Error('No data submitted'));
   if (!data.language) return callback(new Error('No language provided'));
   callback(null, data);

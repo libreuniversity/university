@@ -1,26 +1,28 @@
 const model = require('./model');
+const upload = require('./upload');
 const { handle, npm, api } = require('auto-load')('app');
-const { cloudinary } = npm;
 
+// Cannot retrieve a list of lessons without context
 exports.index = (req, res) => res.redirect('/');
 
+// Retrieve a single item
 exports.get = handle(model.get, 'lesson')
   .use(api.subject.byLesson)
   .render('lesson/get');
 
+// Save the edited lesson content
+exports.save = handle(req => model.save({
+  id: req.params.id,
+  user: req.user.id,
+  content: decodeURIComponent(req.body.content)
+})).use(model.archive).auth(10).json();
 
-exports.upload = (req, res) => {
-  cloudinary.config({
-    cloud_name: process.env.cloud,
-    api_key: process.env.key,
-    api_secret: process.env.secret
-  });
-  cloudinary.uploader.upload(req.files.upload.path, result => res.json({
-    uploaded: 1,
-    fileName: req.files.upload.name,
-    url: result.url.replace('http://', 'https://')
-  }));
-}
+// Upload an image
+exports.upload = handle(req => upload(req.files.upload)).json(data => ({
+  uploaded: 1,
+  fileName: data.name,
+  url: data.url.replace('http://', 'https://')
+}));
 
 
 
@@ -47,19 +49,10 @@ exports.add = function(req, res, next) {
     .end(answer.ajax(res, next));
 };
 
-
 // Update the information from the preview
 exports.update = function(req, res, next) {
   pipe({ lesson: req.body, user: req.user, language: req.lang, subject: req.body.subject })
     .pipe(api.user.auth, config.auth.update)
     .pipe(model.update, req.params.id)
-    .end(answer.ajax(res, next));
-};
-
-exports.save = function(req, res, next) {
-  console.log(req.body);
-  pipe({ lesson: req.body, user: req.user, language: req.lang, subject: req.body.subject })
-    .pipe(api.user.auth, config.auth.save)
-    .pipe(model.save, req.params.id)
     .end(answer.ajax(res, next));
 };

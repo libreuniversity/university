@@ -1,7 +1,7 @@
 var sanitize = require('sanitize-html');
 
 var sanitizeOpt = {
-  allowedTags: ['h2', 'h3', 'h4', 'br', 'p', 'b', 'i', 'a', 'ul', 'li', 'pre', 'code', 'img'],
+  allowedTags: ['h2', 'h3', 'h4', 'br', 'p', 'b', 'i', 'a', 'ul', 'li', 'pre', 'code', 'img', 'blockquote'],
   allowedAttributes: { 'a': ['href'], img: ['src'] },
   allowedClasses: {
     'span': ['math-tex'],

@@ -39,6 +39,10 @@ u('.login').on('click', login);
 // "http://atom.io/" external
 // "https://pages.github.com/" external
 u('a').each(function(link){
+  var href = link.getAttribute('href');
+  if (/^\.\.\//.test(href) || /^\.\//.test(href) || /^\//.test(href)) {
+    return;
+  }
   if (!/(^\/.*|^https?\:\/\/[a-z]+\.libre\.university)/g.test(u(link).attr('href'))) {
     u(link).attr('target', '_blank');
   }

@@ -11,7 +11,7 @@ block nav
 block content
   - let back = { link: '/subject/' + lesson.subject._id, title: lesson.subject.title }
   form.lesson(method="POST" action="/lesson/save/" + lesson.id)
-    +header(lesson.title, { edit: null, save: null }, back)
+    +header(lesson.title, { edit: null, save: null, history: '/lesson/records/' + lesson.id }, back)
 
     article#editor.content.sweet-justice.mousetrap
       if lesson.html

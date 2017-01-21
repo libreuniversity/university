@@ -1381,6 +1381,10 @@ u('.login').on('click', login);
 // "http://atom.io/" external
 // "https://pages.github.com/" external
 u('a').each(function(link){
+  var href = link.getAttribute('href');
+  if (/^\.\.\//.test(href) || /^\.\//.test(href) || /^\//.test(href)) {
+    return;
+  }
   if (!/(^\/.*|^https?\:\/\/[a-z]+\.libre\.university)/g.test(u(link).attr('href'))) {
     u(link).attr('target', '_blank');
   }
@@ -1804,6 +1808,11 @@ pagex(/^\/lesson/, function(id){
 
 
   // Supermenu
+  var parts = window.location.pathname.replace(/^\//, '').split('/');
+  console.log(parts);
+  if (['records', 'history'].includes(parts[1])) {
+    return;
+  }
   u('article h2').each(function(node){
     u(node).attr('id', u(node).html().replace(/\W/g, '-'));
   });

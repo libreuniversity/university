@@ -353,6 +353,11 @@ pagex(/^\/lesson/, function(id){
 
 
   // Supermenu
+  var parts = window.location.pathname.replace(/^\//, '').split('/');
+  console.log(parts);
+  if (['records', 'history'].includes(parts[1])) {
+    return;
+  }
   u('article h2').each(function(node){
     u(node).attr('id', u(node).html().replace(/\W/g, '-'));
   });

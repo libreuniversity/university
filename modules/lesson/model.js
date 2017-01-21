@@ -21,6 +21,13 @@ exports.archive = data => (new history({
   language: data.lesson.language
 })).save();
 
+exports.records = req => history.find({ lesson: req.params.id }).exec();
+
+exports.history = req => history.findOne({ _id: req.params.id }).exec().then(res => {
+  if (!res) throw new Error('History not found');
+  return res;
+}).then(res => res.toObject({ getters: true }));
+
 
 
 

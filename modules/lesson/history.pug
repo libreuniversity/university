@@ -1,0 +1,18 @@
+extends ../../app/views/layout
+
+//- Give it the right title of this article
+block title
+  title= lesson.title
+
+//- Set the
+block content
+  - let back = { link: '/lesson/' + lesson.lesson, title: lesson.title }
+  div.lesson
+    +header('History: ' + lesson.title, { history: '/lesson/records/' + lesson.lesson }, back)
+    blockquote= 'Revision made ' + lesson.timestamp + ' by '
+      a(href='/user/' + lesson.user)= lesson.user
+      | . Go to 
+      a(href='/lesson/' + lesson.lesson) the last revision
+      | .
+
+    article.sweet-justice!= lesson.html

@@ -1,6 +1,7 @@
 const model = require('./model');
 const upload = require('./upload');
 const { handle, npm, api } = require('auto-load')('app');
+const { moment } = npm;
 
 // Cannot retrieve a list of lessons without context
 exports.index = (req, res) => res.redirect('/');
@@ -24,7 +25,14 @@ exports.upload = handle(req => upload(req.files.upload)).json(data => ({
   url: data.url.replace('http://', 'https://')
 }));
 
+exports.records = handle(model.records, 'records')
+  .use(require('./bundle-records'))
+  .render('lesson/records');
 
+exports.history = handle(model.history, 'lesson').use(lesson => {
+  let timestamp = { timestamp: moment(lesson.timestamp).fromNow() };
+  return Object.assign({}, lesson, timestamp);
+}).render('lesson/history');
 
 
 

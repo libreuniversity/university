@@ -46,6 +46,8 @@ header {
   button, .button {
     @extend .pseudo;
     margin: 0 0 0 .3em;
+    padding: .3em .6em;
+    float: right;
   }
 
   .edit i {
@@ -58,6 +60,10 @@ header {
 
   .save i {
     @extend .icon-floppy;
+  }
+
+  .history i {
+    @extend .icon-clock;
   }
 
   .analytics i {

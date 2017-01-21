@@ -1,0 +1,18 @@
+extends ../../app/views/layout
+
+//- Give it the right title of this article
+block title
+  - var lesson = records[0]
+  title= lesson.title
+
+//- Set the
+block content
+  - var lesson = records[0]
+  h1= lesson.title
+  p
+    a(href="/lesson/" + lesson.lesson) Go back to lesson
+  each record in records
+    p
+      a(href="/lesson/history/" + record.id)!= record.change + ' (' + record.timestamp + ') '
+      span  by 
+      a(href="/user/" + record.user)= record.user

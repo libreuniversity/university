@@ -12,6 +12,7 @@ server(app.config, [
   app.middle.local('app/localization', { allow: app.config.languages }),
   app.middle.domai18n(app.config.languages, app.router, app.routerhome),
   (err, req, res, next) => {
+    console.log("Error:", err);
     res.render('error/404');
   }
 ]).catch(err => {

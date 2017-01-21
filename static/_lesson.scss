@@ -48,7 +48,6 @@
     }
   }
 
-
   .equation {
     margin: 0;
     width: 100%;
@@ -74,6 +73,13 @@
   }
 }
 
+.change.positive {
+  color: #0c5;
+}
+
+.change.negative {
+  color: #f55;
+}
 
 @media (max-width: $picnic-breakpoint) {
   .lesson.edit .content {

@@ -15,7 +15,7 @@ module.exports = records => {
     if (i < records.length - 1 && records[i + 1].content) {
       change = record.content.length - records[i + 1].content.length;
     } else {
-      change = record.content.length;
+      change = record.content ? record.content.length : 0;
     }
     if (change >= 0) {
       rec.change = '<span class="change positive">▴ ' + change + '</span>';

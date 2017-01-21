@@ -34,6 +34,7 @@
     "extend": "^3.0.0",
     "formidable": "^1.0.17",
     "jade": "^1.6.0",
+    "jest": "^18.1.0",
     "jstransformer-markdown": "^1.1.0",
     "loadware": "^1.0.0",
     "marked": "^0.3.3",

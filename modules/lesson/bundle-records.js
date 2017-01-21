@@ -12,7 +12,7 @@ module.exports = records => {
       user: record.user,
       timestamp: moment(record.timestamp).fromNow()
     };
-    if (i < records.length - 1) {
+    if (i < records.length - 1 && records[i + 1].content) {
       change = record.content.length - records[i + 1].content.length;
     } else {
       change = record.content.length;

@@ -51,6 +51,5 @@ html
         ? history.replaceState(null, null, window.location.href.split('#')[0])
         : window.location.hash = '';
       }
-
       var user = JSON.parse('!{JSON.stringify(user || false)}');
     script(type="text/javascript" src="/javascript.js")

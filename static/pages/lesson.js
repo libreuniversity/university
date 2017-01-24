@@ -14,31 +14,35 @@ pagex(/^\/lesson/, function(id){
   var loaded = false;
 
   var startEdition = function(){
-    if (!user) {
-      alert('Only users can do this. Please enter');
-      return;
-    }
-    u("form.lesson").addClass("edit").find('article').attr('contenteditable', true);
+    auth().then(function(){
 
-    u('.katex').parent().each(function(node){
-      u(node).html('\\(' + u(node).find('annotation').html() + '\\)').addClass('math-tex');
-    });
+      u('code[class*="language-"]').each(function(snippet){
+        snippet.textContent = snippet.textContent;
+      });
 
-    if (!loaded) {
-      var script = document.createElement('script');
-      script.type = 'text/javascript';
-      script.src = '/ckeditor/ckeditor.js';
-      script.onload = function(e) {
-        loaded = true;
-        CKEDITOR.on('instanceReady', function(){
-          ready = true;
-        });
+      u("form.lesson").addClass("edit").find('article').attr('contenteditable', true);
+
+      u('.katex').parent().each(function(node){
+        u(node).html('\\(' + u(node).find('annotation').html() + '\\)').addClass('math-tex');
+      });
+
+
+      if (!loaded) {
+        var script = document.createElement('script');
+        script.type = 'text/javascript';
+        script.src = '/ckeditor/ckeditor.js';
+        script.onload = function(e) {
+          loaded = true;
+          CKEDITOR.on('instanceReady', function(){
+            ready = true;
+          });
+        }
+        u("body").append(script);
+      } else {
+        CKEDITOR.inline('editor');
       }
-      u("body").append(script);
-    } else {
-      CKEDITOR.inline('editor');
-    }
-  };
+    });
+  }
 
   function saveContent(time){
     if (!ready) return setTimeout(function(){ saveContent(100); }, time * 2);
@@ -57,6 +61,12 @@ pagex(/^\/lesson/, function(id){
         ]});
       } catch (e) {
         console.log("Katex failed:", e);
+      }
+
+      try {
+        Prism.highlightAll();
+      } catch (e) {
+        console.log("Prism failed:", e);
       }
     }
 
@@ -83,6 +93,9 @@ pagex(/^\/lesson/, function(id){
     e.preventDefault();
     saveContent(100);
   });
+
+
+
 
 
   // // Initialize the editor in the element that is contenteditable
@@ -358,7 +371,6 @@ pagex(/^\/lesson/, function(id){
 
   // Supermenu
   var parts = window.location.pathname.replace(/^\//, '').split('/');
-  console.log(parts);
   if (['records', 'history'].includes(parts[1])) {
     return;
   }

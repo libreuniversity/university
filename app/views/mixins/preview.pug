@@ -12,7 +12,8 @@ mixin preview(type, article, actions, other)
       button.edit.icon-pencil(title= text.edit)
       input(name="title" placeholder=text[type].form.title value=article.title required)
     section
-      p.sweet-justice= article.summary
+      p.sweet-justice
+        | #{article.summary}
       textarea(name="summary" placeholder=text[type].form.summary required)= article.summary
     footer
       if actions

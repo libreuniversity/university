@@ -9,9 +9,9 @@ exports.get = handle(model.get, 'subject').render('subject/get');
 
 exports.add = handle(req => model.add({
   title: req.body.title, summary: req.body.summary, language: req.lang
-})).auth(50).json();
+})).auth(0).json();
 
 // Update the information for the subject
 exports.edit = handle(req => model.edit(req.params.id, {
   title: req.body.title, summary: req.body.summary
-})).auth(10).json();
+})).auth(0).json();

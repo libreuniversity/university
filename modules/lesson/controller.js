@@ -12,11 +12,13 @@ exports.get = handle(model.get, 'lesson')
   .render('lesson/get');
 
 // Save the edited lesson content
-exports.save = handle(req => model.save({
+exports.save = handle(req => {
+  console.log(req.body.content);
+  return model.save({
   id: req.params.id,
   user: req.user.id,
-  content: decodeURIComponent(req.body.content)
-})).auth().use(model.archive).json();
+  content: req.body.content
+})}).auth().use(model.archive).json();
 
 // Upload an image
 exports.upload = handle(req => upload(req.files.upload)).auth().json(data => ({

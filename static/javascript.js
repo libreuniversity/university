@@ -34,7 +34,7 @@ u('.login').on('click', login);
 
 // / internal
 // "http://www.libre.university/" internal
-// "http://github.com/libre/university" external
+// "http://github.com/libreuniversity/university" external
 // /subject/V1LlrTSlmVl internal
 // "http://atom.io/" external
 // "https://pages.github.com/" external

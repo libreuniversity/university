@@ -14,6 +14,10 @@ pagex(/^\/lesson/, function(id){
   var loaded = false;
 
   var startEdition = function(){
+    if (!user) {
+      alert('Only users can do this. Please enter');
+      return;
+    }
     u("form.lesson").addClass("edit").find('article').attr('contenteditable', true);
 
     u('.katex').parent().each(function(node){
@@ -75,7 +79,7 @@ pagex(/^\/lesson/, function(id){
   u("button.save").handle('click', function(){
     saveContent();
   });
-  Mousetrap.bind(['command+s', 'ctrl+s'], function(e) {
+  Mousetrap.bind(['mod+s'], function(e) {
     e.preventDefault();
     saveContent(100);
   });

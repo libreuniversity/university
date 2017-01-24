@@ -1376,7 +1376,7 @@ u('.login').on('click', login);
 
 // / internal
 // "http://www.libre.university/" internal
-// "http://github.com/libre/university" external
+// "http://github.com/libreuniversity/university" external
 // /subject/V1LlrTSlmVl internal
 // "http://atom.io/" external
 // "https://pages.github.com/" external
@@ -1469,6 +1469,10 @@ pagex(/^\/lesson/, function(id){
   var loaded = false;
 
   var startEdition = function(){
+    if (!user) {
+      alert('Only users can do this. Please enter');
+      return;
+    }
     u("form.lesson").addClass("edit").find('article').attr('contenteditable', true);
 
     u('.katex').parent().each(function(node){
@@ -1530,7 +1534,7 @@ pagex(/^\/lesson/, function(id){
   u("button.save").handle('click', function(){
     saveContent();
   });
-  Mousetrap.bind(['command+s', 'ctrl+s'], function(e) {
+  Mousetrap.bind(['mod+s'], function(e) {
     e.preventDefault();
     saveContent(100);
   });

@@ -16,10 +16,10 @@ exports.save = handle(req => model.save({
   id: req.params.id,
   user: req.user.id,
   content: decodeURIComponent(req.body.content)
-})).use(model.archive).auth(10).json();
+})).auth().use(model.archive).json();
 
 // Upload an image
-exports.upload = handle(req => upload(req.files.upload)).json(data => ({
+exports.upload = handle(req => upload(req.files.upload)).auth().json(data => ({
   uploaded: 1,
   fileName: data.name,
   url: data.url.replace('http://', 'https://')

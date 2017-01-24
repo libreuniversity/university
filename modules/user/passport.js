@@ -21,7 +21,9 @@ passport.use(strategy);
 passport.serializeUser(function(user, done) {
   // console.log("Serial", user);
   var locale = user.locale || user._json ? user._json.lang || 'en' : 'en';
+  console.log("User:", user);
   var publicUser = {
+    _id: user._id,
     id: user.id,
     name: user.displayName,
     username: user._json.nickname,

@@ -1,8 +1,6 @@
 # Libre University
 
-> Big thanks to [Tuxy](https://github.com/tuxy) for allowing me to use this repository for the project.
-
-This is the alpha source code for Libre University ([www.libre.university](http://www.libre.university/)). More documentation soon.
+This is the alpha source code for Libre University ([www.libre.university](https://www.libre.university/)). More documentation soon.
 
 
 ## Install
@@ -11,15 +9,12 @@ You need to install a bunch of things first to run this. Before, you'll need **N
 
 1. Clone the repository  
 
-    `git clone git://github.com/libre/university.git && cd ./university`
-
-1. Install Nodemon, Istanbul and Mocha globally for testing (recommended):
-
-    `npm install nodemon istanbul mocha -g`
+    `git clone git://github.com/libreuniversity/university.git && cd ./university`
 
 1. Install the dependencies:
 
     `npm install`
+
 
 
 

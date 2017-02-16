@@ -12,13 +12,11 @@ exports.get = handle(model.get, 'lesson')
   .render('lesson/get');
 
 // Save the edited lesson content
-exports.save = handle(req => {
-  console.log(req.body.content);
-  return model.save({
+exports.save = handle(req => model.save({
   id: req.params.id,
   user: req.user.id,
   content: req.body.content
-})}).auth().use(model.archive).json();
+})).auth().use(model.archive).json();
 
 // Upload an image
 exports.upload = handle(req => upload(req.files.upload)).auth().json(data => ({
@@ -54,7 +52,7 @@ var answer = app.utils.answer;
 
 exports.add = function(req, res, next) {
   pipe({ lesson: req.body, user: req.user, language: req.lang, subject: req.body.subject })
-    .pipe(api.user.auth, config.auth.add)
+    .pipe(api.user.auth, 0)
     .pipe(model.add)
     .end(answer.ajax(res, next));
 };

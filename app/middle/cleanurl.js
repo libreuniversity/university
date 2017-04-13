@@ -8,7 +8,7 @@
 module.exports = function (options) {
   options = options || {};
 
-  return function (req, res, next) {
+  return function ({ req, res }) {
     var newDomain = domain(req, options);
     if (newDomain) {
       return res.redirect(301, newDomain);
@@ -24,8 +24,6 @@ module.exports = function (options) {
     if (options.trustheader && options.https && !req.secure && req.get('x-forwarded-proto') !== 'https') {
       return res.redirect(301, 'https://' + req.get('Host') + req.url);
     }
-
-    next();
   };
 };
 

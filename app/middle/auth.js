@@ -1,10 +1,9 @@
 // Handle user authentication
-module.exports = points => (req, res, next) => {
+module.exports = points => async ctx => {
   if (!req.user) {
-    return next(new Error('User must be logged in'));
+    throw new Error('User must be logged in');
   }
   if (req.user.points < points) {
-    return next(new Error('User has not enough points for this action. ' + points + ' needed'));
+    throw new Error(`User has not enough points for this action. ${ points } needed`);
   }
-  next();
 };

@@ -25,22 +25,22 @@ let Handle = function (promise, what) {
 
   this.middle = [];
 
-  this.render = (where, cleaner = (data => data)) => (req, res, next) => {
-    if (!this.authorized(req.user)) {
-      return next(new Error('You are not authorized'));
+  this.render = (where, cleaner = (data => data)) => ctx => {
+    if (!this.authorized(ctx.req.user)) {
+      throw new Error('You are not authorized');
     }
 
-    this.stack.reduce((p, fn) => p.then(fn), promise(req, res, next)).then(data => {
-      res.render(where, cleaner(this.clean(data)));
+    this.stack.reduce((p, fn) => p.then(fn), promise(ctx)).then(data => {
+      ctx.res.render(where, cleaner(this.clean(data)));
     }).catch(err => next(err));
   };
 
-  this.json = (cleaner = (data => data)) => (req, res, next) => {
+  this.json = (cleaner = (data => data)) => (ctx) => {
     if (!this.authorized(req.user)) {
       return next(new Error('You are not authorized'));
     }
-    this.stack.reduce((p, fn) => p.then(fn), promise(req, res, next)).then(data => {
-      res.json(cleaner(this.clean(data), req, res, next));
+    this.stack.reduce((p, fn) => p.then(fn), promise(ctx)).then(data => {
+      res.json(cleaner(this.clean(data), ctx));
     }).catch(err => next(err));
   };
 

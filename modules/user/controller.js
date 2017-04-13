@@ -1,28 +1,26 @@
-let app = require('auto-load')('app');
-var model = require('./model');
-var passport = require('passport');
+const app = require('auto-load')('app');
+const model = require('./model');
+const passport = require('passport');
+const { modern } = require('server').utils;
 
-module.exports.get = function(req, res){
-  if (!req.user) return res.redirect('/');
-  res.render('user/one');
+exports.get = ctx => {
+  if (!ctx.req.user) return ctx.res.redirect('/');
+  ctx.res.render('user/one');
 };
 
-module.exports.login = function(req, res, next){
-  // console.log("User:", req.session, req.user);
-  res.redirect(req.session.returnTo || '/');
+module.exports.logout = ctx => {
+  ctx.req.logout();
+  ctx.res.redirect('/');
 };
 
-module.exports.logout = function(req, res){
-  // console.log("Logged out");
-  req.logout();
-  res.redirect('/');
-};
+module.exports.login = ctx => modern(passport.authenticate('github', {
+  callbackURL: process.env.GITHUB_CALLBACK + '/' + encodeURIComponent(ctx.req.query.url)
+}))(ctx);
 
-module.exports.redirect = function(req, res, next){
-  var fullUrl = (process.env.HTTPS || req.protocol) + '://' + req.get('host') + '/callback';
-  app.npm.passport.authenticate('auth0', {
+module.exports.callback = function(req, res, next){
+  app.npm.passport.authenticate('github', {
     failureRedirect: '/error',
     failureFlash: true,
-    callbackURL: fullUrl
-  })(req, res, next)
+    callbackURL: process.env.GITHUB_CALLBACK
+  })(req, res, next);
 };

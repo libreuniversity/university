@@ -7,7 +7,10 @@ var createHash = function(password){
 var userSchema = mongoose.Schema({
   name: { type: String },
   email: { type: String, required: true },
-  password: { type: String, required: true },
+  auth: [{ type: String }],
+  username: { type: String },
+  language: { type: String },
+  image: { type: String },
   points: { type: Number, required:true, default: 2000 },
   added: { type: Date, default: Date.now }
 });

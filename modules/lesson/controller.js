@@ -4,12 +4,16 @@ const { handle, npm, api } = require('auto-load')('app');
 const { moment } = npm;
 
 // Cannot retrieve a list of lessons without context
-exports.index = (req, res) => res.redirect('/');
+exports.index = ctx => ctx.res.redirect('/');
 
 // Retrieve a single item
-exports.get = handle(model.get, 'lesson')
-  .use(api.subject.byLesson)
-  .render('lesson/get');
+exports.get = async ctx => {
+  let lesson = await model.get(ctx.req.params.id);
+  console.log(lesson);
+  lesson = await api.subject.byLesson(lesson);
+  console.log(lesson);
+  ctx.res.render('lesson/get', { lesson });
+};
 
 // Save the edited lesson content
 exports.save = handle(req => model.save({

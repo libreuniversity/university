@@ -1,5 +1,5 @@
 // Handle the errors from the middleware
-module.exports = function (err, req, res, next) {
+module.exports = function (err, req, res) {
   console.log(err);
   console.error(err.stack);
 

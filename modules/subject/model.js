@@ -6,12 +6,12 @@ var model = require('./schema').subject;
 var ops = app.utils.dbops;
 
 // Retrieve all of the elements
-module.exports.index = req => {
+module.exports.index = ({ req }) => {
   let query = { language: req.lang, stage: { $in: ['beta', 'production'] } };
-  return model.find(query).then(subject => subject );
+  return model.find(query).exec();
 };
 
-module.exports.get = req => {
+module.exports.get = ({ req }) => {
   let query = { _id: req.params.id, language: req.lang };
   return model.findOne(query).populate('lessons').exec();
 }

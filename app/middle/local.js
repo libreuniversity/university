@@ -59,7 +59,7 @@ module.exports = function (where, opt) {
     data: auto(where)
   });
 
-  return function (req, res, next) {
+  return ({ req, res }) => {
     switch (opts.from) {
       case 'subdomain':
         var sub = req.header('host').split('.').shift();
@@ -69,6 +69,5 @@ module.exports = function (where, opt) {
     }
 
     res.locals.text = local(opts.data[req.lang]);
-    next();
   };
 };

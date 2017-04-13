@@ -1,20 +1,30 @@
-let app = require('auto-load')('app');
-let server = require('server');
+const server = require('server');
+const modern = server.utils.modern;
+const { join, error } = server.router;
+const app = require('auto-load')('app');
+const passport = require('./modules/user/passport');
+
+const sub = (path, ...middle) => ctx => {
+  const full = ctx.req.subdomains.join('.');
+  if (typeof path === 'string' && path === full) {
+    return join(middle)(ctx);
+  }
+  if (path instanceof RegExp && path.test(full)) {
+    return join(middle)(ctx);
+  }
+};
 
 app.database(app);
 
-var passport = require('./modules/user/passport');
 server(app.config, [
-  app.middle.env,
-  passport.initialize(),
-  passport.session(),
+  modern(passport.initialize()),
+  modern(passport.session()),
   app.middle.user,
   app.middle.local('app/localization', { allow: app.config.languages }),
-  app.middle.domai18n(app.config.languages, app.router, app.routerhome),
-  (err, req, res, next) => {
-    console.log("Error:", err);
+  app.config.languages.map(lang => sub(lang, app.router)),
+  app.routerhome,
+  error(ctx => {
+    console.log("Error:", ctx.error);
     res.render('error/404');
-  }
-]).catch(err => {
-  console.log(err);
-});
+  })
+]);

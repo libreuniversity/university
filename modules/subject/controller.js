@@ -2,7 +2,10 @@ let model = require('./model');
 let { handle } = require('auto-load')('app');
 
 // Retrieve all of the subjects available and display them
-exports.index = handle(model.index, 'subject').render('subject/index');
+exports.index = async ctx => {
+  const subject = await model.index(ctx);
+  ctx.res.render('subject/index', { subject });
+};
 
 // Show a single element
 exports.get = handle(model.get, 'subject').render('subject/get');

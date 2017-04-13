@@ -2,9 +2,17 @@ const model = require('./schema').lesson;
 const history = require('./schema').history;
 
 // Retrieve a single element by its id
-exports.get = req => model.findOne({
-  _id: req.params.id
-}).populate('lessons').exec().then(res => res.toObject({ getters: true }));
+exports.get = async id => {
+  const lesson = await model.findOne({ _id: id }).exec();
+  return lesson.toObject({ getters: true });
+};
+
+
+
+
+
+
+// Mid-legacy
 
 // Save the current document in the db
 exports.save = data => model.findByIdAndUpdate(data.id, {
@@ -33,8 +41,7 @@ exports.history = req => history.findOne({ _id: req.params.id }).exec().then(res
 
 
 
-
-// Legacy:
+// Old-legacy
 var app = require('auto-load')('app');
 var asyn = require('async');
 var only = require('only');

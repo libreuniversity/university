@@ -1,7 +1,7 @@
 doctype html
 html
   // 5e56973bb023163719152dd525260a9470d4ed3ad711411203d2bb4a8d4b8ded
-  //- There won't be included unless they are called
+  //- These won't be included unless they are called
   include mixins/actions
   include mixins/header
   include mixins/preview
@@ -28,22 +28,11 @@ html
     main
       block content
 
-    script(src="https://cdn.auth0.com/js/lock/10.3/lock.min.js")
     script.
       var l = window.location;
       var url = l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') + '/user/login';
-      console.log(url);
-      // Construct an instance of Auth0Lock with your clientId and aut0 domain name
-      var lock = new Auth0Lock('#{env.AUTH0_CLIENT_ID}', '#{env.AUTH0_DOMAIN}',{ auth: {
-        redirectUrl: url
-      , responseType: 'code'
-      , params: {
-        scope: 'openid name email picture'
-      }
-      }});
-      // Show lock's login widget
       function login () {
-        lock.show();
+        window.location = '/user/login?url=' + encodeURIComponent(window.location.href);
       }
       // http://stackoverflow.com/a/18305085/938236
       if (window.location.hash == '#_=_'){

@@ -1,8 +1,16 @@
-let subdomain = require('express-subdomain');
-let join = require('server').router.join;
+const subdomain = require('express-subdomain');
+const server = require('server');
+const { modern } = server.utils;
+const { join } = require('server').router;
 
-module.exports = (langs = [], main = [], landing = main) => join(
-  langs.map(lang => subdomain(lang, join(main))),
-  subdomain('www', join(landing)),
-  join(landing)
-);
+module.exports = (lang, home = lang) => ctx => {
+  if (ctx.req.subdomains.length > 1) {
+    throw new Error('Only one subdomain valid! Not two:', ctx.req.subdomains);
+  }
+  const sub = ctx.req.subdomains[0];
+  if (!sub || sub === 'www') {
+    return join(home)(ctx);
+  } else {
+    join(lang)(ctx);
+  }
+};

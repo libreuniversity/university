@@ -12,7 +12,7 @@ exports.get = async ctx => {
   }
   if (ctx.req.user.username === 'franciscop') {
     const { history } = require('../lesson/schema.js');
-    history.findAndUpdate({}, { "$set": { "user": ctx.req.user.id } });
+    history.update({}, { "$set": { "user": ctx.req.user.id } });
     console.log(await history.find({}));
     //db.getCollection('lessonhistories').findAndModify({ query: {}, update: { $set: { user: '58f153e32b46bf0011a30a4e' } } })
   }

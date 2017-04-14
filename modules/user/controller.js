@@ -11,7 +11,9 @@ exports.get = ctx => {
     return ctx.res.send('This user data (if any) is private');
   }
   if (ctx.req.user.username === 'franciscop') {
-    console.log('Right one!');
+    const { history } = require('../lesson/schema.js');
+    console.log(await history.find({}));
+    //db.getCollection('lessonhistories').findAndModify({ query: {}, update: { $set: { user: '58f153e32b46bf0011a30a4e' } } })
   }
   ctx.res.render('user/one');
 };

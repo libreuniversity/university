@@ -16,11 +16,3 @@ module.exports.logout = ctx => {
 module.exports.login = ctx => modern(passport.authenticate('github', {
   callbackURL: process.env.GITHUB_CALLBACK + '/' + encodeURIComponent(ctx.req.query.url)
 }))(ctx);
-
-module.exports.callback = function(req, res, next){
-  app.npm.passport.authenticate('github', {
-    failureRedirect: '/error',
-    failureFlash: true,
-    callbackURL: process.env.GITHUB_CALLBACK
-  })(req, res, next);
-};

@@ -12,6 +12,7 @@ module.exports = {
 
   wip: 'En construcción',
   userdata: 'Esta es toda la información que tenemos sobre tí. Edítala directamente desde Github',
+  userrefresh: 'Para refrescarla, haz log out y login de nuevo',
 
   greeta: 'Hello World',
   greetb: name => `Hello ${ name }`,

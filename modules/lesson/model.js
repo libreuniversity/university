@@ -56,15 +56,16 @@ var mongo = require('./schema');
 
 
 // Add a new lesson to the database
-module.exports.add = function(param, data, callback){
-
-  pipe(data)
-    .pipe(module.exports.checkPreviewData)
-    .pipe(api.subject.needed, data.subject)
-    .pipe(module.exports.insert)
-    .pipe(api.subject.addLesson, data.subject)
-    .pipe(module.exports.addToHistory)
-    .end(callback);
+module.exports.add = function(data, callback){
+  return new Promise((resolve, reject) => {
+    pipe(data)
+      .pipe(module.exports.checkPreviewData)
+      .pipe(api.subject.needed, data.subject)
+      .pipe(module.exports.insert)
+      .pipe(api.subject.addLesson, data.subject)
+      .pipe(module.exports.addToHistory)
+      .end((err, data) => err ? reject(err) : resolve(data));
+  });
 };
 
 module.exports.insert = function (arg, data, callback){
@@ -74,13 +75,14 @@ module.exports.insert = function (arg, data, callback){
 };
 
 // Updates the preview
-module.exports.update = function(id, data, callback){
-
-  pipe(data)
-    .pipe(module.exports.checkPreviewData)
-    .pipe(module.exports.set, id)
-  .pipe(module.exports.addToHistory)
-  .end(callback);
+module.exports.update = function(id, data){
+  return new Promise((resolve, reject) => {
+    pipe(data)
+      .pipe(module.exports.checkPreviewData)
+      .pipe(module.exports.set, id)
+    .pipe(module.exports.addToHistory)
+    .end((err, data) => err ? reject(err) : resolve(data));
+  });
 };
 
 module.exports.set = function(id, data, callback){
@@ -103,7 +105,6 @@ module.exports.findHistory = function(lesson, callback){
 };
 
 module.exports.checkPreviewData = function(arg, data, callback) {
-  console.log("Got here!");
   if (!data) return callback(new Error('No data submitted'));
   if (!data.language) return callback(new Error('No language provided'));
   callback(null, data);

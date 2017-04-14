@@ -12,6 +12,7 @@ module.exports = {
 
   wip: 'Work in progress',
   userdata: 'This is all the data we have about you. Edit it straight in your Github',
+  userrefresh: 'To retrieve it again, log-out and log-in',
 
   subject: {
     form: {

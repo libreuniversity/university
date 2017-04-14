@@ -11,9 +11,8 @@ module.exports.index = ({ req }) => {
   return model.find(query).exec();
 };
 
-module.exports.get = ({ req }) => {
-  let query = { _id: req.params.id, language: req.lang };
-  return model.findOne(query).populate('lessons').exec();
+module.exports.get = id => {
+  return model.findOne({ _id: id }).populate('lessons').exec();
 }
 
 // Add a new subject to the database

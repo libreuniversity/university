@@ -1,5 +1,5 @@
-let model = require('./model');
-let { handle } = require('auto-load')('app');
+const { auth } = require('auto-load')('app');
+const model = require('./model');
 
 // Retrieve all of the subjects available and display them
 exports.index = async ctx => {
@@ -8,13 +8,27 @@ exports.index = async ctx => {
 };
 
 // Show a single element
-exports.get = handle(model.get, 'subject').render('subject/get');
+exports.get = async ctx => {
+  const subject = await model.get(ctx.req.params.id);
+  ctx.res.render('subject/get', { subject });
+};
 
-exports.add = handle(req => model.add({
-  title: req.body.title, summary: req.body.summary, language: req.lang
-})).auth(0).json();
+exports.add = async ctx => {
+  auth(ctx.req.user);
+  const subject = await model.add({
+    title: ctx.req.body.title,
+    summary: ctx.req.body.summary,
+    language: ctx.req.lang
+  });
+  ctx.res.json(subject);
+};
 
 // Update the information for the subject
-exports.edit = handle(req => model.edit(req.params.id, {
-  title: req.body.title, summary: req.body.summary
-})).auth(0).json();
+exports.edit = async ctx => {
+  auth(ctx.req.user);
+  const subject = await model.edit(ctx.req.params.id, {
+    title: ctx.req.body.title,
+    summary: ctx.req.body.summary
+  });
+  ctx.res.json(subject);
+};

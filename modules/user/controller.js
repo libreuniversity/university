@@ -3,7 +3,7 @@ const model = require('./model');
 const passport = require('passport');
 const { modern } = require('server').utils;
 
-exports.get = ctx => {
+exports.get = async ctx => {
   if (!ctx.req.user) {
     return ctx.res.redirect('/');
   }

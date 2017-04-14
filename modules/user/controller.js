@@ -12,8 +12,9 @@ exports.get = async ctx => {
   }
   if (ctx.req.user.username === 'franciscop') {
     const { history } = require('../lesson/schema.js');
-    await history.update({}, { 'user': '58f153e32b46bf0011a30a4e' }, { overwrite: true });
-    console.log(await history.find({}));
+    await history.update({}, { 'user': '' + ctx.req.user.id }, { multi: true });
+    const all = await history.find({});
+    console.log(all.map(story => story.user));
     //db.getCollection('lessonhistories').findAndModify({ query: {}, update: { $set: { user: '' } } })
   }
   ctx.res.render('user/one');

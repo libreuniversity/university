@@ -15,4 +15,4 @@ block content
     p
       a(href="/lesson/history/" + record.id)!= record.change + ' (' + record.timestamp + ') '
       span  by 
-      a(href="/user/" + record.user)= record.user
+      a(href="/user/" + record.user.id)= record.user.name

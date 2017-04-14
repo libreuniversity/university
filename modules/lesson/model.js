@@ -31,7 +31,7 @@ exports.archive = data => (new history({
 
 exports.records = req => history.find({ lesson: req.params.id }).sort('-timestamp').exec();
 
-exports.history = req => history.findOne({ _id: req.params.id }).exec().then(res => {
+exports.history = req => history.findOne({ _id: req.params.id }).populate('user').exec().then(res => {
   if (!res) throw new Error('History not found');
   return res;
 }).then(res => res.toObject({ getters: true }));

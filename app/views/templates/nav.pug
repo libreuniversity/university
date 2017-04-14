@@ -10,6 +10,6 @@ nav
     a.pseudo.button.icon-info(href="https://www.libre.university/")= text.about
     a.pseudo.button.icon-gh(href="http://github.com/libreuniversity/university") Github
     if user
-      a.button.icon-user(href="/user/" + user.username)= user.username ? user.username : 'Anonymous'
+      a.button.icon-user(href="/user/" + user.id)= user.name
     else
       label.button.icon-users.login= text.enter

@@ -36,7 +36,7 @@ module.exports.lesson = model;
 var historyData = extend(
   only(lessonData, '_id title summary content language timestamp'),
   { lesson: { type: String, unique: false, required: true }},
-  { user: { type: String, required: true }}
+  { user: { type: String, required: true, ref: 'User' } }
 );
 
 var historySchema = mongoose.Schema(historyData);

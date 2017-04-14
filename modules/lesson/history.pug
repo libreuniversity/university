@@ -10,7 +10,7 @@ block content
   div.lesson
     +header('History: ' + lesson.title, { history: '/lesson/records/' + lesson.lesson }, back)
     blockquote= 'Revision made ' + lesson.timestamp + ' by '
-      a(href='/user/' + lesson.user)= lesson.user
+      a(href='/user/' + lesson.user._id)= lesson.user.username
       | . Go to 
       a(href='/lesson/' + lesson.lesson) the last revision
       | .

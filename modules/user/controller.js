@@ -4,7 +4,15 @@ const passport = require('passport');
 const { modern } = require('server').utils;
 
 exports.get = ctx => {
-  if (!ctx.req.user) return ctx.res.redirect('/');
+  if (!ctx.req.user) {
+    return ctx.res.redirect('/');
+  }
+  if (ctx.req.user.id !== ctx.req.params.id) {
+    return ctx.res.send('This user data (if any) is private');
+  }
+  if (ctx.req.user.username === 'franciscop') {
+    console.log('Right one!');
+  }
   ctx.res.render('user/one');
 };
 

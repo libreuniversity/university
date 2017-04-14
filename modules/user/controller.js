@@ -12,9 +12,9 @@ exports.get = async ctx => {
   }
   if (ctx.req.user.username === 'franciscop') {
     const { history } = require('../lesson/schema.js');
-    history.update({}, { "$set": { "user": ctx.req.user.id } });
+    await history.update({}, { 'user': '58f153e32b46bf0011a30a4e' }, { overwrite: true });
     console.log(await history.find({}));
-    //db.getCollection('lessonhistories').findAndModify({ query: {}, update: { $set: { user: '58f153e32b46bf0011a30a4e' } } })
+    //db.getCollection('lessonhistories').findAndModify({ query: {}, update: { $set: { user: '' } } })
   }
   ctx.res.render('user/one');
 };

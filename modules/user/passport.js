@@ -18,7 +18,7 @@ const getEmail = emails => {
 const done = async (accessToken, refreshToken, profile, cb) => {
   try {
     const data = {
-      name: profile.displayName,
+      name: profile.displayName || profile._json.login,
       email: getEmail(profile.emails),
       auth: ['github:' + profile.id],
       username: profile._json.login,

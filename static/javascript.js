@@ -27,7 +27,7 @@ try {
   console.log(e);
 }
 
-u('.login').on('click', login);
+u('.login').handle('click', login);
 
 // Justify everything that has the class .sweet-justice
 //justify_my_love(document.querySelector(".sweet-justice"));

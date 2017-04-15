@@ -6,7 +6,7 @@ const { modern } = server.utils;
 
 module.exports = [
   get('/auth/:url?', modern(passport.authenticate('github')), ctx => {
-    ctx.res.redirect(ctx.req.params.url);
+    ctx.res.redirect(ctx.req.params.url || '/');
   }),
   get(ctx => ctx.res.render('home/info'))
 ];

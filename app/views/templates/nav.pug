@@ -1,15 +1,15 @@
 nav
-  a.brand(href="/") Libre University
+  a.brand(href='/') Libre University
 
   // responsive
-  input#bmenu.show(type="checkbox")
-  label.burger.pseudo.button(for="bmenu")
+  input#bmenu.show(type='checkbox')
+  label.burger.pseudo.button(for='bmenu')
     i.icon-menu
 
   div.menu
-    a.pseudo.button.icon-info(href="https://www.libre.university/")= text.about
-    a.pseudo.button.icon-gh(href="http://github.com/libreuniversity/university") Github
+    a.pseudo.button.icon-info(href='https://www.libre.university/')= text.about
+    a.pseudo.button.icon-gh(href='http://github.com/libreuniversity/university') Github
     if user
-      a.button.icon-user(href="/user/" + user.id)= user.name
+      a.button.icon-user(href='/user/' + user.id)= user.name
     else
-      label.button.icon-users.login= text.enter
+      a.button.icon-users.login(href='/user/login')= text.enter

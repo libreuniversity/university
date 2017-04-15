@@ -2,17 +2,18 @@ extends ../../app/views/layout
 
 //- Give it the right title of this article
 block title
-  - var lesson = records[0]
-  title= lesson.title
+  title= records[0].title
 
 //- Set the
 block content
   - var lesson = records[0]
-  h1= lesson.title
-  p
-    a(href="/lesson/" + lesson.lesson) Go back to lesson
-  each record in records
-    p
-      a(href="/lesson/history/" + record.id)!= record.change + ' (' + record.timestamp + ') '
-      span  by 
-      a(href="/user/" + record.user.id)= record.user.name
+  - let back = { link: '/lesson/' + lesson.lesson, title: `Current version of "${lesson.title}"` }
+  div.history
+    +header('History: ' + lesson.title, {}, back)
+    div
+      each record in records
+        div.card.stack
+          section
+            a.pseudo.button.icon-docs(href="/lesson/history/" + record.id)
+              != record.change + ' (' + record.timestamp + ')'
+            a.pseudo.button.icon-user-o(href="/user/" + record.user.id)= record.user.name

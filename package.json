@@ -49,6 +49,7 @@
     "water-pipe": "^0.6.0"
   },
   "devDependencies": {
+    "babel-eslint": "^7.2.2",
     "chai": "^2.3.0",
     "grunt": "^0.4.5",
     "grunt-contrib-concat": "^0.5.1",
@@ -63,5 +64,8 @@
     "mocha": "^2.5.3",
     "mousetrap": "^1.6.0",
     "superagent": "^1.4.0"
+  },
+  "semistandard": {
+    "parser": "babel-eslint"
   }
 }

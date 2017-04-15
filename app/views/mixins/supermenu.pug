@@ -25,9 +25,9 @@ mixin supermenu()
           | Github
         = ' '
         if user
-          a.button(href="/user/" + user.username)
+          a.button(href="/user/" + user.id)
             i.icon-user
-            = user.username ? user.username : 'Anonymous'
+            = user.name
         else
           label.button.login
             i.icon-user

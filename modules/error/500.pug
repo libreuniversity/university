@@ -1,0 +1,12 @@
+extends ../../app/views/layout
+
+//- Give it the right title of this article
+block title
+  title Server error
+
+//- Set the
+block content
+  main.article
+    h1 500 - Server error
+    p There was an internal error and we're trying to fix it. Please go back home:
+      a(href="/") home

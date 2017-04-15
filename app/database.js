@@ -1,7 +1,12 @@
-module.exports = app => {
-  app.npm.mongoose.Promise = global.Promise;
-  let uri = process.env.MONGOLAB_URI || 'mongodb://localhost';
-  app.npm.mongoose.connect(uri, function (err) {
-    if (err) return console.error(err);
-  });
+const mongoose = require('mongoose');
+
+module.exports = {
+  name: 'db',
+  options: {
+    uri: 'mongodb://localhost'
+  },
+  init: async ctx => {
+    mongoose.Promise = global.Promise;
+    await mongoose.connect(process.env.MONGOLAB_URI || ctx.options.db.uri);
+  }
 };

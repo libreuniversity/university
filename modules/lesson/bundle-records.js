@@ -18,9 +18,9 @@ module.exports = records => {
       change = record.content ? record.content.length : 0;
     }
     if (change >= 0) {
-      rec.change = '<span class="change positive">▴ ' + change + '</span>';
+      rec.change = '<span class="change positive">+ ' + change + '</span>';
     } else {
-      rec.change = '<span class="change negative">▾ ' + Math.abs(change) + '</span>';
+      rec.change = '<span class="change negative">- ' + Math.abs(change) + '</span>';
     }
     return rec;
   });

@@ -6,28 +6,24 @@ block title
 
 //- Set the
 block content
-  article.lesson
+  article.user
     header
-      h1= 'User: ' + user.username
-    p= text.userdata + ':'
+      a(href=user.image target='_blank')
+        img.profile(src=user.image alt='User image')
+      h1= user.name
 
-    pre= JSON.stringify(user, null, 2)
-    
-    p= text.userrefresh + ':'
+    //- p= text.userdata + ':'
+
+    - const langs = { en: 'English', es: 'Español' };
+
+    div.flex.two
+      div Username:
+      div= user.username
+      div Email:
+      div= user.email
+      div Language:
+      div= langs[user.language] || user.language
+      div Points:
+      div= user.points
 
     a.button(href="/user/logout") Logout
-
-    //- div.row
-    //-   div.card
-    //-     header
-    //-       h2 Favourites
-    //-     section
-    //-       div
-    //-         each one in favourites
-    //-           a.pseudo.button.stack(href=one.link)= one.title
-    //-   div.card
-    //-     header
-    //-       h2 Recent
-    //-     section
-    //-       each one in recent
-    //-         a.pseudo.button.stack(href=one.link)= one.title

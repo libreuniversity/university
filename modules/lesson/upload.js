@@ -1,6 +1,6 @@
 const cloudinary = require('auto-load')('app').npm.cloudinary;
 
-module.exports = file => {
+module.exports = async file => {
   cloudinary.config({
     cloud_name: process.env.cloud,
     api_key: process.env.key,
@@ -8,6 +8,6 @@ module.exports = file => {
   });
 
   // This answer is needed exactly by CKEditor API
-  return cloudinary.uploader.upload(file.path)
-    .then(res => Object.assign({}, res, { name: file.name }));
+  const res = await cloudinary.uploader.upload(file.path);
+  return Object.assign({}, res, { name: file.name });
 }

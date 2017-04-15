@@ -1,0 +1,17 @@
+.user {
+
+  text-align: center;
+
+  img.profile {
+    width: 150px;
+    margin: 0 auto;
+  }
+
+  .flex > div {
+    text-align: left;
+  }
+  .flex > div:nth-child(2n+1) {
+    text-align: right;
+    font-weight: bold;
+  }
+}

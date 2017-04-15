@@ -14,6 +14,11 @@ block content
       each record in records
         div.card.stack
           section
-            a.pseudo.button.icon-docs(href="/lesson/history/" + record.id)
-              != record.change + ' (' + record.timestamp + ')'
-            a.pseudo.button.icon-user-o(href="/user/" + record.user.id)= record.user.name
+            div.flex.two.five-700
+              div.half.fifth-700
+                a.pseudo.button.icon-docs(href="/lesson/history/" + record.id)
+                  != record.change
+              div.half.two-fifth-700
+                a.pseudo.button.icon-clock(href="/lesson/history/" + record.id)= record.timestamp
+              div.full.two-fifth-700
+                a.pseudo.button.icon-user-o(href="/user/" + record.user.id)= record.user.name

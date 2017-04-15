@@ -7,7 +7,7 @@ block title
 //- Set the
 block content
   - var lesson = records[0]
-  - let back = { link: '/lesson/' + lesson.lesson, title: `Current version of "${lesson.title}"` }
+  - let back = { link: '/lesson/' + lesson.lesson, title: lesson.title }
   div.history
     +header('History: ' + lesson.title, {}, back)
     div

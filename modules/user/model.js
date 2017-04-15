@@ -1,10 +1,12 @@
 var mongoose = require('mongoose');
+var shortid = require('shortid');
 var bcrypt = require('bcrypt-nodejs');
 var createHash = function(password){
  return bcrypt.hashSync(password, bcrypt.genSaltSync(10), null);
 };
 
 var userSchema = mongoose.Schema({
+  _id: { type: String, unique: true, default: shortid.generate },
   name: { type: String },
   email: { type: String, required: true },
   auth: [{ type: String }],
@@ -17,7 +19,7 @@ var userSchema = mongoose.Schema({
 
 // Duplicate the ID field.
 userSchema.virtual('id').get(function(){
-  return this._id.toHexString();
+  return this._id;
 });
 
 // Ensure virtual fields are serialised.

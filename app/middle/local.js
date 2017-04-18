@@ -22,7 +22,7 @@ function local (obj) {
     case 'string':
       return v;
     case 'function':
-      return obj;
+      return obj();
     default:
       throw new Error('Type of object not supported: ' + (typeof obj));
   }

@@ -15,14 +15,11 @@ module.exports = {
   userrefresh: 'To retrieve it again, log-out and log-in',
 
   subject: {
-    form: {
-      title: 'Title of the subject',
-      summary: 'Summary of the subject'
-    }
+    title: 'Title of the subject',
+    summary: 'Summary of the subject'
   },
   lesson: {
-    form: {
-      title: 'Title of the lesson',
-      summary: 'Summary of the lesson' }
+    title: 'Title of the lesson',
+    summary: 'Summary of the lesson'
   }
 };

@@ -8,7 +8,7 @@ var ops = app.utils.dbops;
 // Retrieve all of the elements
 module.exports.index = ({ req }) => {
   let query = { language: req.lang, stage: { $in: ['beta', 'production'] } };
-  return model.find(query).exec();
+  return model.find(query).sort({ _id: -1}).exec();
 };
 
 module.exports.get = id => {

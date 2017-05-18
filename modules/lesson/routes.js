@@ -6,6 +6,7 @@ module.exports = [
   get('/lesson/records/:id', controller.records),
   get('/lesson/history/:id', controller.history),
   get('/lesson/:id', controller.get),
+  get('/lesson/:id/:name', controller.get),
   post('/lesson', controller.add),
   post('/lesson/upload', controller.upload),
   post('/lesson/:id', controller.update),

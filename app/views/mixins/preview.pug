@@ -5,20 +5,21 @@
 //- @other { field: value } other fields to be added
 mixin preview(type, article, actions, other)
   - article = article || { title: '', summary: '', id: false, parent: false }
-  - url = '/' + type + (article.id ? '/' + article.id : '');
+  - url = '/' + type + (article.id ? '/' + article.id : '') + (article.title ? '/' + article.title : '');
   form.preview(method="POST" action=url)
     header
       h2= article.title
       button.edit.icon-pencil(title= text.edit)
-      input(name="title" placeholder=text[type].title value=article.title required)
+      input(name="title" placeholder=text[type].title value=(article.title || '') required)
     section
-      p.sweet-justice
-        | #{article.summary}
+      if article.summary
+        p.sweet-justice
+          | #{article.summary}
       textarea(name="summary" placeholder=text[type].summary required)= article.summary
     footer
       if actions
         each text, base in actions
-          a.button(href= '/' + base + '/' + article.id)= text
+          a.button(href= '/' + base + '/' + article.id + '/' + article.title)= text
           = ' '
 
       if other
